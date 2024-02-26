@@ -3,8 +3,13 @@ package dev.boringx.datalayer.prompt.request
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Prompt(
+data class PromptRequest(
     val modelUri: String,
     val completionOptions: CompletionOptions,
     val messages: List<Message>
-)
+) {
+    init {
+        if (messages.size < 2)
+            throw Exception("")
+    }
+}
