@@ -1,6 +1,6 @@
 import dev.boringx.datalayer.prompt.request.CompletionOptions
 import dev.boringx.datalayer.prompt.request.Message
-import dev.boringx.datalayer.prompt.request.Prompt
+import dev.boringx.datalayer.prompt.request.PromptRequest
 import dev.boringx.datalayer.prompt.request.Role
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -13,7 +13,7 @@ fun comparisonOfRawJsonAndSerializableTest() {
     ).readText(Charsets.UTF_8)
         .filter { !it.isWhitespace() }
 
-    val data = Prompt(
+    val data = PromptRequest(
         "gpt://b1gbc962dvooqp59ro45/yandexgpt-lite",
         CompletionOptions(
             stream = false,

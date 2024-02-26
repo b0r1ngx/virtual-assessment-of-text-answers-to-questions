@@ -2,16 +2,15 @@ package dev.boringx.datalayer.prompt
 
 import dev.boringx.datalayer.prompt.request.CompletionOptions
 import dev.boringx.datalayer.prompt.request.Message
-import dev.boringx.datalayer.prompt.request.Prompt
+import dev.boringx.datalayer.prompt.request.PromptRequest
 import dev.boringx.datalayer.prompt.request.Role
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 fun main() {
-    // Serializing objects
-    val data = Prompt(
-        "gpt://b1gbc962dvooqp59ro45/yandexgpt-lite",
-        CompletionOptions(
+    val createPrompt = PromptRequest(
+        modelUri = "gpt://b1gbc962dvooqp59ro45/yandexgpt-lite",
+        completionOptions = CompletionOptions(
             stream = false,
             temperature = 0.6f,
             maxTokens = "2000"
@@ -27,9 +26,8 @@ fun main() {
             )
         )
     )
-    val string = Json.encodeToString(data)
-    println(string)
-    // Deserializing back into objects
-    val obj = Json.decodeFromString<Prompt>(string)
-    println(obj)
+    val objectFromJson = Json.encodeToString(createPrompt)
+    println(objectFromJson)
+    val deserializingToObject = Json.decodeFromString<PromptRequest>(objectFromJson)
+    println(deserializingToObject)
 }
