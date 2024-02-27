@@ -1,5 +1,5 @@
 package dev.boringx.datalayer
 
-data class Question(
+data class Answer(
     val text: String
 )
