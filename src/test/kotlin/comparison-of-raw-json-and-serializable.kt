@@ -14,7 +14,7 @@ fun comparisonOfRawJsonAndSerializableTest() {
         .filter { !it.isWhitespace() }
 
     val data = PromptRequest(
-        "gpt://b1gbc962dvooqp59ro45/yandexgpt-lite",
+        "gpt://b1gjcmmah16shmb9g8hq/yandexgpt-lite",
         CompletionOptions(
             stream = false,
             temperature = 0.6f,

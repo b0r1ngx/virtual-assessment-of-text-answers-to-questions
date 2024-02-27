@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 fun main() {
     val createPrompt = PromptRequest(
-        modelUri = "gpt://b1gbc962dvooqp59ro45/yandexgpt-lite",
+        modelUri = "gpt://b1gjcmmah16shmb9g8hq/yandexgpt-lite",
         completionOptions = CompletionOptions(
             stream = false,
             temperature = 0.6f,
