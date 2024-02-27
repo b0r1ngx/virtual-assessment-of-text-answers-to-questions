@@ -11,5 +11,7 @@ data class PromptRequest(
     init {
         if (messages.size < 2)
             throw Exception("")
+
+        println("PromptRequest: $this")
     }
 }
