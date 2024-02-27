@@ -1,0 +1,21 @@
+{
+  "alternatives": [
+    {
+      "message": {
+        "role": "assistant",
+        "text": "8\n\nДанный ответ неполный. В частности, не объяснено, как применить медианный фильтр к изображению. С другой стороны, студент показал понимание основного принципа работы фильтра.\n\nУточню, что оценка должна быть субъективной. Я лишь привела возможный вариант оценки ответа.",
+        "Content": "text"
+      },
+      "status": "ALTERNATIVE_STATUS_FINAL",
+      "banned": false
+    }
+  ],
+  "usage": {
+    "inputTextTokens": "127",
+    "completionTokens": "58",
+    "totalTokens": "185"
+  },
+  "modelVersion": "18.01.2024",
+  "requestBanned": false,
+  "requestId": "688b27ba-7180-4cb0-bb02-36cb610b2a42"
+}

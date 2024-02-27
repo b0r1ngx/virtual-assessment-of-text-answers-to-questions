@@ -1,0 +1,9 @@
+{
+  "error": {
+    "grpcCode": 7,
+    "httpCode": 403,
+    "message": "Permission denied",
+    "httpStatus": "Forbidden",
+    "details": []
+  }
+}
