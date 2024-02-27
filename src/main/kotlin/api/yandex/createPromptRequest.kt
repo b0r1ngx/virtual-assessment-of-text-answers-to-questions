@@ -17,23 +17,29 @@ fun createPromptRequest(
     prompt: PromptRequest,
     iAmToken: String = dotenv[
         EnvironmentVariables.BEARER_TOKEN.name
+    ],
+    folderId: String = dotenv[
+        EnvironmentVariables.FOLDER_ID.name
     ]
 ): String {
+    val body = Json.encodeToString(prompt)
+    println("Request with body of: $body")
     val client = HttpClient.newBuilder().build()
     val request = HttpRequest.newBuilder()
         .uri(URI.create(CREATE_PROMPT_URL))
         .POST(
             HttpRequest.BodyPublishers.ofString(
-                Json.encodeToString(prompt)
+                body
             )
         )
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer $iAmToken")
+//        .header("x-folder-id", folderId)
         .build()
-
+    println("Created request to send: $request")
     val response = client.send(
         request, HttpResponse.BodyHandlers.ofString()
     )
-    println(response)
+    println("Response: $response")
     return response.body()
 }
