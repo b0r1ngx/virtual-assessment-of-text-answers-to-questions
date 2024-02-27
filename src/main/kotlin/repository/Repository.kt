@@ -1,14 +1,27 @@
 package dev.boringx.repository
 
+import dev.boringx.datalayer.Answer
 import dev.boringx.datalayer.Question
 
 class Repository {
-    val questions = listOf(
+    private val bank = mapOf(
         Question(
-            text = ""
+            text = "Как происходит увеличение числа операций умножения с ростом порядка рекурсивного фильтра"
+        ) to Answer(
+            text = "Линейно"
         ),
         Question(
-            text = ""
-        ),
+            text = "Что такое медианный фильтр? Какие у него свойства?"
+        ) to Answer(
+            text = "Медианным фильтром локально обрабатываются отсчеты в скользящем окне, которая включает в себя конечное число отсчетов сигнала. Для каждого из положений окна выделенные в нем отсчеты распределяются в порядке возрастания или убывания их значений. В отсортированном наборе значения сигнала среднее значение будет являться медианной для рассматриваемого положения окна."
+        )
     )
+
+    fun getPrompt(): String {
+        // bank.entries.shuffled().first()
+        val questionAndAnswer =
+            bank.entries.last()
+        return "Вопрос: ${questionAndAnswer.key.text}." +
+                "Ответ: ${questionAndAnswer.value.text}."
+    }
 }
