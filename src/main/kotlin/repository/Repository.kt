@@ -20,7 +20,7 @@ class Repository {
     fun getPrompt(): String {
         // bank.entries.shuffled().first()
         val questionAndAnswer =
-            bank.entries.last()
+            bank.entries.first()
         return "Вопрос: ${questionAndAnswer.key.text}." +
                 "Ответ: ${questionAndAnswer.value.text}."
     }

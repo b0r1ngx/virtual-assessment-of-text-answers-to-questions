@@ -1,0 +1,19 @@
+{
+  "result": {
+    "alternatives": [
+      {
+        "message": {
+          "role": "assistant",
+          "text": "10"
+        },
+        "status": "ALTERNATIVE_STATUS_FINAL"
+      }
+    ],
+    "usage": {
+      "inputTextTokens": "65",
+      "completionTokens": "3",
+      "totalTokens": "68"
+    },
+    "modelVersion": "18.01.2024"
+  }
+}
