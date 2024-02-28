@@ -2,27 +2,23 @@ import dev.boringx.utils.getEstimationFromPromptResponse
 import java.io.File
 import kotlin.test.assertEquals
 
-// TODO: Add it to run-all-tests.kt
-fun parsingResponseTest() {
+internal fun parsingResponseTest() {
     val responses = listOf(
-        "prompt-response-200.json",
-        "prompt-response-at-web-to-documentation-style.json",
+        "prompt-response-200.json" to 10,
+        "prompt-response-at-web-to-documentation-style.json" to 8,
     )
     for (response in responses) {
         var promptResponse = ""
         val rawJsonList = File(
-            "./src/main/resources/$response"
+            "./src/main/resources/${response.first}"
         ).readLines(charset = Charsets.UTF_8)
         for (line in rawJsonList)
             promptResponse += line.trim()
 
-        println(promptResponse)
-
         val estimation = getEstimationFromPromptResponse(promptResponse)
-        println(estimation)
         assertEquals(
-            actual = "TODO()",
-            expected = "TODO()"
+            actual = response.second,
+            expected = estimation
         )
     }
 }

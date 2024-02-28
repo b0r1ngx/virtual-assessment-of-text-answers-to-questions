@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import kotlin.test.assertEquals
 
-fun comparisonOfRawJsonAndSerializableTest() {
+internal fun comparisonOfRawJsonAndSerializableTest() {
     val rawJsonString = File(
         "./src/main/resources/prompt-template.json"
     ).readText(Charsets.UTF_8)

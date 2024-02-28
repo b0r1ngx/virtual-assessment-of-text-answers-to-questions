@@ -2,6 +2,7 @@ fun main() {
     runAllTests()
 }
 
-fun runAllTests() {
+private fun runAllTests() {
     comparisonOfRawJsonAndSerializableTest()
+    parsingResponseTest()
 }
