@@ -14,8 +14,8 @@ internal fun parsingResponseTest() {
             .forEach { promptResponse += it.trim() }
 
         assertEquals(
-            actual = rawJsonToAnswer.second,
-            expected = getEstimationFromPromptResponse(promptResponse)
+            actual = getEstimationFromPromptResponse(promptResponse),
+            expected = rawJsonToAnswer.second
         )
     }
 }

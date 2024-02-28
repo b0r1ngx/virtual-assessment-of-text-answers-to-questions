@@ -8,10 +8,15 @@ import java.io.File
 import kotlin.test.assertEquals
 
 internal fun comparisonOfRawJsonAndSerializableTest() {
-    val rawJsonString = File(
-        "./src/main/resources/prompt-template.json"
-    ).readText(Charsets.UTF_8)
-        .filter { !it.isWhitespace() }
+    var promptResponse = ""
+    File("./src/main/resources/prompt-template.json")
+        .readLines(charset = Charsets.UTF_8)
+        .forEach { promptResponse += it.trim() }
+
+    promptResponse = promptResponse.replace(
+        oldValue = ": ",
+        newValue = ":"
+    )
 
     val data = PromptRequest(
         "gpt://b1gjcmmah16shmb9g8hq/yandexgpt-lite",
@@ -34,10 +39,9 @@ internal fun comparisonOfRawJsonAndSerializableTest() {
 
     val jsonFromDTO = Json
         .encodeToString(data)
-        .filter { !it.isWhitespace() }
 
     assertEquals(
-        actual = rawJsonString,
-        expected = jsonFromDTO
+        actual = jsonFromDTO,
+        expected = promptResponse
     )
 }
