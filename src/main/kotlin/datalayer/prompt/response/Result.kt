@@ -1,5 +1,8 @@
 package dev.boringx.datalayer.prompt.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Result(
     val alternatives: List<Alternative>,
     val usage: Usage,

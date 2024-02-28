@@ -37,7 +37,7 @@ fun comparisonOfRawJsonAndSerializableTest() {
         .filter { !it.isWhitespace() }
 
     assertEquals(
-        rawJsonString,
-        jsonFromDTO
+        actual = rawJsonString,
+        expected = jsonFromDTO
     )
 }
