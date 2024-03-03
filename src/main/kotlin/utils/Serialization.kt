@@ -13,5 +13,6 @@ internal inline fun <reified T> String.decodeFromStringSafety(): T? =
     try {
         json.decodeFromString<T>(this)
     } catch (e: Exception) {
+        println(e.stackTrace)
         null
     }

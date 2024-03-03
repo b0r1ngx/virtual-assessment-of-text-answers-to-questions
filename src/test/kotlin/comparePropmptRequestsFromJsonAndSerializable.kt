@@ -2,21 +2,14 @@ import dev.boringx.model.prompt.request.CompletionOptions
 import dev.boringx.model.prompt.request.Message
 import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import java.io.File
+import dev.boringx.utils.encodeToString
+import utils.getStringFromJsonFile
 import kotlin.test.assertEquals
 
-internal fun comparisonOfRawJsonAndSerializableTest() {
-    var promptResponse = ""
-    File("./src/main/resources/prompt-template.json")
-        .readLines(charset = Charsets.UTF_8)
-        .forEach { promptResponse += it.trim() }
-
-    promptResponse = promptResponse.replace(
-        oldValue = ": ",
-        newValue = ":"
-    )
+internal fun comparePromptRequestsFromJsonAndSerializableTest() {
+    val promptResponse = getStringFromJsonFile(
+        fileName = "prompt-request-template.json"
+    ).apply { replace(oldValue = ": ", newValue = ":") }
 
     val data = PromptRequest(
         "gpt://b1gjcmmah16shmb9g8hq/yandexgpt-lite",
@@ -37,11 +30,8 @@ internal fun comparisonOfRawJsonAndSerializableTest() {
         )
     )
 
-    val jsonFromDTO = Json
-        .encodeToString(data)
-
     assertEquals(
-        actual = jsonFromDTO,
+        actual = data.encodeToString(),
         expected = promptResponse
     )
 }

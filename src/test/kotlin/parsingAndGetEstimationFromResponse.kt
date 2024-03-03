@@ -1,18 +1,14 @@
 import dev.boringx.utils.getEstimationFromPromptResponse
-import java.io.File
+import utils.getStringFromJsonFile
 import kotlin.test.assertEquals
 
-internal fun parsingResponseTest() {
+internal fun parsingAndGetEstimationFromResponseTest() {
     val rawJsonToAnswers = listOf(
         "prompt-response-200.json" to 10,
         "prompt-response-at-web-to-documentation-style.json" to 8,
     )
     for (rawJsonToAnswer in rawJsonToAnswers) {
-        var promptResponse = ""
-        File("./src/main/resources/${rawJsonToAnswer.first}")
-            .readLines(charset = Charsets.UTF_8)
-            .forEach { promptResponse += it.trim() }
-
+        val promptResponse = getStringFromJsonFile(rawJsonToAnswer.first)
         assertEquals(
             actual = getEstimationFromPromptResponse(promptResponse),
             expected = rawJsonToAnswer.second

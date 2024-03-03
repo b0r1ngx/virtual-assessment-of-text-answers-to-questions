@@ -9,6 +9,7 @@ import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
 import dev.boringx.datalayer.repository.Repository
 import dev.boringx.utils.createModelUri
+import dev.boringx.utils.getEstimationFromPromptResponse
 
 fun main() {
     val repository = Repository()
@@ -32,6 +33,7 @@ fun main() {
             )
         )
     )
-    val responseBody = createPromptRequest(prompt)
-    println(responseBody)
+    val promptResponse = createPromptRequest(prompt)
+    println(promptResponse)
+    val estimation = getEstimationFromPromptResponse(promptResponse)
 }
