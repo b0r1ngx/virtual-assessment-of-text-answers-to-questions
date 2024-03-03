@@ -1,7 +1,7 @@
-import dev.boringx.datalayer.prompt.request.CompletionOptions
-import dev.boringx.datalayer.prompt.request.Message
-import dev.boringx.datalayer.prompt.request.PromptRequest
-import dev.boringx.datalayer.prompt.request.Role
+import dev.boringx.model.prompt.request.CompletionOptions
+import dev.boringx.model.prompt.request.Message
+import dev.boringx.model.prompt.request.PromptRequest
+import dev.boringx.model.prompt.request.Role
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File

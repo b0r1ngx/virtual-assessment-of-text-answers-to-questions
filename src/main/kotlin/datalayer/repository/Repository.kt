@@ -1,7 +1,7 @@
 package dev.boringx.datalayer.repository
 
-import dev.boringx.datalayer.Answer
-import dev.boringx.datalayer.Question
+import dev.boringx.model.Answer
+import dev.boringx.model.Question
 
 class Repository {
     private val bank = mapOf(

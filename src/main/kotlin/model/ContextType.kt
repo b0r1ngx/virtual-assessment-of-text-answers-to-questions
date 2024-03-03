@@ -1,7 +1,7 @@
-package dev.boringx.datalayer
+package dev.boringx.model
 
 // TODO: Make it like sealed class, where only Teacher, has description?
-enum class ContextType{
+enum class ContextType {
     None,
     Teacher;
 
