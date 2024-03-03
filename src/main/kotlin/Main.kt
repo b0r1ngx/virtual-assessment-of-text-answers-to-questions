@@ -7,7 +7,7 @@ import dev.boringx.datalayer.prompt.request.CompletionOptions
 import dev.boringx.datalayer.prompt.request.Message
 import dev.boringx.datalayer.prompt.request.PromptRequest
 import dev.boringx.datalayer.prompt.request.Role
-import dev.boringx.repository.Repository
+import dev.boringx.datalayer.repository.Repository
 import dev.boringx.utils.createModelUri
 
 fun main() {

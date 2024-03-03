@@ -1,4 +1,4 @@
-package dev.boringx.repository
+package dev.boringx.datalayer.repository
 
 import dev.boringx.datalayer.Answer
 import dev.boringx.datalayer.Question
