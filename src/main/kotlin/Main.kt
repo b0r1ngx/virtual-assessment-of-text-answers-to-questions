@@ -21,7 +21,7 @@ fun main() {
     val modelUri = createModelUri()
     val questionToAnswerPrompt = repository.getPrompt()
     val completionOptions = CompletionOptions(
-        stream = false, temperature = 0.6f, maxTokens = "2000"
+        stream = false, temperature = 0.25f, maxTokens = "2000"
     )
     for (criterion in criteria) {
         val prompt = PromptRequest(
@@ -48,7 +48,7 @@ fun main() {
         // TODO: We need to balance how fast we can send requests:
         //  1) just apply Time.sleep
         //  2) if we get error response, check httpCode, if it 429, resend request via timeout 2*DEFAULT_TIME
-        Thread.sleep(1000)
+        Thread.sleep(1000) // Works to fix upper TODO!
     }
     println(responses)
     println(estimations)
