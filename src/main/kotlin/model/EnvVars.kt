@@ -1,4 +1,4 @@
-package dev.boringx.datalayer
+package dev.boringx.model
 
 enum class EnvironmentVariables {
     BEARER_TOKEN,
