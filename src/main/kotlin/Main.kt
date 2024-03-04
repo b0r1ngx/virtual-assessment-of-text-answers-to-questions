@@ -56,6 +56,6 @@ fun main() {
     }
     println(responses)
     println(estimations)
-    val totalEstimation = estimations.sum() / estimations.size
+    val totalEstimation = estimations.sum().toFloat() / estimations.size
     println(totalEstimation)
 }

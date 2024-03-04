@@ -1,0 +1,78 @@
+[
+  {
+    "result": {
+      "alternatives": [
+        {
+          "message": {
+            "role": "assistant",
+            "text": "7"
+          },
+          "status": "ALTERNATIVE_STATUS_FINAL"
+        }
+      ],
+      "usage": {
+        "inputTextTokens": "376",
+        "completionTokens": "2",
+        "totalTokens": "378"
+      },
+      "modelVersion": "18.01.2024"
+    }
+  },
+  {
+    "result": {
+      "alternatives": [
+        {
+          "message": {
+            "role": "assistant",
+            "text": "7"
+          },
+          "status": "ALTERNATIVE_STATUS_FINAL"
+        }
+      ],
+      "usage": {
+        "inputTextTokens": "377",
+        "completionTokens": "2",
+        "totalTokens": "379"
+      },
+      "modelVersion": "18.01.2024"
+    }
+  },
+  {
+    "result": {
+      "alternatives": [
+        {
+          "message": {
+            "role": "assistant",
+            "text": "6"
+          },
+          "status": "ALTERNATIVE_STATUS_FINAL"
+        }
+      ],
+      "usage": {
+        "inputTextTokens": "376",
+        "completionTokens": "2",
+        "totalTokens": "378"
+      },
+      "modelVersion": "18.01.2024"
+    }
+  },
+  {
+    "result": {
+      "alternatives": [
+        {
+          "message": {
+            "role": "assistant",
+            "text": "6"
+          },
+          "status": "ALTERNATIVE_STATUS_FINAL"
+        }
+      ],
+      "usage": {
+        "inputTextTokens": "378",
+        "completionTokens": "2",
+        "totalTokens": "380"
+      },
+      "modelVersion": "18.01.2024"
+    }
+  }
+]
