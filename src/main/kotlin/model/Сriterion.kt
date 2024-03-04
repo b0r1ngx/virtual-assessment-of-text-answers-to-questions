@@ -6,5 +6,5 @@ enum class Criterion(
     Correctness("правильности"),
     Brevity("краткости"),
     Style("стиля"),
-    Coherence("согласованности")
+    Coherence("связности ответа")
 }
