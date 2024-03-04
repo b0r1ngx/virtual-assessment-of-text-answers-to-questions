@@ -1,0 +1,58 @@
+[
+  {
+    "result": {
+      "alternatives": [
+        {
+          "message": {
+            "role": "assistant",
+            "text": "**Десятибалльная шкала** предполагает, что 10 баллов — это абсолютно правильный и исчерпывающий ответ на вопрос, а 1 балл — это неправильный или неуместный ответ. В приведённом вами ответе студента нет ошибок, он отражает основные особенности и виды микропроцессорных систем. Ответ можно оценить на **10 баллов**, так как он полностью соответствует теме вопроса и содержит точную и актуальную информацию."
+          },
+          "status": "ALTERNATIVE_STATUS_FINAL"
+        }
+      ],
+      "usage": {
+        "inputTextTokens": "307",
+        "completionTokens": "81",
+        "totalTokens": "388"
+      },
+      "modelVersion": "18.01.2024"
+    }
+  },
+  {
+    "result": {
+      "alternatives": [
+        {
+          "message": {
+            "role": "assistant",
+            "text": "8"
+          },
+          "status": "ALTERNATIVE_STATUS_FINAL"
+        }
+      ],
+      "usage": {
+        "inputTextTokens": "308",
+        "completionTokens": "2",
+        "totalTokens": "310"
+      },
+      "modelVersion": "18.01.2024"
+    }
+  },
+  {
+    "error": {
+      "grpcCode": 8,
+      "httpCode": 429,
+      "message": "ai.textGenerationCompletionSessionsCount.count gauge quota limit exceed: allowed 1 requests",
+      "httpStatus": "Too Many Requests",
+      "details": []
+    }
+  },
+  {
+    "error": {
+      "grpcCode": 8,
+      "httpCode": 429,
+      "message": "ai.textGenerationCompletionSessionsCount.count gauge quota limit exceed: allowed 1 requests",
+      "httpStatus": "Too Many Requests",
+      "details": []
+    }
+  }
+]

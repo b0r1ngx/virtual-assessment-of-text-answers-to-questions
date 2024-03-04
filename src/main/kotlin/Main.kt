@@ -45,6 +45,10 @@ fun main() {
         val estimation = getEstimationFromPromptResponse(promptResponse)
         estimations.add(estimation).also { println(estimation) }
         println()
+        // TODO: We need to balance how fast we can send requests:
+        //  1) just apply Time.sleep
+        //  2) if we get error response, check httpCode, if it 429, resend request via timeout 2*DEFAULT_TIME
+        Thread.sleep(1000)
     }
     println(responses)
     println(estimations)
