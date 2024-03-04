@@ -1,5 +1,8 @@
-package dev.boringx.datalayer.prompt.response
+package dev.boringx.model.prompt.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Error(
     val grpcCode: Int,
     val httpCode: Int,

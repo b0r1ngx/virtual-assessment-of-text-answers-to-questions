@@ -1,6 +1,6 @@
-package dev.boringx.datalayer.prompt.request
+package dev.boringx.model.prompt.request
 
-import dev.boringx.datalayer.ContextType
+import dev.boringx.model.ContextType
 
 
 enum class Role(

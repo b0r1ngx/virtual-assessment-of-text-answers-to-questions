@@ -1,6 +1,6 @@
-package dev.boringx.datalayer.prompt.response
+package dev.boringx.model.prompt.response
 
-import dev.boringx.datalayer.prompt.request.Message
+import dev.boringx.model.prompt.request.Message
 import kotlinx.serialization.Serializable
 
 @Serializable

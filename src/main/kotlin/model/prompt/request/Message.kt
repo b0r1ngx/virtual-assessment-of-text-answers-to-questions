@@ -1,4 +1,4 @@
-package dev.boringx.datalayer.prompt.request
+package dev.boringx.model.prompt.request
 
 import kotlinx.serialization.Serializable
 

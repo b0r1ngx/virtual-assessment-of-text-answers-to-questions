@@ -1,6 +1,6 @@
 package dev.boringx.utils
 
-import dev.boringx.datalayer.EnvironmentVariables
+import dev.boringx.model.EnvironmentVariables
 import dev.boringx.dotenv
 
 fun createModelUri(

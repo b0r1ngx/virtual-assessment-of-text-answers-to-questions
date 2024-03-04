@@ -1,11 +1,11 @@
-package dev.boringx.datalayer.prompt
+package dev.boringx.model.prompt
 
-import dev.boringx.datalayer.prompt.request.CompletionOptions
-import dev.boringx.datalayer.prompt.request.Message
-import dev.boringx.datalayer.prompt.request.PromptRequest
-import dev.boringx.datalayer.prompt.request.Role
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import dev.boringx.model.prompt.request.CompletionOptions
+import dev.boringx.model.prompt.request.Message
+import dev.boringx.model.prompt.request.PromptRequest
+import dev.boringx.model.prompt.request.Role
+import dev.boringx.utils.decodeFromStringSafety
+import dev.boringx.utils.encodeToString
 
 fun main() {
     val createPrompt = PromptRequest(
@@ -26,8 +26,8 @@ fun main() {
             )
         )
     )
-    val objectFromJson = Json.encodeToString(createPrompt)
+    val objectFromJson = createPrompt.encodeToString()
     println(objectFromJson)
-    val deserializingToObject = Json.decodeFromString<PromptRequest>(objectFromJson)
+    val deserializingToObject = objectFromJson.decodeFromStringSafety<PromptRequest>()
     println(deserializingToObject)
 }

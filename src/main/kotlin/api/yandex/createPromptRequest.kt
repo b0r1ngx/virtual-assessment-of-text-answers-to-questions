@@ -1,7 +1,7 @@
 package dev.boringx.api.yandex
 
-import dev.boringx.datalayer.EnvironmentVariables
-import dev.boringx.datalayer.prompt.request.PromptRequest
+import dev.boringx.model.EnvironmentVariables
+import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.dotenv
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
