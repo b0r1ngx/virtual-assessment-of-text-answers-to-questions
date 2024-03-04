@@ -2,7 +2,7 @@ package dev.boringx.datalayer.repository
 
 import dev.boringx.model.Answer
 import dev.boringx.model.Question
-import java.awt.SystemColor.text
+import dev.boringx.utils.preparePrompt
 
 class Repository {
     private val bank = mapOf(
@@ -42,9 +42,11 @@ class Repository {
 
     fun getPrompt(): String {
         // bank.entries.shuffled().first()
-        val questionAndAnswer =
-            bank.entries.first()
-        return "Вопрос: ${questionAndAnswer.key.text}." +
-                "Ответ: ${questionAndAnswer.value.text}."
+        bank.entries.first().also {
+            return preparePrompt(
+                question = it.key,
+                answer = it.value
+            )
+        }
     }
 }
