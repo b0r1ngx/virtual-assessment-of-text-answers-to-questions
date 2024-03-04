@@ -12,7 +12,7 @@ import dev.boringx.model.prompt.request.Role
 
 // TODO: Change all print/lns to Timber (from Ktor) or smth like that
 
-fun getEstimation(
+fun getAssessment(
     question: Question,
     answer: Answer,
     criteria: List<Criterion> = Criterion.entries,
@@ -21,7 +21,7 @@ fun getEstimation(
 ): Float {
     val questionToAnswerPrompt = preparePrompt(question, answer)
     val responses = mutableListOf<String>()
-    val estimations = mutableListOf<Int>()
+    val assessments = mutableListOf<Int>()
     for (criterion in criteria) {
         val prompt = PromptRequest(
             modelUri = modelUri,
@@ -41,18 +41,18 @@ fun getEstimation(
         )
         val promptResponse = sendPromptRequest(prompt)
         responses.add(promptResponse).also { println(promptResponse) }
-        getEstimationFromPromptResponse(promptResponse).also {
+        getAssessmentFromPromptResponse(promptResponse).also {
             println(it)
             if (it != -1) {
-                estimations.add(it)
+                assessments.add(it)
             }
         }
         // TODO: Do with this something
         Thread.sleep(1000)
     }
     println(responses)
-    println(estimations)
-    val totalEstimation = estimations.sum().toFloat() / estimations.size
-    println(totalEstimation)
-    return totalEstimation
+    println(assessments)
+    val totalAssessment = assessments.sum().toFloat() / assessments.size
+    println(totalAssessment)
+    return totalAssessment
 }

@@ -4,5 +4,5 @@ fun main() {
 
 private fun runAllTests() {
     comparePromptRequestsFromJsonAndSerializableTest()
-    parsingAndGetEstimationFromResponseTest()
+    parsingAndGetAssessmentFromResponseTest()
 }

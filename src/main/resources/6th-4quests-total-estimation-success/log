@@ -143,6 +143,6 @@ PromptRequest: PromptRequest(modelUri=gpt://b1gjcmmah16shmb9g8hq/yandexgpt-lite,
 ]
 [7, 7, 6, 5]
 6.25
-Estimations: [6.75, 5.5, 6.5, 6.25]
+Assessments: [6.75, 5.5, 6.5, 6.25]
 
 Process finished with exit code 0

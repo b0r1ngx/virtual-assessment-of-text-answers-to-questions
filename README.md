@@ -1,9 +1,9 @@
 ## Virtual assessment of text answers to questions
 
 ### The goal of the project:
-Estimate an answer of a question, by some criteria, and output 
+Assess an answer of a question, by some criteria, and output 
 
-### One of the goal to define the field that we estimate:
+### One of the goal to define the field that we assess:
 We chose an exact science - Computer Science (Informatics, IT)
 
 ### Criteria for evaluation model:

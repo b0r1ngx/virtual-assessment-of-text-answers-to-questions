@@ -4,7 +4,7 @@ import dev.boringx.model.prompt.response.PromptResponse
 
 private val INT_PATTERN = Regex("\\d+")
 
-fun getEstimationFromPromptResponse(response: String): Int {
+fun getAssessmentFromPromptResponse(response: String): Int {
     try {
         val deserializing =
             response.decodeFromStringSafety<PromptResponse.Success>()
