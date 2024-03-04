@@ -21,7 +21,7 @@ fun main() {
     val modelUri = createModelUri()
     val questionToAnswerPrompt = repository.getPrompt()
     val completionOptions = CompletionOptions(
-        stream = false, temperature = 0.25f, maxTokens = "2000"
+        stream = false, temperature = 0.6f, maxTokens = "1000"
     )
     for (criterion in criteria) {
         val prompt = PromptRequest(
@@ -42,8 +42,12 @@ fun main() {
         )
         val promptResponse = createPromptRequest(prompt)
         responses.add(promptResponse).also { println(promptResponse) }
-        val estimation = getEstimationFromPromptResponse(promptResponse)
-        estimations.add(estimation).also { println(estimation) }
+        getEstimationFromPromptResponse(promptResponse).also {
+            println(it)
+            if (it != -1) {
+                estimations.add(it)
+            }
+        }
         println()
         // TODO: We need to balance how fast we can send requests:
         //  1) just apply Time.sleep
