@@ -5,7 +5,7 @@ enum class ContextType {
     None,
     Teacher;
 
-    fun description(criteria: Criteria) =
+    fun description(criterion: Criterion) =
         "Ты - опытный специалист, профессор в сфере информационных технологий." +
-                "Оцени ответ студента на вопрос по десятибалльной шкале по критерию ${criteria.text} ответа на вопрос"
+                "Оцени ответ студента на вопрос по десятибалльной шкале по критерию ${criterion.text} ответа на вопрос"
 }

@@ -1,18 +1,19 @@
 package dev.boringx
 
 import dev.boringx.api.yandex.createPromptRequest
+import dev.boringx.datalayer.repository.Repository
 import dev.boringx.model.ContextType
-import dev.boringx.model.Criteria
+import dev.boringx.model.Criterion
 import dev.boringx.model.prompt.request.CompletionOptions
 import dev.boringx.model.prompt.request.Message
 import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
-import dev.boringx.datalayer.repository.Repository
 import dev.boringx.utils.createModelUri
 import dev.boringx.utils.getEstimationFromPromptResponse
 
 fun main() {
     val repository = Repository()
+    val criteria = Criterion.entries
     val prompt = PromptRequest(
         modelUri = createModelUri(),
         CompletionOptions(
@@ -24,7 +25,7 @@ fun main() {
             Message(
                 role = Role.system.name,
                 text = ContextType.Teacher.description(
-                    criteria = Criteria.Correctness
+                    criterion = Criterion.Correctness
                 )
             ),
             Message(

@@ -1,6 +1,6 @@
 package dev.boringx.model
 
-enum class Criteria(
+enum class Criterion(
     val text: String
 ) {
     Correctness("правильности"),
