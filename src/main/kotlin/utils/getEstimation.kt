@@ -10,7 +10,9 @@ import dev.boringx.model.prompt.request.Message
 import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
 
-fun getEstimations(
+// TODO: Change all print/lns to Timber (from Ktor) or smth like that
+
+fun getEstimation(
     question: Question,
     answer: Answer,
     criteria: List<Criterion> = Criterion.entries,
@@ -45,11 +47,8 @@ fun getEstimations(
                 estimations.add(it)
             }
         }
-        println()
-        // TODO: We need to balance how fast we can send requests:
-        //  1) just apply Time.sleep
-        //  2) if we get error response, check httpCode, if it 429, resend request via timeout 2*DEFAULT_TIME
-        Thread.sleep(1000) // Works to fix upper TODO!
+        // TODO: Do with this something
+        Thread.sleep(1000)
     }
     println(responses)
     println(estimations)

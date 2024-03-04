@@ -1,61 +1,14 @@
 package dev.boringx
 
-import dev.boringx.api.yandex.sendPromptRequest
 import dev.boringx.datalayer.repository.Repository
-import dev.boringx.model.ContextType
-import dev.boringx.model.Criterion
-import dev.boringx.model.prompt.request.CompletionOptions
-import dev.boringx.model.prompt.request.Message
-import dev.boringx.model.prompt.request.PromptRequest
-import dev.boringx.model.prompt.request.Role
-import dev.boringx.utils.createModelUri
-import dev.boringx.utils.getEstimationFromPromptResponse
+import dev.boringx.utils.getEstimation
 
 fun main() {
     val repository = Repository()
-
-    val responses = mutableListOf<String>()
-    val estimations = mutableListOf<Int>()
-
-    val criteria = Criterion.entries
-    val modelUri = createModelUri()
-    val questionToAnswerPrompt = repository.getPrompt()
-    val completionOptions = CompletionOptions(
-        stream = false, temperature = 0.6f, maxTokens = "1000"
-    )
-    for (criterion in criteria) {
-        val prompt = PromptRequest(
-            modelUri = modelUri,
-            completionOptions = completionOptions,
-            messages = listOf(
-                Message(
-                    role = Role.system.name,
-                    text = ContextType.Teacher.description(
-                        criterion = criterion
-                    )
-                ),
-                Message(
-                    role = Role.user.name,
-                    text = questionToAnswerPrompt
-                )
-            )
-        )
-        val promptResponse = sendPromptRequest(prompt)
-        responses.add(promptResponse).also { println(promptResponse) }
-        getEstimationFromPromptResponse(promptResponse).also {
-            println(it)
-            if (it != -1) {
-                estimations.add(it)
-            }
-        }
-        println()
-        // TODO: We need to balance how fast we can send requests:
-        //  1) just apply Time.sleep
-        //  2) if we get error response, check httpCode, if it 429, resend request via timeout 2*DEFAULT_TIME
-        Thread.sleep(1000) // Works to fix upper TODO!
+    val estimations = mutableListOf<Float>()
+    val questionsToAnswers = repository.getAllQuestionsToAnswers()
+    for ((question, answer) in questionsToAnswers) {
+        estimations.add(getEstimation(question, answer))
     }
-    println(responses)
-    println(estimations)
-    val totalEstimation = estimations.sum().toFloat() / estimations.size
-    println(totalEstimation)
+    println("Estimations: $estimations")
 }

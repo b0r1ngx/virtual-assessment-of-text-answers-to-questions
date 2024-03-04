@@ -2,7 +2,6 @@ package dev.boringx.model.prompt.request
 
 import dev.boringx.model.ContextType
 
-
 enum class Role(
     val types: List<ContextType> = listOf()
 ) {

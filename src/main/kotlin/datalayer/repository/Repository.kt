@@ -49,4 +49,8 @@ class Repository {
             )
         }
     }
+
+    fun getAllQuestionsToAnswers(): Map<Question, Answer> {
+        return bank
+    }
 }

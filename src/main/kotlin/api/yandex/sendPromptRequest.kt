@@ -15,26 +15,29 @@ import java.net.http.HttpResponse
      1. Balance how fast we can send requests:
      1.1 just apply Time.sleep
      1.2 if we get error response, check httpCode, if it 429, resend request via timeout 2*DEFAULT_TIME
+
+   TODO:
+     2.  Try to place client here: to get what pros??
+     3. When its hosted on server use API key instead of iAmToken, that only lives 24h?
+     4. Check for concepts of usage YaGPT: https://cloud.yandex.com/ru/docs/api-design-guide/
 */
 
 private const val CREATE_PROMPT_URL = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
-
-private val CLIENT = HttpClient.newBuilder().build()
-private val CREATE_PROMPT_REQUEST = HttpRequest.newBuilder()
-    .header("Content-Type", "application/json")
-    .uri(URI.create(CREATE_PROMPT_URL))
 
 fun sendPromptRequest(
     prompt: PromptRequest,
     iAmToken: String = dotenv[EnvironmentVariables.BEARER_TOKEN.name]
 ): String {
-    val request = CREATE_PROMPT_REQUEST
+    val client = HttpClient.newBuilder().build()
+    val request = HttpRequest.newBuilder()
+        .header("Content-Type", "application/json")
         .header("Authorization", "Bearer $iAmToken")
         .POST(HttpRequest.BodyPublishers.ofString(prompt.encodeToString()))
+        .uri(URI.create(CREATE_PROMPT_URL))
         .build()
 
-    return CLIENT.send(request).body()
+    return client.send(request).body()
 }
 
 private fun HttpClient.send(request: HttpRequest) =
-    CLIENT.send(request, HttpResponse.BodyHandlers.ofString())
+    this.send(request, HttpResponse.BodyHandlers.ofString())
