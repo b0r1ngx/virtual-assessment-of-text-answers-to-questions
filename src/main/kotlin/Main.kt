@@ -13,28 +13,41 @@ import dev.boringx.utils.getEstimationFromPromptResponse
 
 fun main() {
     val repository = Repository()
+
+    val responses = mutableListOf<String>()
+    val estimations = mutableListOf<Int>()
+
     val criteria = Criterion.entries
-    val prompt = PromptRequest(
-        modelUri = createModelUri(),
-        CompletionOptions(
-            stream = false,
-            temperature = 0.6f,
-            maxTokens = "2000"
-        ),
-        messages = listOf(
-            Message(
-                role = Role.system.name,
-                text = ContextType.Teacher.description(
-                    criterion = Criterion.Correctness
+    val modelUri = createModelUri()
+    val questionToAnswerPrompt = repository.getPrompt()
+    val completionOptions = CompletionOptions(
+        stream = false, temperature = 0.6f, maxTokens = "2000"
+    )
+    for (criterion in criteria) {
+        val prompt = PromptRequest(
+            modelUri = modelUri,
+            completionOptions = completionOptions,
+            messages = listOf(
+                Message(
+                    role = Role.system.name,
+                    text = ContextType.Teacher.description(
+                        criterion = criterion
+                    )
+                ),
+                Message(
+                    role = Role.user.name,
+                    text = questionToAnswerPrompt
                 )
-            ),
-            Message(
-                role = Role.user.name,
-                text = repository.getPrompt()
             )
         )
-    )
-    val promptResponse = createPromptRequest(prompt)
-    println(promptResponse)
-    val estimation = getEstimationFromPromptResponse(promptResponse)
+        val promptResponse = createPromptRequest(prompt)
+        responses.add(promptResponse).also { println(promptResponse) }
+        val estimation = getEstimationFromPromptResponse(promptResponse)
+        estimations.add(estimation).also { println(estimation) }
+        println()
+    }
+    println(responses)
+    println(estimations)
+    val totalEstimation = estimations.sum() / estimations.size
+    println(totalEstimation)
 }
