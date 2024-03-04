@@ -1,28 +1,25 @@
-package dev.boringx
+package dev.boringx.utils
 
 import dev.boringx.api.yandex.sendPromptRequest
-import dev.boringx.datalayer.repository.Repository
+import dev.boringx.model.Answer
 import dev.boringx.model.ContextType
 import dev.boringx.model.Criterion
+import dev.boringx.model.Question
 import dev.boringx.model.prompt.request.CompletionOptions
 import dev.boringx.model.prompt.request.Message
 import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
-import dev.boringx.utils.createModelUri
-import dev.boringx.utils.getEstimationFromPromptResponse
 
-fun main() {
-    val repository = Repository()
-
+fun getEstimations(
+    question: Question,
+    answer: Answer,
+    criteria: List<Criterion> = Criterion.entries,
+    modelUri: String = createModelUri(),
+    completionOptions: CompletionOptions = CompletionOptions.default
+): Float {
+    val questionToAnswerPrompt = preparePrompt(question, answer)
     val responses = mutableListOf<String>()
     val estimations = mutableListOf<Int>()
-
-    val criteria = Criterion.entries
-    val modelUri = createModelUri()
-    val questionToAnswerPrompt = repository.getPrompt()
-    val completionOptions = CompletionOptions(
-        stream = false, temperature = 0.6f, maxTokens = "1000"
-    )
     for (criterion in criteria) {
         val prompt = PromptRequest(
             modelUri = modelUri,
@@ -58,4 +55,5 @@ fun main() {
     println(estimations)
     val totalEstimation = estimations.sum().toFloat() / estimations.size
     println(totalEstimation)
+    return totalEstimation
 }
