@@ -10,7 +10,7 @@ import dev.boringx.model.prompt.request.Message
 import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
 
-// TODO: Change all print/lns to Timber (from Ktor) or smth like that
+// TODO: Change all print-lns to Timber or smth like that (from Ktor, etc..)
 
 fun getAssessment(
     question: Question,
