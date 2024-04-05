@@ -3,6 +3,7 @@ package dev.boringx
 import dev.boringx.datalayer.repository.Repository
 import dev.boringx.utils.getAssessment
 
+// TODO: When start implement Client (mobile app) - think about logic that we can share to Backend
 fun main() {
     val repository = Repository()
     val assessments = mutableListOf<Float>()
