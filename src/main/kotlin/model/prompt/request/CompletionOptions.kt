@@ -13,7 +13,7 @@ data class CompletionOptions(
             "temperature must be between 0..1"
         )
         if (maxTokens.toInt() > 8000) throw Exception(
-            "maxTokens must <=2000 (in request/response), <=8000 in sum"
+            "maxTokens must <= 2000 (in request/response), <= 8000 in sum"
         )
     }
 
