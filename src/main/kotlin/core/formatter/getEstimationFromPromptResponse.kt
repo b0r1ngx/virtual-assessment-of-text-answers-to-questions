@@ -14,7 +14,7 @@ fun getAssessmentFromPromptResponse(response: String): Int {
         val promptResponse = deserializing
             ?.result?.alternatives?.firstOrNull()?.message?.text ?: ""
         val int = INT_PATTERN.find(promptResponse)
-        return int?.value?.toInt() ?: -1
+        return int?.value?.toIntOrNull() ?: -1
     } catch (e: Exception) {
         println(e.stackTrace)
         return -1
