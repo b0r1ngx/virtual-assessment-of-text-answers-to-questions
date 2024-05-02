@@ -8,13 +8,19 @@ package dev.boringx.model
  *  TODO: Choose criteria dynamically?
  *   1. What field of question?
  *   2. Analyze answer? (how long it is, etc..)
+ *
+ * TODO: Добавить порог и веса для критериев (снизит нагрузку на интерфейс сервер/БЯМ и на БЯМ),
+ *  1. Порог для оценки правильности, если ответ неправильный (1-2 балла),
+ *      то по другим критериям не имеет смысла оценивать.
+ *  2. Предварительные веса для критериев указаны комментарием для каждого критерия.
+ *
  */
 enum class Criterion(
     val text: String
 ) {
-    Correctness("правильности"),
-    Brevity("краткости"),
-    Style("стиля"),
-    Completeness("полнота"),
-    Coherence("связности"),
+    Correctness("правильности"), // 0.4
+    Brevity("краткости"), // 0.2
+    Style("стиля"), // 0.1
+    Completeness("полнота"), // 0.2
+    Coherence("связности"), // 0.1
 }
