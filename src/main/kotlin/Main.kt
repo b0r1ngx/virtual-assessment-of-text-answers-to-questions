@@ -1,7 +1,7 @@
 package dev.boringx
 
 import dev.boringx.datalayer.repository.Repository
-import dev.boringx.utils.getAssessment
+import dev.boringx.core.getAssessment
 
 // TODO: When start implement Client (mobile app) - think about logic that we can share to Backend
 fun main() {

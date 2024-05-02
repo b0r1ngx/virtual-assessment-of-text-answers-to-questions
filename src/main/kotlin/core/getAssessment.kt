@@ -1,6 +1,7 @@
-package dev.boringx.utils
+package dev.boringx.core
 
 import dev.boringx.api.yandex.sendPromptRequest
+import dev.boringx.core.formatter.getAssessmentFromPromptResponse
 import dev.boringx.model.Answer
 import dev.boringx.model.ContextType
 import dev.boringx.model.Criterion
@@ -9,6 +10,8 @@ import dev.boringx.model.prompt.request.CompletionOptions
 import dev.boringx.model.prompt.request.Message
 import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
+import dev.boringx.utils.createModelUri
+import dev.boringx.utils.preparePrompt
 
 // TODO: Change all print-lns to Timber or smth like that (from Ktor, etc..)
 
