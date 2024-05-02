@@ -12,7 +12,7 @@ fun getAssessmentFromPromptResponse(response: String): Int {
         val deserializing =
             response.decodeFromStringSafety<PromptResponse.Success>()
         val promptResponse = deserializing
-            ?.result?.alternatives?.first()?.message?.text ?: ""
+            ?.result?.alternatives?.firstOrNull()?.message?.text ?: ""
         val int = INT_PATTERN.find(promptResponse)
         return int?.value?.toInt() ?: -1
     } catch (e: Exception) {
