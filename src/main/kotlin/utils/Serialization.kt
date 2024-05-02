@@ -4,7 +4,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.Json.Default.serializersModule
 import kotlinx.serialization.serializer
 
-private val json = Json
+private val json = Json.Default
 
 internal inline fun <reified T> T.encodeToString(): String =
     json.encodeToString(serializersModule.serializer(), this)
