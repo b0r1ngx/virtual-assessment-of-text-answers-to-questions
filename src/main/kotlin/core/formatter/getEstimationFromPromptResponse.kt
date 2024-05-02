@@ -11,10 +11,12 @@ fun getAssessmentFromPromptResponse(response: String): Int {
     try {
         val deserializing =
             response.decodeFromStringSafety<PromptResponse.Success>()
+
         val promptResponse = deserializing
             ?.result?.alternatives?.firstOrNull()?.message?.text ?: ""
-        val int = INT_PATTERN.find(promptResponse)
-        return int?.value?.toIntOrNull() ?: -1
+
+        val assessment = INT_PATTERN.find(promptResponse)
+        return assessment?.value?.toIntOrNull() ?: -1
     } catch (e: Exception) {
         println(e.stackTrace)
         return -1
