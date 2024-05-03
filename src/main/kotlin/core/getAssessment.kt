@@ -13,16 +13,15 @@ import dev.boringx.model.prompt.request.Role
 import dev.boringx.utils.createModelUri
 import dev.boringx.utils.preparePrompt
 
-// TODO: Change all print-lns to Timber or smth like that (from Ktor, etc..)
+// TODO: Change all print-lns to Timber or some other logger (project-level todo)
 
-fun getAssessment(
+fun Answer.getAssessment(
     question: Question,
-    answer: Answer,
     criteria: List<Criterion> = Criterion.entries,
     modelUri: String = createModelUri(),
     completionOptions: CompletionOptions = CompletionOptions.default
 ): Float {
-    val questionToAnswerPrompt = preparePrompt(question, answer)
+    val questionToAnswerPrompt = preparePrompt(question, this)
     val responses = mutableListOf<String>()
     val assessments = mutableListOf<Int>()
     for (criterion in criteria) {
@@ -51,7 +50,7 @@ fun getAssessment(
             }
         }
         // TODO: Do with this something
-        Thread.sleep(1000)
+        Thread.sleep(1000) // using thread sleep, to not look like spammer to YaGPT services
     }
     println(responses)
     println(assessments)
