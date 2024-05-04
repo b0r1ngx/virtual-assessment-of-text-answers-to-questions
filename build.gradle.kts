@@ -10,6 +10,8 @@ repositories {
     mavenCentral()
 }
 
+// TODO: After some point, try to use guide explained here https://github.com/ktorio/ktor-documentation/tree/2.3.10/codeSnippets/snippets/embedded-server-native
+//  to run a Ktor server in a Kotlin/Native application (not via JVM ?)
 dependencies {
     implementation("io.ktor:ktor-server-core:2.3.10")
     implementation("io.ktor:ktor-server-netty:2.3.10")
