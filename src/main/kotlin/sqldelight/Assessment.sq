@@ -1,0 +1,9 @@
+CREATE TABLE assessment(
+  id            INTEGER PRIMARY KEY,
+  criterion_id  INTEGER,
+  mark          REAL,
+  opinion       TEXT,
+  raw_response  TEXT,
+
+  FOREIGN KEY(criterion_id) REFERENCES criterion(id)
+);
