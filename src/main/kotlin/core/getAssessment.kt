@@ -2,6 +2,7 @@ package dev.boringx.core
 
 import dev.boringx.api.yandex.sendPromptRequest
 import dev.boringx.core.formatter.getAssessmentFromPromptResponse
+import dev.boringx.logger.logger
 import dev.boringx.model.Answer
 import dev.boringx.model.ContextType
 import dev.boringx.model.Criterion
@@ -12,6 +13,7 @@ import dev.boringx.model.prompt.request.PromptRequest
 import dev.boringx.model.prompt.request.Role
 import dev.boringx.utils.createModelUri
 import dev.boringx.utils.preparePrompt
+import java.util.logging.Level
 
 // TODO: Change all print-lns to Timber or some other logger (project-level todo)
 
@@ -42,9 +44,8 @@ fun Answer.getAssessment(
             )
         )
         val promptResponse = sendPromptRequest(prompt)
-        responses.add(promptResponse).also { println(promptResponse) }
+        responses.add(promptResponse).also { logger.log(Level.INFO, promptResponse) }
         getAssessmentFromPromptResponse(promptResponse).also {
-            println(it)
             if (it != -1) {
                 assessments.add(it)
             }
@@ -52,9 +53,11 @@ fun Answer.getAssessment(
         // TODO: Do with this something
         Thread.sleep(1000) // using thread sleep, to not look like spammer to YaGPT services
     }
-    println(responses)
-    println(assessments)
+
+    logger.log(Level.INFO, responses.toString())
+    logger.log(Level.INFO, assessments.toString())
     val totalAssessment = assessments.sum().toFloat() / assessments.size
-    println(totalAssessment)
+
+    logger.log(Level.INFO, totalAssessment.toString())
     return totalAssessment
 }
