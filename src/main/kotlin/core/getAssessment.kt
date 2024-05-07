@@ -21,9 +21,10 @@ fun Answer.getAssessment(
     modelUri: String = createModelUri(),
     completionOptions: CompletionOptions = CompletionOptions.default
 ): Float {
-    val questionToAnswerPrompt = preparePrompt(question, this)
     val responses = mutableListOf<String>()
     val assessments = mutableListOf<Int>()
+
+    val questionToAnswerPrompt = preparePrompt(question, this)
     for (criterion in criteria) {
         val prompt = PromptRequest(
             modelUri = modelUri,
@@ -54,8 +55,8 @@ fun Answer.getAssessment(
 
     logger.log(Level.INFO, responses.toString())
     logger.log(Level.INFO, assessments.toString())
-    val totalAssessment = assessments.sum().toFloat() / assessments.size
 
+    val totalAssessment = assessments.sum().toFloat() / assessments.size
     logger.log(Level.INFO, totalAssessment.toString())
     return totalAssessment
 }
