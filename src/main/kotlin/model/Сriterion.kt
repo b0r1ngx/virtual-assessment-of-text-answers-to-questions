@@ -21,6 +21,6 @@ enum class Criterion(
     Correctness("правильности"), // 0.4
     Brevity("краткости"), // 0.2
     Style("стиля"), // 0.1
-    Completeness("полнота"), // 0.2
+    Completeness("полноты"), // 0.2
     Coherence("связности"), // 0.1
 }
