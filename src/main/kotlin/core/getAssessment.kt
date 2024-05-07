@@ -15,8 +15,6 @@ import dev.boringx.utils.createModelUri
 import dev.boringx.utils.preparePrompt
 import java.util.logging.Level
 
-// TODO: Change all print-lns to Timber or some other logger (project-level todo)
-
 fun Answer.getAssessment(
     question: Question,
     criteria: List<Criterion> = Criterion.entries,
