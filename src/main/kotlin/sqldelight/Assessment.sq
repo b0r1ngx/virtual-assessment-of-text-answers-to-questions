@@ -1,4 +1,4 @@
-CREATE TABLE assessment(
+CREATE TABLE Assessment(
   id            INTEGER PRIMARY KEY,
   criterion_id  INTEGER,
   mark          REAL,

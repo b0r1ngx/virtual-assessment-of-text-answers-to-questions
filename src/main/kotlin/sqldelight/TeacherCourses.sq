@@ -1,0 +1,5 @@
+CREATE TABLE TeacherCourses(
+  teacher_id  INTEGER NOT NULL REFERENCES Teacher(id),
+  course_id   INTEGER NOT NULL REFERENCES Course(id),
+  PRIMARY KEY (teacher_id, course_id)
+);

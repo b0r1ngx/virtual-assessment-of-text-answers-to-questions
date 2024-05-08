@@ -1,4 +1,4 @@
-CREATE TABLE Criterion(
+CREATE TABLE Teacher(
   id    INTEGER PRIMARY KEY,
   name  TEXT
 );
