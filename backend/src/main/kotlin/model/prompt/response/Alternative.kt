@@ -1,6 +1,6 @@
 package model.prompt.response
 
-import dev.boringx.model.prompt.request.Message
+import model.prompt.request.Message
 import kotlinx.serialization.Serializable
 
 @Serializable

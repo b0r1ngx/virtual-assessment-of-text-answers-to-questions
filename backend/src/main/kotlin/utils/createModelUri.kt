@@ -1,7 +1,7 @@
 package utils
 
-import dev.boringx.model.EnvironmentVariables
-import dev.boringx.dotenv
+import dotenv
+import model.EnvironmentVariables
 
 fun createModelUri(
     folderId: String = dotenv[

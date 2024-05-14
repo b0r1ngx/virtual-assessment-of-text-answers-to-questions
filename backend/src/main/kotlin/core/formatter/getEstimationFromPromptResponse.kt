@@ -1,7 +1,7 @@
 package core.formatter
 
-import dev.boringx.model.prompt.response.PromptResponse
-import dev.boringx.utils.decodeFromStringSafety
+import model.prompt.response.PromptResponse
+import utils.decodeFromStringSafety
 
 private val INT_PATTERN = Regex("\\d+")
 

@@ -1,4 +1,4 @@
-import dev.boringx.core.formatter.getAssessmentFromPromptResponse
+import core.formatter.getAssessmentFromPromptResponse
 import utils.getStringFromJsonFile
 import kotlin.test.assertEquals
 

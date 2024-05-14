@@ -1,5 +1,5 @@
-import dev.boringx.core.getAssessment
-import dev.boringx.datalayer.repository.Repository
+import core.getAssessment
+import datalayer.repository.Repository
 
 // TODO: When start implement Client (mobile app) - think about logic that we can share to Backend
 fun main() {

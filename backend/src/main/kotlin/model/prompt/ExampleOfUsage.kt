@@ -1,11 +1,11 @@
 package model.prompt
 
-import dev.boringx.model.prompt.request.CompletionOptions
-import dev.boringx.model.prompt.request.Message
-import dev.boringx.model.prompt.request.PromptRequest
-import dev.boringx.model.prompt.request.Role
-import dev.boringx.utils.decodeFromStringSafety
-import dev.boringx.utils.encodeToString
+import model.prompt.request.CompletionOptions
+import model.prompt.request.Message
+import model.prompt.request.PromptRequest
+import model.prompt.request.Role
+import utils.decodeFromStringSafety
+import utils.encodeToString
 
 fun main() {
     val createPrompt = PromptRequest(

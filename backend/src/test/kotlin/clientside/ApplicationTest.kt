@@ -1,6 +1,6 @@
 package clientside
 
-import dev.boringx.api.clientside.module
+import api.clientside.module
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
