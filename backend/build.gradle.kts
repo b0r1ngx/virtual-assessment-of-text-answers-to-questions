@@ -10,7 +10,7 @@ group = "dev.boringx"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("api.clientside.mainKt")
+    mainClass.set("api.server.mainKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
