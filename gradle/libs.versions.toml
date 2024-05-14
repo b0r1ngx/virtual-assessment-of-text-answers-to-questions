@@ -1,8 +1,11 @@
 [versions]
 kotlin = "1.9.23"
+serialization = "1.6.3"
 junit = "4.13.2"
-ktor = "2.3.10"
+
+ktor = "2.3.11"
 sqldelight = "2.0.2"
+dotenv = "6.4.1"
 
 agp = "8.2.0"
 androidx-appcompat = "1.6.1"
@@ -18,12 +21,15 @@ android-minSdk = "24"
 android-targetSdk = "34"
 
 [libraries]
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+ktor-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+ktor-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
+dotenv = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
