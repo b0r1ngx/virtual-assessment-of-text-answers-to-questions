@@ -38,13 +38,13 @@ kotlin {
 
 android {
     namespace = "dev.boringx.common"
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
 

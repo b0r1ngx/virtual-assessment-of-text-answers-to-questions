@@ -22,35 +22,42 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Compose"
             isStatic = true
         }
     }
 
     sourceSets {
         androidMain.dependencies {
-
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+//            implementation(projects.common)
         }
     }
 }
 
 android {
-    namespace = "dev.boringx" // add "appName"?
-    compileSdk = 34
+    namespace = group.toString() // add "appName"?
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "dev.boringx" // add "appName"?
-        minSdk = 24
-        targetSdk = 34
+        applicationId = group.toString() // add ".appName"?
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = version.toString()
     }
     packaging {
         resources {
@@ -67,6 +74,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     dependencies {
-
+        debugImplementation(libs.compose.ui.tooling)
     }
 }
