@@ -1,8 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("app.cash.sqldelight")
-    id("com.android.library")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.android.library)
 }
 
 group = "dev.boringx"

@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.application")
-//    id("org.jetbrains.compose") 1.6.2 but must decrease kotlin version
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.compose)
 }
 
 group = "dev.boringx"

@@ -1,7 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("app.cash.sqldelight")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
+    // alias(libs.plugins.ktor) is it needed here?
 }
 
 group = "dev.boringx"
