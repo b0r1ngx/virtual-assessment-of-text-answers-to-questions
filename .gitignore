@@ -4,6 +4,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .env
+local.properties
+!src/**/build/
 
 ### IntelliJ IDEA ###
 .idea/*
@@ -38,3 +40,17 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### KMP? ###
+captures
+.externalNativeBuild
+.cxx
+
+### XCode ###
+xcuserdata
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
