@@ -45,7 +45,8 @@ kotlin {
 }
 
 android {
-    namespace = group.toString() // add "appName"?
+    // TODO: extract app_name to some common place?
+    namespace = group.toString() + "VirtualAssessment"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
