@@ -27,8 +27,6 @@ kotlin {
         }
     }
 
-    jvm()
-
     sourceSets {
         commonMain.dependencies {
             // put common (kotlin) multiplatform dependencies here
