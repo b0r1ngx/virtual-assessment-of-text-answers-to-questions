@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Виртуальное оценивание</string>
+
+    <!-- Auth screen-->
+    <string name="name">ФИО</string>
+
+    <!-- Tests Screen-->
+    <string name="tests">Тесты</string>
+</resources>

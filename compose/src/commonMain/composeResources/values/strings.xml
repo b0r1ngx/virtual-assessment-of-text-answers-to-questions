@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Virtual Assessment</string>
+
+    <!-- Auth screen-->
+    <string name="name">Full name</string>
+
+    <!-- Tests Screen-->
+    <string name="tests">Tests</string>
+</resources>
