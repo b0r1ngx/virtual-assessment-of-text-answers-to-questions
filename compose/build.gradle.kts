@@ -30,6 +30,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common"))
+            implementation(project(":dto"))
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
