@@ -1,0 +1,12 @@
+CREATE TABLE Test(
+  id          INTEGER PRIMARY KEY,
+  teached_id  INTEGER,
+  course_id   INTEGER,
+  name        TEXT,
+--   start_at    DATE,
+--   end_at      DATE,
+--   created_at  DATE
+
+  FOREIGN KEY(teached_id) REFERENCES teacher(id),
+  FOREIGN KEY(course_id) REFERENCES course(id)
+);
