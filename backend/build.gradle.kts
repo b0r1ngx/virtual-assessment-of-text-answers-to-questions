@@ -20,13 +20,13 @@ dependencies {
     // don't understand to the end, what sqldelight implementation to use here...
     // below dependency (native) on macOS indicates error
 //    implementation("app.cash.sqldelight:native-driver:2.0.2")
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.netty)
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
     implementation(libs.kotlinx.serialization)
     implementation(libs.dotenv)
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.kotlin.test)
     // TODO Warning: Below dependency, raises warning: Provides transitive vulnerable dependency maven:commons-codec:commons-codec:1.11 Cxeb68d52e-5509 3.7 Exposure of Sensitive Information to an Unauthorized Actor vulnerability with Low severity found  Results powered by Checkmarx(c) https://devhub.checkmarx.com/cve-details/Cxeb68d52e-5509/
-    testImplementation(libs.ktor.tests)
-    testImplementation(libs.ktor.test.host)
+    testImplementation(libs.ktor.server.tests)
+    testImplementation(libs.ktor.server.test.host)
 }

@@ -21,15 +21,30 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
-            baseName = "common"
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "Compose"
+//            isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            // put common (kotlin) multiplatform dependencies here
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.koin.core)
+        }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.android)
+            implementation(libs.sqldelight.android.driver)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.sqldelight.native.driver)
         }
     }
 }
