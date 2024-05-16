@@ -5,5 +5,5 @@ CREATE TABLE Assessment(
   opinion       TEXT,
   raw_response  TEXT,
 
-  FOREIGN KEY(criterion_id) REFERENCES criterion(id)
+  FOREIGN KEY(criterion_id) REFERENCES Criterion(id)
 );
