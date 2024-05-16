@@ -1,0 +1,5 @@
+CREATE TABLE TestQuestions (
+    test_id  INTEGER NOT NULL REFERENCES Test(id),
+    question_id   INTEGER NOT NULL REFERENCES Question(id),
+    PRIMARY KEY (test_id, question_id)
+);

@@ -1,0 +1,4 @@
+CREATE TABLE Question (
+  id    INTEGER PRIMARY KEY,
+  text  TEXT
+);
