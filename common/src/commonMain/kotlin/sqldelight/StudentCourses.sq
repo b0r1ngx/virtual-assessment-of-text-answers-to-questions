@@ -1,5 +1,0 @@
-CREATE TABLE StudentCourses(
-  student_id  INTEGER NOT NULL REFERENCES Student(id),
-  course_id   INTEGER NOT NULL REFERENCES Course(id),
-  PRIMARY KEY (student_id, course_id)
-);

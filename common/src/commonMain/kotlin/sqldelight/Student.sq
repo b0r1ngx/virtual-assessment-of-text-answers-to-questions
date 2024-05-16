@@ -1,4 +1,0 @@
-CREATE TABLE Student(
-  id    INTEGER PRIMARY KEY,
-  name  TEXT
-);

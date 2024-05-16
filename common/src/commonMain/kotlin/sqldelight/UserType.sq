@@ -1,0 +1,6 @@
+CREATE TABLE UserType (
+  id    INTEGER PRIMARY KEY,
+  name  TEXT
+);
+
+-- fill it with two types: Student, Teacher

@@ -1,0 +1,8 @@
+CREATE TABLE User (
+  id            INTEGER PRIMARY KEY,
+  user_type_id  INTEGER,
+  name          TEXT,
+  email         TEXT,
+
+  FOREIGN KEY(user_type_id) REFERENCES UserType(id)
+);
