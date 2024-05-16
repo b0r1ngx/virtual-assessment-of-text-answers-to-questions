@@ -1,10 +1,11 @@
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
+import users.User
 
 data class Test(
+    val creator: User,
     val name: String,
-//    val teacher: Teacher,
-//    val course: Course,
-    val start_at: DateTimeUnit,
-    val end_at: DateTimeUnit,
-    val question: List<Question>
+    val course: Course,
+    val start_at: Instant,
+    val end_at: Instant,
+    val questions: List<Question>,
 )
