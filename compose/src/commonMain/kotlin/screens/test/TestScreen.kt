@@ -17,6 +17,7 @@ fun TestScreen() {
         //      Finish Button
         // else
         //      Button for navigate to next question
+        //        (disable this button, if TextField.value.isEmpty)
 
     }
 }
