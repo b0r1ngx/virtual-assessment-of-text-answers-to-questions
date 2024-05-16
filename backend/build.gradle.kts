@@ -20,6 +20,7 @@ dependencies {
     // don't understand to the end, what sqldelight implementation to use here...
     // below dependency (native) on macOS indicates error
 //    implementation("app.cash.sqldelight:native-driver:2.0.2")
+    implementation(project(":dto"))
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
     implementation(libs.kotlinx.serialization)

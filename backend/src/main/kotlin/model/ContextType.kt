@@ -1,5 +1,7 @@
 package model
 
+import Criterion
+
 // TODO: Make it like sealed class, where only Teacher, has description?
 enum class ContextType {
     None,

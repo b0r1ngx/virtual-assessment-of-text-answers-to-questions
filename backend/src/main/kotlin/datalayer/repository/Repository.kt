@@ -1,7 +1,7 @@
 package datalayer.repository
 
-import model.Answer
-import model.Question
+import Answer
+import Question
 import utils.preparePrompt
 
 class Repository {

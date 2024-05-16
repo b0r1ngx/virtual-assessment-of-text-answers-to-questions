@@ -2,10 +2,10 @@ package core
 
 import core.formatter.getAssessmentFromPromptResponse
 import logger.logger
-import model.Answer
+import Answer
 import model.ContextType
-import model.Criterion
-import model.Question
+import Criterion
+import Question
 import model.prompt.request.CompletionOptions
 import model.prompt.request.Message
 import model.prompt.request.PromptRequest

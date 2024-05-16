@@ -33,3 +33,4 @@ rootProject.name = "virtual-assessment-of-text-answers-to-questions"
 include("common")
 include("backend")
 include("compose")
+include("dto")
