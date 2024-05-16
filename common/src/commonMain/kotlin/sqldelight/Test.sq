@@ -1,12 +1,12 @@
 CREATE TABLE Test(
   id          INTEGER PRIMARY KEY,
-  user_id  INTEGER,
+  creator_id  INTEGER,
   course_id   INTEGER,
   name        TEXT,
 --   start_at    DATE,
 --   end_at      DATE,
 --   created_at  DATE
 
-  FOREIGN KEY(user_id) REFERENCES User(id),
+  FOREIGN KEY(creator_id) REFERENCES User(id),
   FOREIGN KEY(course_id) REFERENCES Course(id)
 );
