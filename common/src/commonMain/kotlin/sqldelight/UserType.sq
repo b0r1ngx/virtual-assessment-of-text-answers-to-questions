@@ -3,5 +3,5 @@ CREATE TABLE UserType (
   name  TEXT
 );
 
--- fill it with two types: Student, Teacher
--- to be convenient with Kotlin enum UserType, Student must be first entry of this table
+INSERT INTO UserType(name) VALUES ('Student');
+INSERT INTO UserType(name) VALUES ('Teacher');
