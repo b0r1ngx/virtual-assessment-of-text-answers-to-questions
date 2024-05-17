@@ -11,6 +11,9 @@ CREATE TABLE Test(
   FOREIGN KEY(course_id) REFERENCES Course(id)
 );
 
+getAllTests:
+SELECT * FROM Test;
+
 getTests:
 SELECT * FROM Test
 WHERE course_id = ?;
