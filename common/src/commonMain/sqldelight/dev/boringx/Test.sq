@@ -3,9 +3,10 @@ CREATE TABLE Test(
   creator_id  INTEGER,
   course_id   INTEGER,
   name        TEXT,
---   start_at    DATE,
---   end_at      DATE,
---   created_at  DATE
+  start_at    TEXT,
+  end_at      TEXT,
+  created_at  TEXT,
+-- _at holdings DATE as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
 
   FOREIGN KEY(creator_id) REFERENCES User(id),
   FOREIGN KEY(course_id) REFERENCES Course(id)
