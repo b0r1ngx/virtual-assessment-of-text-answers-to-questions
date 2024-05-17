@@ -10,3 +10,11 @@ CREATE TABLE Test(
   FOREIGN KEY(creator_id) REFERENCES User(id),
   FOREIGN KEY(course_id) REFERENCES Course(id)
 );
+
+getTests:
+SELECT * FROM Test
+WHERE course_id = ?;
+
+createTest:
+INSERT INTO Test(creator_id, course_id, name)
+VALUES(?, ?, ?);
