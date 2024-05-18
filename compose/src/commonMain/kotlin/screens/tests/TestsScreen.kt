@@ -24,8 +24,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import components.Title
 import components.UserText
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.end_at
@@ -51,7 +51,7 @@ fun TestsScreen(testsViewModel: TestsViewModel) {
                 .background(color = MaterialTheme.colors.surface)
         )
 
-        CustomTabs(
+        TabBar(
             selectedTab = selectedTab,
             modifier = Modifier.fillMaxWidth()
         )
@@ -66,19 +66,8 @@ fun TestsScreen(testsViewModel: TestsViewModel) {
     }
 }
 
-// TODO: Extract it later, to use on other Screens
 @Composable
-private fun Title(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        modifier = modifier,
-        textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.h4,
-    )
-}
-
-@Composable
-private fun CustomTabs(
+private fun TabBar(
     selectedTab: TestsTab,
     modifier: Modifier = Modifier
 ) {
