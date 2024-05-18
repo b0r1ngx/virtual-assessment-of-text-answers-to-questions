@@ -11,11 +11,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +43,7 @@ import screens.tests.tabs.TestsTab
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TestsScreen(testsViewModel: TestsViewModel) {
-    val selectedTab by remember { mutableStateOf(TestsTab.Available) }
+    val selectedTab = remember { mutableStateOf(TestsTab.Available) }
 
     Column {
         Title(
@@ -51,13 +53,16 @@ fun TestsScreen(testsViewModel: TestsViewModel) {
                 .background(color = MaterialTheme.colors.surface)
         )
 
+        // if user is teacher, tabbar must have other tabs
+        // TeacherTabs:
         TabBar(
             selectedTab = selectedTab,
             modifier = Modifier.fillMaxWidth()
         )
 
+        // if user is teacher, filter must work by other rules
         Tests(
-            selectedTab = selectedTab,
+            selectedTab = selectedTab.value,
             tests = testsViewModel.tests,
             modifier = Modifier
                 .fillMaxSize()
@@ -66,14 +71,15 @@ fun TestsScreen(testsViewModel: TestsViewModel) {
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun TabBar(
-    selectedTab: TestsTab,
+    selectedTab: MutableState<TestsTab>,
     modifier: Modifier = Modifier
 ) {
     val tabs = remember { TestsTab.entries.toTypedArray() }
     var selectedIndex by remember(selectedTab) {
-        mutableIntStateOf(tabs.indexOf(selectedTab))
+        mutableIntStateOf(tabs.indexOf(selectedTab.value))
     }
     TabRow(
         selectedTabIndex = selectedIndex,
@@ -83,8 +89,11 @@ private fun TabBar(
         tabs.forEachIndexed { index, tab ->
             Tab(
                 selected = selectedIndex == index,
-                onClick = { selectedIndex = index },
-                text = { Text(text = tab.name) },
+                onClick = {
+                    selectedIndex = index
+                    selectedTab.value = tab
+                },
+                text = { Text(text = stringResource(tab.res)) },
             )
         }
     }
@@ -105,41 +114,39 @@ private fun Tests(
         if (tests.isEmpty()) {
             Text(text = stringResource(Res.string.no_available_tests))
         } else {
+            // TODO: Добавить легенду о цветах
+//            Row {
+//
+//            }
+
             LazyColumn(verticalArrangement = Arrangement.SpaceBetween) {
                 // divide by test.course
                 items(items = tests.filter {
                     when (selectedTab) {
                         TestsTab.Available -> it.end_at > Clock.System.now()
-                        TestsTab.Passed -> {
-                            // TODO: search in studentTests
-                            it.end_at < Clock.System.now()
-                        }
-
-                        TestsTab.Missed -> {
-                            // gone
-                            it.end_at < Clock.System.now()
-                            // and not passed
-                        }
+                        TestsTab.Passed -> it.end_at < Clock.System.now()
                     }
-
                 }) {
-                    TestCard(test = it)
+                    TestCard(test = it, onTestClick = {})
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun TestCard(
     test: Test,
+    onTestClick: (Test) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier
-            .padding(bottom = 10.dp),
-        shape = RoundedCornerShape(16.dp)
+        onClick = { onTestClick(test) },
+        modifier = modifier.padding(bottom = 10.dp),
+        enabled = false, // true only for greens, greens - оцененные, user.id == test.student_id -- think about how to make different, instead of check declared things
+        shape = RoundedCornerShape(16.dp),
+//        backgroundColor = Color.Yellow // Завершенные, зеленые - оцененные, желтые - ожидают оценки, красные - пропущенные?
     ) {
         Column(modifier = Modifier.padding(5.dp)) {
             Text(text = test.name)
@@ -151,7 +158,3 @@ private fun TestCard(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun TestsScreenPreview() = TestsScreen()
