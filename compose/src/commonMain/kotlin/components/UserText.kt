@@ -16,9 +16,9 @@ fun UserText(
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier.clickable {
-
+        // TODO: Navigate to UserScreen
     }) {
-        Icon(imageVector = Icons.Default.Person, contentDescription = null)
+        Icon(imageVector = Icons.Default.Person, contentDescription = "User Photo")
         Text(
             text = user.name,
         )
