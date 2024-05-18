@@ -6,4 +6,12 @@
 
     <!-- Tests Screen-->
     <string name="tests">Tests</string>
+    <string name="start_at">Start at:</string>
+    <string name="end_at">End at:</string>
+    <string name="questions">questions</string>
+
+    <!-- Test Screen-->
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+
 </resources>

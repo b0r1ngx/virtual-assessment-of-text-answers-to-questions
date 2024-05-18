@@ -6,4 +6,14 @@
 
     <!-- Tests Screen-->
     <string name="tests">Тесты</string>
+    <string name="start_at">Начало в:</string>
+    <string name="end_at">Конец в:</string>
+    <!-- TODO: использовать дополнительные числительные
+            1 вопрос, 2 вопроса, 20 вопросов, ? -->
+    <string name="questions">вопросов</string>
+
+    <!-- Test Screen-->
+    <string name="question">Вопрос</string>
+    <string name="answer">Ответ</string>
+
 </resources>
