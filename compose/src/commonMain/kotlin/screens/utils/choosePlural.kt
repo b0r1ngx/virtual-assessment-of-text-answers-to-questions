@@ -18,6 +18,6 @@ fun choosePlural(amount: Int, strings: List<StringResource> = defaultStrings): S
     return when {
         amount % 10 == 1 && amount % 100 != 11 -> strings[0]
         fewRange.contains(amount % 10) && (amount % 100 < 10 || amount % 100 >= 20) -> strings[1]
-        else -> strings[-1]
+        else -> strings[2]
     }
 }
