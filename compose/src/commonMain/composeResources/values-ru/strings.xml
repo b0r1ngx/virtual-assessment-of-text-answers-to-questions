@@ -8,10 +8,12 @@
     <string name="tests">Тесты</string>
     <string name="no_available_tests">Нет доступных тестов</string>
     <string name="start_at">Начало: </string>
-    <string name="end_at">Окончание: </string>
+    <string name="end_at">Завершение: </string>
     <!-- TODO: использовать дополнительные числительные
             1 вопрос, 2 вопроса, 20 вопросов, ? -->
     <string name="questions"> вопросов</string>
+    <string name="tests_tab_available">Активные</string>
+    <string name="tests_tab_passed">Завершенные</string>
 
     <!-- Test Screen-->
     <string name="question">Вопрос</string>

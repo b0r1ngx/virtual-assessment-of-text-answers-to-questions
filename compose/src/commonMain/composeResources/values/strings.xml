@@ -10,6 +10,8 @@
     <string name="start_at">Start at: </string>
     <string name="end_at">End at: </string>
     <string name="questions"> questions</string>
+    <string name="tests_tab_available">Available</string>
+    <string name="tests_tab_passed">Passed</string>
 
     <!-- Test Screen-->
     <string name="question">Question</string>
