@@ -7,6 +7,8 @@
     <string name="teacher">Учитель</string>
     <string name="name">ФИО</string>
     <string name="email">Электронный адрес</string>
+    <string name="choose_courses">Выберите курсы</string>
+    <string name="register">Зарегистрироваться</string>
 
     <!-- Tests Screen-->
     <string name="tests">Тесты</string>
