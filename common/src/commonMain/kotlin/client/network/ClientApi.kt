@@ -1,4 +1,4 @@
-package network.client
+package client.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
