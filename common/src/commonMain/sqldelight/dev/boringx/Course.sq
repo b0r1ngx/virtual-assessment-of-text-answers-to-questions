@@ -7,3 +7,6 @@ INSERT INTO Course(name) VALUES ('Цифровая обработка сигна
 INSERT INTO Course(name) VALUES ('Телекоммуникационные технологии');
 INSERT INTO Course(name) VALUES ('Архитектура ЭВМ');
 INSERT INTO Course(name) VALUES ('Основы операционных систем');
+
+selectAll:
+SELECT * FROM Course;
