@@ -39,6 +39,7 @@ import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import screens.tests.tabs.TestsTab
+import screens.utils.toHumanReadable
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -127,7 +128,9 @@ private fun Tests(
                         TestsTab.Passed -> it.end_at < Clock.System.now()
                     }
                 }) {
-                    TestCard(test = it, onTestClick = {})
+                    TestCard(test = it, onTestClick = {
+                        // TODO: navigate to TestScreen,
+                    })
                 }
             }
         }
@@ -143,17 +146,21 @@ private fun TestCard(
 ) {
     Card(
         onClick = { onTestClick(test) },
-        modifier = modifier.padding(bottom = 10.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp),
         enabled = false, // true only for greens, greens - оцененные, user.id == test.student_id -- think about how to make different, instead of check declared things
         shape = RoundedCornerShape(16.dp),
 //        backgroundColor = Color.Yellow // Завершенные, зеленые - оцененные, желтые - ожидают оценки, красные - пропущенные?
     ) {
-        Column(modifier = Modifier.padding(5.dp)) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(5.dp)
+        ) {
             Text(text = test.name)
             UserText(user = test.creator)
-            // TimeText: use .format to provide DateTimeFormat
-            Text(text = stringResource(Res.string.start_at) + "${test.start_at}")
-            Text(text = stringResource(Res.string.end_at) + "${test.end_at}")
+            Text(text = stringResource(Res.string.start_at) + test.start_at.toHumanReadable())
+            Text(text = stringResource(Res.string.end_at) + test.end_at.toHumanReadable())
             Text(text = "${test.questions.size}" + stringResource(Res.string.questions))
         }
     }
