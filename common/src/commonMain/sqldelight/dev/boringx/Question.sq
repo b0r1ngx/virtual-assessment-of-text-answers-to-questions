@@ -1,4 +1,4 @@
 CREATE TABLE Question (
   id    INTEGER PRIMARY KEY,
-  text  TEXT
+  text  TEXT NOT NULL
 );

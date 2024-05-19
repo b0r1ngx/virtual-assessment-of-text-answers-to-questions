@@ -1,6 +1,6 @@
 CREATE TABLE UserType (
   id    INTEGER PRIMARY KEY,
-  name  TEXT
+  name  TEXT NOT NULL
 );
 
 INSERT INTO UserType(name) VALUES ('Student');

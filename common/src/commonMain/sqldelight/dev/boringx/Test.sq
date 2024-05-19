@@ -1,11 +1,11 @@
 CREATE TABLE Test(
   id          INTEGER PRIMARY KEY,
-  creator_id  INTEGER,
-  course_id   INTEGER,
-  name        TEXT,
-  start_at    TEXT,
-  end_at      TEXT,
-  created_at  TEXT,
+  creator_id  INTEGER NOT NULL,
+  course_id   INTEGER NOT NULL,
+  name        TEXT NOT NULL,
+  start_at    TEXT NOT NULL,
+  end_at      TEXT NOT NULL,
+  created_at  TEXT NOT NULL,
 -- _at holdings DATE as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
 
   FOREIGN KEY(creator_id) REFERENCES User(id),
