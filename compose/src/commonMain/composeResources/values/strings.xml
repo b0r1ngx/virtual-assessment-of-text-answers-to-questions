@@ -2,7 +2,11 @@
     <string name="app_name">Virtual Assessment</string>
 
     <!-- Auth screen-->
+    <string name="choose_role">Choose your role</string>
+    <string name="student">Student</string>
+    <string name="teacher">Teacher</string>
     <string name="name">Full name</string>
+    <string name="email">Email</string>
 
     <!-- Tests Screen-->
     <string name="tests">Tests</string>
