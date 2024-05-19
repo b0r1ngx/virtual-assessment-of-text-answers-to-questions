@@ -7,6 +7,6 @@ CREATE TABLE User (
   FOREIGN KEY(user_type_id) REFERENCES UserType(id)
 );
 
-createUser:
+insert:
 INSERT INTO User(user_type_id, name, email)
 VALUES(?, ?, ?);
