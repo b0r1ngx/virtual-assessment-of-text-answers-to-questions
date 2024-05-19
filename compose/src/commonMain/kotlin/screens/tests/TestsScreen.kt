@@ -196,7 +196,6 @@ private fun TestCard(
         ) {
             Text(text = test.name)
             UserText(user = test.creator)
-            // TODO: Bug appear, can't provide arguments for strings, check why
             Text(text = stringResource(Res.string.start_at, test.start_at.toHumanReadable()))
             Text(text = stringResource(Res.string.end_at, test.end_at.toHumanReadable()))
             Text(text = stringResource(choosePlural(test.questions.size), test.questions.size))

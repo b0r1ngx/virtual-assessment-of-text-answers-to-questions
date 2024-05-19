@@ -7,11 +7,11 @@
     <!-- Tests Screen-->
     <string name="tests">Тесты</string>
     <string name="no_available_tests">Нет доступных тестов</string>
-    <string name="start_at">Начало: %s</string>
-    <string name="end_at">Завершение: %s</string>
-    <string name="questions_one">%d вопрос</string>
-    <string name="questions_few">%d вопроса</string>
-    <string name="questions_many">%d вопросов</string>
+    <string name="start_at">Начало: %1$s</string>
+    <string name="end_at">Завершение: %1$s</string>
+    <string name="questions_one">%1$d вопрос</string>
+    <string name="questions_few">%1$d вопроса</string>
+    <string name="questions_many">%1$d вопросов</string>
     <string name="tests_tab_available">Активные</string>
     <string name="tests_tab_passed">Завершенные</string>
     <string name="test_status_assessed">Оцененный</string>
