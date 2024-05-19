@@ -12,13 +12,13 @@ CREATE TABLE Test(
   FOREIGN KEY(course_id) REFERENCES Course(id)
 );
 
-getAllTests:
+selectAll:
 SELECT * FROM Test;
 
-getTests:
+selectBy:
 SELECT * FROM Test
 WHERE course_id = ?;
 
-createTest:
+insert:
 INSERT INTO Test(creator_id, course_id, name)
 VALUES(?, ?, ?);
