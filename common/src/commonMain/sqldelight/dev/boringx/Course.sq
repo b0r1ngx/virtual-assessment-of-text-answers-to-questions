@@ -2,3 +2,8 @@ CREATE TABLE Course(
   id    INTEGER PRIMARY KEY,
   name  TEXT
 );
+
+INSERT INTO Course(name) VALUES ('Цифровая обработка сигналов');
+INSERT INTO Course(name) VALUES ('Телекоммуникационные технологии');
+INSERT INTO Course(name) VALUES ('Архитектура ЭВМ');
+INSERT INTO Course(name) VALUES ('Основы операционных систем');
