@@ -138,7 +138,11 @@ private fun Tests(
                 items(items = tests.filter {
                     when (selectedTab) {
                         TestsTab.Available -> it.end_at > Clock.System.now()
-                        TestsTab.Passed -> it.end_at < Clock.System.now()
+                        TestsTab.Passed -> {
+                            it.end_at < Clock.System.now()
+                            // todo: also with || add condition, that there must goes test,
+                            //  that user already passed, to available, same but with &&
+                        }
                     }
                 }) {
                     TestCard(test = it, onTestClick = {
