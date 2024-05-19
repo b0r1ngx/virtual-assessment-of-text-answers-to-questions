@@ -17,6 +17,9 @@
     </plurals>
     <string name="tests_tab_available">Available</string>
     <string name="tests_tab_passed">Passed</string>
+    <string name="test_status_assessed">Assessed</string>
+    <string name="test_status_await">Await</string>
+    <string name="test_status_missed">Missed</string>
 
     <string name="create_test">Create a test</string>
 

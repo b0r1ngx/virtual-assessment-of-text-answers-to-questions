@@ -20,6 +20,9 @@
     </plurals>
     <string name="tests_tab_available">Активные</string>
     <string name="tests_tab_passed">Завершенные</string>
+    <string name="test_status_assessed">Оцененный</string>
+    <string name="test_status_await">Ожидает оценки</string>
+    <string name="test_status_missed">Пропущенный</string>
 
     <string name="create_test">Создать тест</string>
 
