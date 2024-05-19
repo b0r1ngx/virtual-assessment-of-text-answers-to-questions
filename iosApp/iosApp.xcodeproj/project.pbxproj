@@ -331,6 +331,7 @@
 					"$(inherited)",
 					"-framework",
 					compose,
+					"-lsqlite3",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.boringx.VirtualAssessment;
 				PRODUCT_NAME = "${APP_NAME}";
@@ -362,6 +363,7 @@
 					"$(inherited)",
 					"-framework",
 					compose,
+					"-lsqlite3",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.boringx.VirtualAssessment;
 				PRODUCT_NAME = "${APP_NAME}";
