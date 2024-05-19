@@ -7,14 +7,28 @@
     <!-- Tests Screen-->
     <string name="tests">Tests</string>
     <string name="no_available_tests">No available tests</string>
-    <string name="start_at">Start at: </string>
-    <string name="end_at">End at: </string>
-    <string name="questions"> questions</string>
+    <string name="start_at">Start at: %s</string>
+    <string name="end_at">End at: %s</string>
+<!--    <string name="questions"> questions</string>-->
+    <plurals name="questions">
+        <item quantity="zero">no questions</item>
+        <item quantity="one">%d question</item>
+        <item quantity="other">%d questions</item>
+    </plurals>
     <string name="tests_tab_available">Available</string>
     <string name="tests_tab_passed">Passed</string>
+
+    <string name="create_test">Create a test</string>
 
     <!-- Test Screen-->
     <string name="question">Question</string>
     <string name="answer">Answer</string>
+    <string name="answer_placeholder">Enter your answer here</string>
+    <string name="save_button">Save</string>
+    <string name="save_and_next_button">Save and go next</string>
+
+    <string name="add_question">Add a question</string>
+    <string name="save_test">Save the test</string>
+
 
 </resources>

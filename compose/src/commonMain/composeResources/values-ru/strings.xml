@@ -7,16 +7,31 @@
     <!-- Tests Screen-->
     <string name="tests">Тесты</string>
     <string name="no_available_tests">Нет доступных тестов</string>
-    <string name="start_at">Начало: </string>
-    <string name="end_at">Завершение: </string>
-    <!-- TODO: использовать дополнительные числительные
-            1 вопрос, 2 вопроса, 20 вопросов, ? -->
-    <string name="questions"> вопросов</string>
+    <string name="start_at">Начало: %s</string>
+    <string name="end_at">Завершение: %s</string>
+<!--    <string name="questions"> вопросов</string>-->
+    <plurals name="questions">
+        <item quantity="zero">нет вопросов</item>
+        <item quantity="one">%d вопрос</item>
+        <item quantity="two">%d вопроса</item>
+        <item quantity="few">%d вопроса</item>
+        <item quantity="many">%d вопросов</item>
+        <item quantity="other">%d вопросов</item>
+    </plurals>
     <string name="tests_tab_available">Активные</string>
     <string name="tests_tab_passed">Завершенные</string>
+
+    <string name="create_test">Создать тест</string>
 
     <!-- Test Screen-->
     <string name="question">Вопрос</string>
     <string name="answer">Ответ</string>
+    <string name="answer_placeholder">Поле для ввода ответа</string>
+    <string name="save_button">Сохранить</string>
+    <string name="save_and_next_button">Сохранить и перейти к следующему</string> <!-- Зафиксировать ответ и перейти к следующему вопросу -->
+
+    <string name="add_question">Добавить вопрос</string>
+    <string name="save_test">Сохранить тест</string>
+
 
 </resources>
