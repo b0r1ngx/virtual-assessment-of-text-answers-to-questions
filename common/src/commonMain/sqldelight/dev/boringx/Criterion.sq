@@ -2,3 +2,9 @@ CREATE TABLE Criterion(
   id    INTEGER PRIMARY KEY,
   name  TEXT NOT NULL
 );
+
+INSERT INTO Criterion(name) VALUES ('Correctness');
+INSERT INTO Criterion(name) VALUES ('Brevity');
+INSERT INTO Criterion(name) VALUES ('Style');
+INSERT INTO Criterion(name) VALUES ('Completeness');
+INSERT INTO Criterion(name) VALUES ('Coherence');
