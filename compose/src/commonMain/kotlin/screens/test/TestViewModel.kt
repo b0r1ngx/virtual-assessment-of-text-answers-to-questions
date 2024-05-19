@@ -1,4 +1,7 @@
 package screens.test
 
-class TestViewModel {
+import Test
+
+class TestViewModel(val test: Test) {
+
 }
