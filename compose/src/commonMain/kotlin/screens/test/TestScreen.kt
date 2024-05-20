@@ -2,31 +2,69 @@ package screens.test
 
 import Question
 import UserViewModel
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TimeInput
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import components.Title
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.add_question_button
 import dev.boringx.compose.generated.resources.complete_test
 import dev.boringx.compose.generated.resources.save_test_button
+import dev.boringx.compose.generated.resources.test
+import dev.boringx.compose.generated.resources.test_creation
+import kotlinx.datetime.Clock
 import model.UserType
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
+import screens.utils.toLocalDateTime
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TestScreen(
     userViewModel: UserViewModel,
     testViewModel: TestViewModel
 ) {
-    if (userViewModel.user?.type == UserType.Student.ordinal) {
-        // info about test with questions
+    Column {
+        Title(
+            text = stringResource(Res.string.test),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.surface)
+        )
+        // Subtitle (screen description)
+        // create Enum TestScreenStatus
+        Text(
+            text = stringResource(Res.string.test_creation),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.labelMedium
+        )
 
-        // if testViewModel.testInProgress draw one things, else draw info about test
-        Column {
+        if (userViewModel.user?.type == UserType.Student.ordinal) {
+            // info about test with questions
+
+            // if testViewModel.testInProgress draw one things, else draw info about test
             // Test.info, like at card
             LazyColumn {
                 items(testViewModel.test.questions) {
@@ -36,9 +74,6 @@ fun TestScreen(
             Button(onClick = { }) {
                 Text(stringResource(Res.string.complete_test))
             }
-        }
-
-        Column {
             // progressBar?
             // Text(text= "currentQuestion / questions.size"
 
@@ -51,10 +86,8 @@ fun TestScreen(
             // else
             //      Button for navigate to next question
             //        (disable this button, if TextField.value.isEmpty)
-
-        }
-    } else {
-        // edit test
+        } else {
+            // edit test
 //        Column(
 //            horizontalAlignment = Alignment.Start,
 //            modifier = Modifier.padding(5.dp)
@@ -65,18 +98,50 @@ fun TestScreen(
 //            Text(text = stringResource(Res.string.end_at, test.end_at.toHumanReadable()))
 //            Text(text = stringResource(choosePlural(test.questions.size), test.questions.size))
 //        }
+            var testName by mutableStateOf("")
+            Text(text = "Укажите тему теста (экзамен, ...)")
+            TextField(value = testName, onValueChange = { newTestName ->
+                testName = newTestName
+            })
 
-        Button(onClick = {
-            // TODO: Allow to add question via dialog?/ navigate to other screen
-        }) {
-            Text(text = stringResource(Res.string.add_question_button))
-        }
+            val instantNow = Clock.System.now()
+            val dateTime = instantNow.toLocalDateTime()
+            val startDateState = rememberDatePickerState(
+                initialSelectedDateMillis = instantNow.toEpochMilliseconds(),
+                initialDisplayMode = DisplayMode.Input
+            )
+            val startTimeState = rememberTimePickerState(initialHour = dateTime.hour)
 
-        if (testViewModel.test.questions.isNotEmpty()) {
+            DatePicker(state = startDateState, modifier = Modifier.padding(16.dp), title = {
+                Text(text = "Дата и время начала теста")
+            })
+            TimeInput(state = startTimeState)
+
+            val endDateState = rememberDatePickerState(
+                initialSelectedDateMillis = instantNow.plus(1.toDuration(DurationUnit.HOURS))
+                    .toEpochMilliseconds(),
+                initialDisplayMode = DisplayMode.Input
+
+            )
+            val endTimeState = rememberTimePickerState(initialHour = dateTime.hour + 1)
+
+            DatePicker(state = endDateState, modifier = Modifier.padding(16.dp), title = {
+                Text(text = "Дата и время завершения теста")
+            })
+            TimeInput(state = endTimeState)
+
             Button(onClick = {
-                testViewModel.saveTest()
+                // TODO: Allow to add question via dialog?/ navigate to other screen
             }) {
-                Text(text = stringResource(Res.string.save_test_button))
+                Text(text = stringResource(Res.string.add_question_button))
+            }
+
+            if (testViewModel.test.questions.isNotEmpty()) {
+                Button(onClick = {
+                    testViewModel.saveTest()
+                }) {
+                    Text(text = stringResource(Res.string.save_test_button))
+                }
             }
         }
     }
