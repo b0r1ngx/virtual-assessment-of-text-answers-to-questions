@@ -16,6 +16,7 @@ struct iOSApp: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     let root: RootComponent = DefaultRootComponent(
+        sqlDriverFactory: CommonSqlDriverFactory(),
         componentContext: DefaultComponentContext(lifecycle: ApplicationLifecycle())
     )
 }
