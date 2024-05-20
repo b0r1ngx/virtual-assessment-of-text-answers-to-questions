@@ -12,7 +12,7 @@ import kotlinx.datetime.Clock
 import model.UiState
 import model.UserType
 import users.User
-import viewmodel.AppViewModel
+import AppViewModel
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
