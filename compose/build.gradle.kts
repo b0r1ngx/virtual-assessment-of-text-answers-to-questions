@@ -24,6 +24,9 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "Compose"
             isStatic = true
+
+            export(libs.decompose)
+            export(libs.essenty.lifecycle)
         }
     }
 
@@ -38,9 +41,13 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(libs.decompose)
+            implementation(libs.decompose.extensions.compose)
+            implementation(libs.essenty.lifecycle.coroutines)
         }
         androidMain.dependencies {
-            implementation(libs.koin.androidx.compose)
+//            implementation(libs.koin.androidx.compose)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.compose.ui.tooling.preview)
