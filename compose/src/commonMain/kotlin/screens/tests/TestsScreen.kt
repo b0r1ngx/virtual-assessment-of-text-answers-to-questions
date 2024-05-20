@@ -1,6 +1,7 @@
 package screens.tests
 
 import Test
+import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -31,12 +33,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.Title
 import components.UserText
 import dev.boringx.compose.generated.resources.Res
+import dev.boringx.compose.generated.resources.create_test
 import dev.boringx.compose.generated.resources.end_at
 import dev.boringx.compose.generated.resources.no_available_tests
 import dev.boringx.compose.generated.resources.start_at
@@ -47,10 +49,14 @@ import org.jetbrains.compose.resources.stringResource
 import screens.tests.tabs.TestsTab
 import screens.utils.choosePlural
 import screens.utils.toHumanReadable
+import model.UserType
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun TestsScreen(testsViewModel: TestsViewModel) {
+fun TestsScreen(
+    userViewModel: UserViewModel,
+    testsViewModel: TestsViewModel
+) {
     val selectedTab = remember { mutableStateOf(TestsTab.Available) }
 
     Column {
@@ -76,6 +82,14 @@ fun TestsScreen(testsViewModel: TestsViewModel) {
                 .fillMaxSize()
                 .background(color = MaterialTheme.colors.background.copy(alpha = .5f))
         )
+
+        if (userViewModel.user?.type == UserType.Teacher.ordinal) {
+            Button(onClick = {
+                // TODO: navigate user to TestScreen, but with empty data
+            }) {
+                Text(text = stringResource(Res.string.create_test))
+            }
+        }
     }
 }
 
@@ -190,7 +204,12 @@ private fun TestCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp),
-        enabled = false, // true only for greens, greens - оцененные, user.id == test.student_id -- think about how to make different, instead of check declared things
+        // true, for test.start_at < Clock.System.now()
+        // for assessed - show questions to answers, virtual assessment mark, teacher mark, opinion
+        // for awaited - show questions to answers, where mark should be - say: await of teacher assessment
+        // for missed - show questions to student, dont allow teacher to edit
+        // false, if test.start_at > Clock.System.now()
+        enabled = true,
         shape = RoundedCornerShape(16.dp),
 //        backgroundColor = Color.Yellow // Завершенные, зеленые - оцененные, желтые - ожидают оценки, красные - пропущенные?
     ) {

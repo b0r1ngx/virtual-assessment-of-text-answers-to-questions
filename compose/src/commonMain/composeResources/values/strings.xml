@@ -34,8 +34,8 @@
     <string name="save_and_next_button">Save and go next</string>
     <string name="complete_test">Complete the test</string>
 
-    <string name="add_question">Add a question</string>
-    <string name="save_test">Save the test</string>
+    <string name="add_question_button">Add a question</string>
+    <string name="save_test_button">Save the test</string>
 
 
 </resources>

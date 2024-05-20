@@ -34,8 +34,8 @@
     <string name="save_and_next_button">Сохранить и перейти к следующему</string> <!-- Зафиксировать ответ и перейти к следующему вопросу -->
     <string name="complete_test">Завершить тест</string>
 
-    <string name="add_question">Добавить вопрос</string>
-    <string name="save_test">Сохранить тест</string>
+    <string name="add_question_button">Добавить вопрос</string>
+    <string name="save_test_button">Сохранить тест</string>
 
 
 </resources>

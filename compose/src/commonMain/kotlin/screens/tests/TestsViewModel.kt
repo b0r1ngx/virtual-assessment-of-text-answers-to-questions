@@ -3,6 +3,7 @@ package screens.tests
 import Course
 import Question
 import Test
+import client.Repository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -74,13 +75,13 @@ private val mockTests = listOf(
 )
 
 class TestsViewModel(
-//    repository: Repository
-): AppViewModel {
+    private val repository: Repository
+) : AppViewModel {
     private val _uiState = MutableStateFlow(UiState())
     override val uiState = _uiState.asStateFlow()
 
-    val _tests = mutableListOf<Test>()
-    val tests = mockTests // listOf<Test>()
+    private val _tests = mutableListOf<Test>()
+    val tests: List<Test> = mockTests // _tests
 
     private var fetchJob: Job? = null
 
