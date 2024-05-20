@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.Clock
 import model.UiState
+import model.UserType
 import users.User
 import viewmodel.AppViewModel
 import kotlin.time.DurationUnit
@@ -41,7 +42,7 @@ private val mockOSBQuestions = listOf(
 
 private val mockTests = listOf(
     Test(
-        creator = User(name = "Лупин Анатолий Викторович", email = "lupin.av@edu.spbstu.ru"),
+        creator = User(type = UserType.Teacher.ordinal, name = "Лупин Анатолий Викторович", email = "lupin.av@edu.spbstu.ru"),
         name = "Промежуточное тестирование",
         course = Course(name = "Цифровая обработка сигналов"),
         start_at = Clock.System.now().minus(2.toDuration(DurationUnit.HOURS)),
@@ -49,7 +50,7 @@ private val mockTests = listOf(
         questions = mockTelecomQuestions
     ),
     Test(
-        creator = User(name = "Богач Наталья Владимировна", email = "bogach.nv@edu.spbstu.ru"),
+        creator = User(type = UserType.Teacher.ordinal, name = "Богач Наталья Владимировна", email = "bogach.nv@edu.spbstu.ru"),
         name = "Промежуточное тестирование",
         course = Course(name = "Телекоммуникационные технологии"),
         start_at = Clock.System.now(),
@@ -57,7 +58,7 @@ private val mockTests = listOf(
         questions = mockTelecomQuestions
     ),
     Test(
-        creator = User(name = "Тарасов Олег Михайлович", email = "tarasov.om@edu.spbstu.ru"),
+        creator = User(type = UserType.Teacher.ordinal, name = "Тарасов Олег Михайлович", email = "tarasov.om@edu.spbstu.ru"),
         name = "Экзамен",
         course = Course(name = "Архитектура ЭВМ"),
         start_at = Clock.System.now(),
@@ -65,7 +66,7 @@ private val mockTests = listOf(
         questions = mockArchitectureQuestions
     ),
     Test(
-        creator = User(name = "Малышев Игорь Алексеевич", email = "malyshev.ia@edu.spbstu.ru"),
+        creator = User(type = UserType.Teacher.ordinal, name = "Малышев Игорь Алексеевич", email = "malyshev.ia@edu.spbstu.ru"),
         name = "Итоговое тестирование",
         course = Course(name = "Основы операционных систем"),
         start_at = Clock.System.now(),
