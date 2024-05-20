@@ -22,7 +22,10 @@ androidx-espresso-core = "3.5.1"
 compose-plugin = "1.6.2"
 androidx-activity-compose = "1.9.0"
 androidx-lifecycle-viewmodel-compose = "2.8.0"
-compose = "1.6.6"
+compose = "1.6.7"
+
+decompose = "3.0.0"
+essenty = "2.0.0"
 
 
 [libraries]
@@ -64,6 +67,10 @@ sqldelight-jvm-driver = { module = "app.cash.sqldelight:sqlite-driver", version.
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 
+decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
+decompose-extensions-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
+essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", version.ref = "essenty" }
+essenty-lifecycle-coroutines = { group = "com.arkivanov.essenty", name = "lifecycle-coroutines", version.ref = "essenty" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
