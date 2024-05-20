@@ -5,6 +5,7 @@ import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -19,11 +20,10 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import components.Subtitle
 import components.Title
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.add_question_button
@@ -52,12 +52,12 @@ fun TestScreen(
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.surface)
         )
-        // Subtitle (screen description)
         // create Enum TestScreenStatus
-        Text(
+        Subtitle(
             text = stringResource(Res.string.test_creation),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.labelLarge
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.surface)
         )
 
         if (userViewModel.user?.type == UserType.Student.ordinal) {
@@ -97,31 +97,49 @@ fun TestScreen(
 //            Text(text = stringResource(Res.string.end_at, test.end_at.toHumanReadable()))
 //            Text(text = stringResource(choosePlural(test.questions.size), test.questions.size))
 //        }
-            var testName by mutableStateOf("")
-            Text(text = "Укажите тему теста (экзамен, ...)")
-            TextField(value = testName, onValueChange = { newTestName ->
-                testName = newTestName
-            })
-
-            DateAndTimePicker(
-                title = { Text(text = "Дата и время начала теста") }
+            TextField(
+                value = testViewModel.testName,
+                onValueChange = { newTestName ->
+                    testViewModel.testName = newTestName
+                },
+                modifier = Modifier.padding(horizontal = 10.dp),
+                label = { Text(text = "Укажите тему теста (экзамен, ...)") }
             )
+
+//            Row {
+            // add it to foldable objects
+//                DateAndTimePicker(
+//                    title = { Text(text = "Дата и время начала теста") },
+//                    modifier = Modifier.padding(10.dp)
+//                )
 
             DateAndTimePicker(
                 instant = Clock.System.now().plus(1.toHours()),
-                title = { Text(text = "Дата и время завершения теста") }
+                title = { Text(text = "Дата и время завершения теста") },
+                modifier = Modifier.padding(10.dp) // .weight(1f)
             )
+//            }
 
-            Button(onClick = {
-                // TODO: Allow to add question via dialog?/ navigate to other screen
-            }) {
+            LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
+                items(testViewModel.test.questions) { question ->
+                    Question(question = question)
+                }
+            }
+
+            Button(
+                onClick = {
+                    // TODO: Allow to add question via dialog?/ navigate to other screen
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            ) {
                 Text(text = stringResource(Res.string.add_question_button))
             }
 
             if (testViewModel.test.questions.isNotEmpty()) {
-                Button(onClick = {
-                    testViewModel.saveTest()
-                }) {
+                Button(
+                    onClick = { testViewModel.saveTest() },
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                ) {
                     Text(text = stringResource(Res.string.save_test_button))
                 }
             }
@@ -133,8 +151,8 @@ fun TestScreen(
 @Composable
 private fun DateAndTimePicker(
     instant: Instant = Clock.System.now(),
-    modifier: Modifier = Modifier,
-    title: (@Composable () -> Unit)? = null
+    title: (@Composable () -> Unit)? = null,
+    modifier: Modifier = Modifier
 ) {
     val dateTime = instant.toLocalDateTime()
 
@@ -145,18 +163,24 @@ private fun DateAndTimePicker(
     val endTimeState = rememberTimePickerState(initialHour = dateTime.hour)
 
     Card(modifier = modifier) {
-        DatePicker(
-            state = endDateState,
-            title = title
-        )
-        TimeInput(
-            state = endTimeState,
-            modifier = Modifier.fillMaxWidth()
-        )
+        Column(
+            modifier = Modifier.padding(5.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            DatePicker(
+                state = endDateState,
+                title = title,
+//                headline = { },
+//                showModeToggle = false
+            )
+            TimeInput(state = endTimeState)
+        }
     }
 }
 
 @Composable
-fun Question(question: Question) {
-    Text(text = question.text)
+fun Question(question: Question, modifier: Modifier = Modifier) {
+    Card(modifier = modifier.padding(bottom = 10.dp)) {
+        Text(text = question.text, modifier = Modifier.padding(5.dp))
+    }
 }
