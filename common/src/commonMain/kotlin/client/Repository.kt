@@ -1,30 +1,35 @@
 package client
 
-import Course
-import Test
 import client.network.ClientApi
 import dev.boringx.Database
+import dev.boringx.Test
+import Repository
+import users.User
 
 class Repository(
     private val database: Database,
     private val api: ClientApi,
-) {
+) : Repository(database = database) {
 
-    fun getCourses(): List<Course> {
-        return database.courseQueries
-            .selectAll { id, name -> Course(name = name ?: "") }
-            .executeAsList()
+    override suspend fun getTests(): List<Test> {
+        val localTests = super.getTests()
+        val remoteTests = api.getTests()
+        remoteTests.forEach {
+            database.testQueries.insert(
+                creator_id = it.creator_id,
+                course_id = it.course_id,
+                name = it.name,
+                start_at = it.start_at,
+                end_at = it.end_at,
+                created_at = it.created_at
+            )
+        }
+        return remoteTests.ifEmpty { localTests }
     }
 
-    suspend fun getTests(): List<Test> {
-        val localTests = database.testQueries.selectAll().executeAsList()
-        // if user has internet also execute this V
-        val remoteTests = api.getTests()
-
-        // update local database with new remote entries
-        remoteTests.forEach {
-            database.testQueries
-        }
-        return remoteTests
+    override suspend fun createUser(user: User) {
+        super.createUser(user)
+        api.registerUser(user)
+        // TODO: if there was no internet, mark it by someway (to later, with internet, end with registering user)
     }
 }
