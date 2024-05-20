@@ -5,7 +5,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 fun Instant.toHumanReadable(): String {
-    with(toLocalDateTime(TimeZone.currentSystemDefault())) {
+    with(toLocalDateTime()) {
         return "$hour:$minute, $dayOfMonth.$monthNumber.$year"
     }
 }
+
+fun Instant.toLocalDateTime() =
+    toLocalDateTime(TimeZone.currentSystemDefault())
