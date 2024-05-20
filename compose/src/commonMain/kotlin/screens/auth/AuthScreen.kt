@@ -45,7 +45,6 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun AuthScreen(
-    userViewModel: UserViewModel,
     authViewModel: AuthViewModel
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
@@ -72,14 +71,20 @@ fun AuthScreen(
         )
         TextField(
             value = authViewModel.name,
-            onValueChange = { inputName -> authViewModel.name = inputName },
+            onValueChange = { inputName ->
+                authViewModel.name = inputName
+                authViewModel.validateRegistration()
+            },
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(Res.string.name)) },
             singleLine = true,
         )
         TextField(
             value = authViewModel.email,
-            onValueChange = { inputEmail -> authViewModel.email = inputEmail },
+            onValueChange = { inputEmail ->
+                authViewModel.email = inputEmail
+                authViewModel.validateRegistration()
+            },
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(Res.string.email)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -98,6 +103,8 @@ fun AuthScreen(
                     onCourseClick = { checked ->
                         if (checked) authViewModel.pickedCourses.add(course)
                         else authViewModel.pickedCourses.remove(course)
+
+                        authViewModel.validateRegistration()
                     }
                 )
             }
@@ -105,7 +112,8 @@ fun AuthScreen(
 
         Button(
             onClick = { authViewModel.registerUser() },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            enabled = authViewModel.isAllowedToRegister
         ) {
             Text(text = stringResource(Res.string.register))
         }
