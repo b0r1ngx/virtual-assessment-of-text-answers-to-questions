@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "dev.boringx"
@@ -42,9 +43,11 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.decompose)
+            api(libs.decompose)
+            api(libs.essenty.lifecycle)
             implementation(libs.decompose.extensions.compose)
             implementation(libs.essenty.lifecycle.coroutines)
+            implementation(libs.kotlinx.serialization)
         }
         androidMain.dependencies {
 //            implementation(libs.koin.androidx.compose)

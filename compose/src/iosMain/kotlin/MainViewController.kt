@@ -1,7 +1,10 @@
 import androidx.compose.ui.window.ComposeUIViewController
+import platform.UIKit.UIViewController
+import root.RootComponent
+import root.RootContent
 
 @Suppress("unused", "FunctionName")
-fun MainViewController() =
+fun MainViewController(root: RootComponent): UIViewController =
     ComposeUIViewController {
-        App(sqlDriverFactory = SqlDriverFactory())
+        RootContent(component = root)
     }
