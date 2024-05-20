@@ -15,3 +15,13 @@ fun Title(text: String, modifier: Modifier = Modifier) {
         style = MaterialTheme.typography.headlineMedium,
     )
 }
+
+@Composable
+fun Subtitle(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        modifier = modifier,
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.titleMedium
+    )
+}
