@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
@@ -29,9 +30,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.boringx.compose.generated.resources.Res
+import dev.boringx.compose.generated.resources.choose_courses
 import dev.boringx.compose.generated.resources.choose_role
 import dev.boringx.compose.generated.resources.email
 import dev.boringx.compose.generated.resources.name
+import dev.boringx.compose.generated.resources.register
 import model.UserType
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
@@ -43,7 +46,6 @@ fun AuthScreen(
     authViewModel: AuthViewModel
 ) {
     Column {
-        // pick-up student / teacher
         Text(text = stringResource(Res.string.choose_role))
         TabBar(
             selectedTab = authViewModel.userType,
@@ -55,6 +57,7 @@ fun AuthScreen(
             onValueChange = { inputName -> authViewModel.name = inputName },
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(Res.string.name)) },
+            singleLine = true,
         )
 
         TextField(
@@ -63,9 +66,10 @@ fun AuthScreen(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(Res.string.email)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            singleLine = true,
         )
 
-        // choose courses
+        Text(text = stringResource(Res.string.choose_courses))
         LazyColumn {
             items(authViewModel.courses) { course ->
                 CourseCheckbox(
@@ -78,6 +82,11 @@ fun AuthScreen(
             }
         }
 
+        Button(onClick = {
+            authViewModel.registerUser()
+        }) {
+            Text(text = stringResource(Res.string.register))
+        }
     }
 }
 

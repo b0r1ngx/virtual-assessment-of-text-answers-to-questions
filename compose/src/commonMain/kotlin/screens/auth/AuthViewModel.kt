@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import client.Repository
 import model.UserType
+import users.User
 
 class AuthViewModel(
     private val repository: Repository,
@@ -19,4 +20,15 @@ class AuthViewModel(
 
     val pickedCourses = mutableListOf<Course>()
 
+    fun registerUser() {
+        repository.createUser(
+            user = User(
+                type = userType.value.ordinal,
+                name = name,
+                email = email
+            )
+        )
+        //
+        // must to save this thing in shared preferences?
+    }
 }
