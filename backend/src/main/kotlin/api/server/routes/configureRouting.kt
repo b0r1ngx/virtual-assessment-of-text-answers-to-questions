@@ -1,11 +1,16 @@
 package api.server.routes
 
 import Repository
+import dev.boringx.Test
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
+import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
+import io.ktor.server.routing.put
+import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 
 fun Application.configureRouting(repository: Repository) {
@@ -13,10 +18,28 @@ fun Application.configureRouting(repository: Repository) {
         get("/") {
             call.respondText("Hello, world!")
         }
+    }
+//    userRoutes(repository)
+    testRoutes(repository)
+}
 
-        get("/tests") {
-            val tests = repository.getTests()
-            call.respond(tests)
+fun Application.testRoutes(repository: Repository) {
+    routing {
+        route("/tests") {
+            get {
+                val tests = repository.getTests()
+                call.respond(tests)
+            }
+
+            put {
+                val test = call.receive<Test>()
+                repository.createTest(test)
+                call.respond(HttpStatusCode.Created)
+            }
         }
     }
+}
+
+fun Application.userRoutes(repository: Repository) {
+    TODO("Not yet implemented")
 }
