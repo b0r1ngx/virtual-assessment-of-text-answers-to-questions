@@ -1,4 +1,4 @@
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import client.Repository
 import client.network.ClientApi
@@ -16,11 +16,11 @@ fun App(sqlDriverFactory: SqlDriverFactory) {
         api = ClientApi()
     )
     val userViewModel = UserViewModel(repository)
-    val authViewModel = AuthViewModel(repository)
+    val authViewModel = AuthViewModel(repository) // provide it with userViewModel::setUser
     val testsViewModel = TestsViewModel(repository)
 
     MaterialTheme {
-        AuthScreen(userViewModel, authViewModel)
-//        TestsScreen(userViewModel, testsViewModel)
+//        AuthScreen(authViewModel)
+        TestsScreen(userViewModel, testsViewModel)
     }
 }

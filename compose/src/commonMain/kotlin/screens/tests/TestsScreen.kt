@@ -7,20 +7,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -44,12 +42,12 @@ import dev.boringx.compose.generated.resources.no_available_tests
 import dev.boringx.compose.generated.resources.start_at
 import dev.boringx.compose.generated.resources.tests
 import kotlinx.datetime.Clock
+import model.UserType
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import screens.tests.tabs.TestsTab
 import screens.utils.choosePlural
 import screens.utils.toHumanReadable
-import model.UserType
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -64,7 +62,7 @@ fun TestsScreen(
             text = stringResource(Res.string.tests),
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colors.surface)
+                .background(color = MaterialTheme.colorScheme.surface)
         )
 
         // if user is teacher, tabbar must have other tabs
@@ -79,14 +77,17 @@ fun TestsScreen(
             selectedTab = selectedTab.value,
             tests = testsViewModel.tests,
             modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colors.background.copy(alpha = .5f))
+//                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background.copy(alpha = .5f))
         )
 
         if (userViewModel.user?.type == UserType.Teacher.ordinal) {
-            Button(onClick = {
-                // TODO: navigate user to TestScreen, but with empty data
-            }) {
+            Button(
+                onClick = {
+                    // TODO: navigate user to TestScreen, but with empty data
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            ) {
                 Text(text = stringResource(Res.string.create_test))
             }
         }
@@ -106,7 +107,7 @@ private fun TabBar(
     TabRow(
         selectedTabIndex = selectedIndex,
         modifier = modifier,
-        backgroundColor = Color.Transparent,
+        containerColor = Color.Transparent,
     ) {
         tabs.forEachIndexed { index, tab ->
             Tab(
@@ -192,7 +193,7 @@ private fun TestStatus(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun TestCard(
     test: Test,

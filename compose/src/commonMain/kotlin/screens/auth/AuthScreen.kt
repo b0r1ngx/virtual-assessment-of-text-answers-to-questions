@@ -1,7 +1,6 @@
 package screens.auth
 
 import Course
-import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,13 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -52,12 +51,12 @@ fun AuthScreen(
             text = stringResource(Res.string.registration),
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colors.surface)
+                .background(color = MaterialTheme.colorScheme.surface)
         )
 
         Text(
             text = stringResource(Res.string.choose_role),
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.titleLarge
         )
         TabBar(
             selectedTab = authViewModel.userType,
@@ -67,7 +66,7 @@ fun AuthScreen(
         Text(
             text = "Укажите свои данные",
             modifier = Modifier.padding(top = 20.dp),
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.titleLarge
         )
         TextField(
             value = authViewModel.name,
@@ -94,7 +93,7 @@ fun AuthScreen(
         Text(
             text = stringResource(Res.string.choose_courses),
             modifier = Modifier.padding(top = 20.dp),
-            style = MaterialTheme.typography.h6
+            style = MaterialTheme.typography.titleLarge
         )
         LazyColumn {
             items(authViewModel.courses) { course ->
@@ -134,7 +133,7 @@ private fun TabBar(
     TabRow(
         selectedTabIndex = selectedIndex,
         modifier = modifier,
-        backgroundColor = Color.Transparent,
+        containerColor = Color.Transparent,
     ) {
         tabs.forEachIndexed { index, tab ->
             Tab(

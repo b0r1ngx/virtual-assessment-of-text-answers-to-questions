@@ -5,8 +5,8 @@ import UserViewModel
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.add_question_button
@@ -55,6 +55,16 @@ fun TestScreen(
         }
     } else {
         // edit test
+//        Column(
+//            horizontalAlignment = Alignment.Start,
+//            modifier = Modifier.padding(5.dp)
+//        ) {
+//            Text(text = test.name)
+//            UserText(user = test.creator)
+//            Text(text = stringResource(Res.string.start_at, test.start_at.toHumanReadable()))
+//            Text(text = stringResource(Res.string.end_at, test.end_at.toHumanReadable()))
+//            Text(text = stringResource(choosePlural(test.questions.size), test.questions.size))
+//        }
 
         Button(onClick = {
             // TODO: Allow to add question via dialog?/ navigate to other screen
