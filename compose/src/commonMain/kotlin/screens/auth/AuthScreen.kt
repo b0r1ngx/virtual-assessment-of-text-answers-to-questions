@@ -2,7 +2,6 @@ package screens.auth
 
 import Course
 import UserViewModel
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
@@ -45,13 +45,21 @@ fun AuthScreen(
     userViewModel: UserViewModel,
     authViewModel: AuthViewModel
 ) {
-    Column {
-        Text(text = stringResource(Res.string.choose_role))
+    Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+        Text(
+            text = stringResource(Res.string.choose_role),
+            style = MaterialTheme.typography.h6
+        )
         TabBar(
             selectedTab = authViewModel.userType,
             modifier = Modifier.fillMaxWidth()
         )
 
+        Text(
+            text = "Укажите свои данные",
+            modifier = Modifier.padding(top = 20.dp),
+            style = MaterialTheme.typography.h6
+        )
         TextField(
             value = authViewModel.name,
             onValueChange = { inputName -> authViewModel.name = inputName },
@@ -59,7 +67,6 @@ fun AuthScreen(
             label = { Text(text = stringResource(Res.string.name)) },
             singleLine = true,
         )
-
         TextField(
             value = authViewModel.email,
             onValueChange = { inputEmail -> authViewModel.email = inputEmail },
@@ -69,7 +76,11 @@ fun AuthScreen(
             singleLine = true,
         )
 
-        Text(text = stringResource(Res.string.choose_courses))
+        Text(
+            text = stringResource(Res.string.choose_courses),
+            modifier = Modifier.padding(top = 20.dp),
+            style = MaterialTheme.typography.h6
+        )
         LazyColumn {
             items(authViewModel.courses) { course ->
                 CourseCheckbox(
@@ -82,9 +93,10 @@ fun AuthScreen(
             }
         }
 
-        Button(onClick = {
-            authViewModel.registerUser()
-        }) {
+        Button(
+            onClick = { authViewModel.registerUser() },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
             Text(text = stringResource(Res.string.register))
         }
     }
@@ -128,7 +140,7 @@ private fun CourseCheckbox(
     var checked by rememberSaveable { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.border(width = 1.dp, color = Color.Cyan),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(checked = checked, onCheckedChange = {
