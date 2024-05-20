@@ -25,7 +25,7 @@ import users.User
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-internal class DefaultRootComponent(
+class DefaultRootComponent(
     sqlDriverFactory: SqlDriverFactory,
     componentContext: ComponentContext,
 ) : RootComponent, ComponentContext by componentContext {
