@@ -5,11 +5,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import client.Repository
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import kotlinx.coroutines.SupervisorJob
 import model.UserType
+import kotlin.coroutines.CoroutineContext
 
 class AuthViewModel(
+    componentContext: ComponentContext,
+    mainCoroutineContext: CoroutineContext,
     private val repository: Repository,
-) {
+) : ComponentContext by componentContext {
+
+    // The scope is automatically cancelled when the component is destroyed
+    private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
+
     // TODO: use User DTO
     var userType = mutableStateOf(UserType.Student)
     var name by mutableStateOf("")

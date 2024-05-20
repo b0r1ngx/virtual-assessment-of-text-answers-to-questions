@@ -4,6 +4,7 @@ import Course
 import Question
 import Test
 import client.Repository
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,6 +13,7 @@ import model.UiState
 import model.UserType
 import users.User
 import viewmodel.AppViewModel
+import kotlin.coroutines.CoroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -42,7 +44,11 @@ private val mockOSBQuestions = listOf(
 
 private val mockTests = listOf(
     Test(
-        creator = User(type = UserType.Teacher.ordinal, name = "Лупин Анатолий Викторович", email = "lupin.av@edu.spbstu.ru"),
+        creator = User(
+            type = UserType.Teacher.ordinal,
+            name = "Лупин Анатолий Викторович",
+            email = "lupin.av@edu.spbstu.ru"
+        ),
         name = "Промежуточное тестирование",
         course = Course(name = "Цифровая обработка сигналов"),
         start_at = Clock.System.now().minus(2.toDuration(DurationUnit.HOURS)),
@@ -50,7 +56,11 @@ private val mockTests = listOf(
         questions = mockTelecomQuestions
     ),
     Test(
-        creator = User(type = UserType.Teacher.ordinal, name = "Богач Наталья Владимировна", email = "bogach.nv@edu.spbstu.ru"),
+        creator = User(
+            type = UserType.Teacher.ordinal,
+            name = "Богач Наталья Владимировна",
+            email = "bogach.nv@edu.spbstu.ru"
+        ),
         name = "Промежуточное тестирование",
         course = Course(name = "Телекоммуникационные технологии"),
         start_at = Clock.System.now(),
@@ -58,7 +68,11 @@ private val mockTests = listOf(
         questions = mockTelecomQuestions
     ),
     Test(
-        creator = User(type = UserType.Teacher.ordinal, name = "Тарасов Олег Михайлович", email = "tarasov.om@edu.spbstu.ru"),
+        creator = User(
+            type = UserType.Teacher.ordinal,
+            name = "Тарасов Олег Михайлович",
+            email = "tarasov.om@edu.spbstu.ru"
+        ),
         name = "Экзамен",
         course = Course(name = "Архитектура ЭВМ"),
         start_at = Clock.System.now(),
@@ -66,7 +80,11 @@ private val mockTests = listOf(
         questions = mockArchitectureQuestions
     ),
     Test(
-        creator = User(type = UserType.Teacher.ordinal, name = "Малышев Игорь Алексеевич", email = "malyshev.ia@edu.spbstu.ru"),
+        creator = User(
+            type = UserType.Teacher.ordinal,
+            name = "Малышев Игорь Алексеевич",
+            email = "malyshev.ia@edu.spbstu.ru"
+        ),
         name = "Итоговое тестирование",
         course = Course(name = "Основы операционных систем"),
         start_at = Clock.System.now(),
@@ -76,8 +94,10 @@ private val mockTests = listOf(
 )
 
 class TestsViewModel(
-    private val repository: Repository
-) : AppViewModel {
+    componentContext: ComponentContext,
+    mainCoroutineContext: CoroutineContext,
+    private val repository: Repository,
+) : AppViewModel, ComponentContext by componentContext {
     private val _uiState = MutableStateFlow(UiState())
     override val uiState = _uiState.asStateFlow()
 
