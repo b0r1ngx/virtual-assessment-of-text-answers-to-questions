@@ -14,12 +14,14 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
+// https://ktor.io/docs/server-native.html#native-target
 // TODO: After some point, try to use guide explained here https://github.com/ktorio/ktor-documentation/tree/2.3.10/codeSnippets/snippets/embedded-server-native
-//  to run a Ktor server in a Kotlin/Native application (not via JVM ?)
+//  to run a Ktor server in a Kotlin/Native application (not via JVM)
 dependencies {
     // don't understand to the end, what sqldelight implementation to use here...
     // below dependency (native) on macOS indicates error
 //    implementation("app.cash.sqldelight:native-driver:2.0.2")
+    implementation(project(":common"))
     implementation(project(":dto"))
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)

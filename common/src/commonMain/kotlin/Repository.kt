@@ -1,9 +1,8 @@
-import Course
 import dev.boringx.Database
 import dev.boringx.Test
 import users.User
 
-abstract class Repository(private val database: Database) {
+open class Repository(private val database: Database) {
     fun getCourses(): List<Course> {
         return database.courseQueries
             .selectAll { id, name -> Course(name = name) }

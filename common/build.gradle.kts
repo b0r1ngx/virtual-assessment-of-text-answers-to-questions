@@ -9,6 +9,10 @@ group = "dev.boringx"
 version = "1.0-SNAPSHOT"
 
 kotlin {
+    // now for Backend, but later must be changed to native things
+    // Server goes Unix-style, so use linux target
+    jvm()
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -46,6 +50,9 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.sqldelight.native.driver)
+        }
+        jvmMain.dependencies {
+            implementation(libs.sqldelight.jvm.driver)
         }
     }
 }
