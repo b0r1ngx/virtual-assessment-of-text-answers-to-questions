@@ -5,10 +5,10 @@ import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import components.Title
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.add_question_button
@@ -33,12 +32,12 @@ import dev.boringx.compose.generated.resources.save_test_button
 import dev.boringx.compose.generated.resources.test
 import dev.boringx.compose.generated.resources.test_creation
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import model.UserType
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
+import screens.utils.toHours
 import screens.utils.toLocalDateTime
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +57,7 @@ fun TestScreen(
         Text(
             text = stringResource(Res.string.test_creation),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelLarge
         )
 
         if (userViewModel.user?.type == UserType.Student.ordinal) {
@@ -104,31 +103,14 @@ fun TestScreen(
                 testName = newTestName
             })
 
-            val instantNow = Clock.System.now()
-            val dateTime = instantNow.toLocalDateTime()
-            val startDateState = rememberDatePickerState(
-                initialSelectedDateMillis = instantNow.toEpochMilliseconds(),
-                initialDisplayMode = DisplayMode.Input
+            DateAndTimePicker(
+                title = { Text(text = "Дата и время начала теста") }
             )
-            val startTimeState = rememberTimePickerState(initialHour = dateTime.hour)
 
-            DatePicker(state = startDateState, modifier = Modifier.padding(16.dp), title = {
-                Text(text = "Дата и время начала теста")
-            })
-            TimeInput(state = startTimeState)
-
-            val endDateState = rememberDatePickerState(
-                initialSelectedDateMillis = instantNow.plus(1.toDuration(DurationUnit.HOURS))
-                    .toEpochMilliseconds(),
-                initialDisplayMode = DisplayMode.Input
-
+            DateAndTimePicker(
+                instant = Clock.System.now().plus(1.toHours()),
+                title = { Text(text = "Дата и время завершения теста") }
             )
-            val endTimeState = rememberTimePickerState(initialHour = dateTime.hour + 1)
-
-            DatePicker(state = endDateState, modifier = Modifier.padding(16.dp), title = {
-                Text(text = "Дата и время завершения теста")
-            })
-            TimeInput(state = endTimeState)
 
             Button(onClick = {
                 // TODO: Allow to add question via dialog?/ navigate to other screen
@@ -144,6 +126,33 @@ fun TestScreen(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DateAndTimePicker(
+    instant: Instant = Clock.System.now(),
+    modifier: Modifier = Modifier,
+    title: (@Composable () -> Unit)? = null
+) {
+    val dateTime = instant.toLocalDateTime()
+
+    val endDateState = rememberDatePickerState(
+        initialSelectedDateMillis = instant.toEpochMilliseconds(),
+        initialDisplayMode = DisplayMode.Input
+    )
+    val endTimeState = rememberTimePickerState(initialHour = dateTime.hour)
+
+    Card(modifier = modifier) {
+        DatePicker(
+            state = endDateState,
+            title = title
+        )
+        TimeInput(
+            state = endTimeState,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
