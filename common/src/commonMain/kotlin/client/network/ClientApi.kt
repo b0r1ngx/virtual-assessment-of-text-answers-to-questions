@@ -1,12 +1,17 @@
 package client.network
 
+import dev.boringx.Test
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import Test
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import users.User
 
 /*
  This class executes network requests and deserializes JSON responses
@@ -34,4 +39,11 @@ class ClientApi {
     suspend fun getTests(): List<Test> =
         httpClient.get("")
             .body()
+
+    // TODO: On this endpoint, on server-side, call repository.createUser
+    suspend fun registerUser(user: User) = httpClient
+        .post("") {
+            contentType(ContentType.Application.Json)
+            setBody(user)
+        }
 }
