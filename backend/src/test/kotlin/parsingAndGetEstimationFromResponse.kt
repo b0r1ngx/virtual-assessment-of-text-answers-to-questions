@@ -7,11 +7,11 @@ internal fun parsingAndGetAssessmentFromResponseTest() {
         "1st-steps-with-yagpt/prompt-response-200.json" to 10,
         "1st-steps-with-yagpt/prompt-response-at-web-to-documentation-style.json" to 8,
     )
-    for (rawJsonToAnswer in rawJsonToAnswers) {
-        val promptResponse = getStringFromJsonFile(rawJsonToAnswer.first)
+    for ((rawJson, answer) in rawJsonToAnswers) {
+        val promptResponse = getStringFromJsonFile(rawJson)
         assertEquals(
             actual = getAssessmentFromPromptResponse(promptResponse),
-            expected = rawJsonToAnswer.second
+            expected = answer
         )
     }
 }

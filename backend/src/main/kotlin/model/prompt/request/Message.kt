@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Message(
-    val role: String, // Role
-    val text: String
+    val role: String,
+    val text: String,
 )

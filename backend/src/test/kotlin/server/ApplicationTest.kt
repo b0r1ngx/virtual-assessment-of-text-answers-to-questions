@@ -1,6 +1,6 @@
 package server
 
-import api.server.routes.module
+import api.server.module
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode

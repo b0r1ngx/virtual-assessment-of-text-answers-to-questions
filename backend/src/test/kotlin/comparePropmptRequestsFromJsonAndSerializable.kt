@@ -7,7 +7,7 @@ import utils.getStringFromJsonFile
 import kotlin.test.assertEquals
 
 internal fun comparePromptRequestsFromJsonAndSerializableTest() {
-    val promptResponse = getStringFromJsonFile(
+    val promptRequest = getStringFromJsonFile(
         fileName = "1st-steps-with-yagpt/prompt-request-template.json"
     ).apply { replace(oldValue = ": ", newValue = ":") }
 
@@ -32,6 +32,6 @@ internal fun comparePromptRequestsFromJsonAndSerializableTest() {
 
     assertEquals(
         actual = data.encodeToString(),
-        expected = promptResponse
+        expected = promptRequest
     )
 }
