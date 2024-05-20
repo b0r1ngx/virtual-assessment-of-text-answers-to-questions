@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +47,7 @@ import org.jetbrains.compose.resources.stringResource
 import screens.tests.tabs.TestsTab
 import screens.utils.choosePlural
 import screens.utils.toHumanReadable
+import styles.RoundedCornerBy16
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -211,12 +211,12 @@ private fun TestCard(
         // for missed - show questions to student, dont allow teacher to edit
         // false, if test.start_at > Clock.System.now()
         enabled = true,
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerBy16,
 //        backgroundColor = Color.Yellow // Завершенные, зеленые - оцененные, желтые - ожидают оценки, красные - пропущенные?
     ) {
         Column(
+            modifier = Modifier.padding(5.dp),
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(5.dp)
         ) {
             Text(text = test.name)
             UserText(user = test.creator)
