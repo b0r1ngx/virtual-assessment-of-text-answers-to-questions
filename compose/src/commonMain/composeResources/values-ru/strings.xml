@@ -2,6 +2,7 @@
     <string name="app_name">Виртуальное оценивание</string>
 
     <!-- Auth screen-->
+    <string name="registration">Регистрация</string>
     <string name="choose_role">Выберите роль</string>
     <string name="student">Студент</string>
     <string name="teacher">Учитель</string>
