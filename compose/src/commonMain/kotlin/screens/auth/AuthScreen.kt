@@ -2,6 +2,7 @@ package screens.auth
 
 import Course
 import UserViewModel
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,12 +30,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import components.Title
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.choose_courses
 import dev.boringx.compose.generated.resources.choose_role
 import dev.boringx.compose.generated.resources.email
 import dev.boringx.compose.generated.resources.name
 import dev.boringx.compose.generated.resources.register
+import dev.boringx.compose.generated.resources.registration
 import model.UserType
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
@@ -46,6 +49,13 @@ fun AuthScreen(
     authViewModel: AuthViewModel
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+        Title(
+            text = stringResource(Res.string.registration),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colors.surface)
+        )
+
         Text(
             text = stringResource(Res.string.choose_role),
             style = MaterialTheme.typography.h6
