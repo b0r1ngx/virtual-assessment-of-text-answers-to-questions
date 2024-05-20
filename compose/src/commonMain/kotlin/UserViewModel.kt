@@ -1,8 +1,12 @@
-import model.UserType
+import client.Repository
+import users.User
 
-class UserViewModel {
-    val userType: UserType = UserType.Student
+class UserViewModel(
+    private val repository: Repository
+) {
+    var user: User? = null
 //        get() {
 //            //// get from shared pref, if null, navigate user to Auth Screen
 //        }
+
 }
