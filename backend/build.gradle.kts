@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") // use multiplatform, to work via Kotlin/Native on linux/macos, instead of JVM
     alias(libs.plugins.kotlin.serialization)
 //    alias(libs.plugins.sqldelight) // is it needed here?
 //    alias(libs.plugins.ktor) // is it needed here?
