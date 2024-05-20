@@ -30,6 +30,6 @@ class Repository(
     override suspend fun createUser(user: User) {
         super.createUser(user)
         api.registerUser(user)
-        // TODO: if there was no internet, mark it by someway (to later, with internet, end with registering user)
+        // TODO: if there was no internet, mark it by someway (to later, with internet, end with registering user on server)
     }
 }
