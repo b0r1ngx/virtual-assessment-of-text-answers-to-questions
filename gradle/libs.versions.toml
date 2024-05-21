@@ -3,7 +3,7 @@ android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
 
-kotlin = "1.9.23" # compose 1.6.2 compatible with kotlin 1.9.23
+kotlin = "2.0.0" # compose 1.6.10 compatible with kotlin 2.0
 coroutines = "1.8.0"
 serialization = "1.6.3"
 datetime = "0.6.0"
@@ -14,12 +14,12 @@ sqldelight = "2.0.2"
 dotenv = "6.4.1"
 koin = "3.5.3"
 
-agp = "8.2.0"
+agp = "8.4.1"
 androidx-appcompat = "1.6.1"
-androidx-core-ktx = "1.13.0"
+androidx-core-ktx = "1.13.1"
 androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
-compose-plugin = "1.6.2"
+compose-plugin = "1.6.10"
 androidx-activity-compose = "1.9.0"
 androidx-lifecycle-viewmodel-compose = "2.8.0"
 compose = "1.6.7"
@@ -81,3 +81,4 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
