@@ -3,16 +3,25 @@ package screens.test
 import Question
 import UserViewModel
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -20,8 +29,12 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import components.Subtitle
 import components.Title
@@ -34,17 +47,19 @@ import dev.boringx.compose.generated.resources.test_creation
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import model.UserType
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import screens.utils.toHours
+import screens.tests.mockOSBQuestions
 import screens.utils.toLocalDateTime
+import styles.RoundedCornerBy16
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TestScreen(
     userViewModel: UserViewModel,
     testViewModel: TestViewModel
 ) {
+    val isStartAtExpanded = remember { mutableStateOf(false) }
+    val isEndAtExpanded = remember { mutableStateOf(false) }
+
     Column {
         Title(
             text = stringResource(Res.string.test),
@@ -58,6 +73,12 @@ fun TestScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.surface)
+        )
+
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 1.dp),
+            thickness = 1.dp,
+            color = Color.Black,
         )
 
         if (userViewModel.user?.type == UserType.Student.ordinal) {
@@ -102,33 +123,32 @@ fun TestScreen(
                 onValueChange = { newTestName ->
                     testViewModel.testName = newTestName
                 },
-                modifier = Modifier.padding(horizontal = 10.dp),
-                label = { Text(text = "Укажите тему теста (экзамен, ...)") }
+                modifier = Modifier.fillMaxWidth().padding(top = 5.dp, start = 10.dp, end = 10.dp),
+                label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
             )
 
-//            Row {
-            // add it to foldable objects
-//                DateAndTimePicker(
-//                    title = { Text(text = "Дата и время начала теста") },
-//                    modifier = Modifier.padding(10.dp)
-//                )
-
-            DateAndTimePicker(
-                instant = Clock.System.now().plus(1.toHours()),
-                title = { Text(text = "Дата и время завершения теста") },
-                modifier = Modifier.padding(10.dp) // .weight(1f)
+            // TODO: Later, drop default time values and until teacher provide it, don't allow to save the test.
+            DateAndTimePickerCard(
+                title = "Дата и время начала теста", // Date and time test start
+                isExpanded = isStartAtExpanded,
+                modifier = Modifier.padding(10.dp)
             )
-//            }
+
+            DateAndTimePickerCard(
+                title = "Дата и время завершения теста", // Date and time test finishing
+                isExpanded = isEndAtExpanded,
+                modifier = Modifier.padding(10.dp)
+            )
 
             LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
-                items(testViewModel.test.questions) { question ->
+                items(mockOSBQuestions) { question ->
                     Question(question = question)
                 }
             }
 
             Button(
                 onClick = {
-                    // TODO: Allow to add question via dialog?/ navigate to other screen
+                    // TODO: Allow to add question via dialog?
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {
@@ -144,6 +164,39 @@ fun TestScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DateAndTimePickerCard(
+    title: String,
+    isExpanded: MutableState<Boolean>,
+    instant: Instant = Clock.System.now(),
+    modifier: Modifier = Modifier
+) {
+    val onExpand = { isExpanded.value = !isExpanded.value }
+    Card(modifier = modifier, shape = RoundedCornerBy16) {
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable(onClick = onExpand),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = title)
+            ExpandButton(isExpanded = isExpanded.value, onClick = onExpand)
+        }
+
+        if (isExpanded.value)
+            DateAndTimePicker(instant = instant, modifier = Modifier.padding(5.dp))
+    }
+}
+
+@Composable
+private fun ExpandButton(isExpanded: Boolean, onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+            contentDescription = null
+        )
     }
 }
 
