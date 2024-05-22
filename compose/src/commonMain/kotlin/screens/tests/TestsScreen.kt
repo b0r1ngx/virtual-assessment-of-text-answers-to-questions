@@ -49,7 +49,6 @@ import screens.utils.choosePlural
 import screens.utils.toHumanReadable
 import styles.RoundedCornerBy16
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TestsScreen(
     userViewModel: UserViewModel,
@@ -200,6 +199,7 @@ private fun TestCard(
     onTestClick: (Test) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // TODO: if teacher clicks on test that is not
     Card(
         onClick = { onTestClick(test) },
         modifier = modifier
