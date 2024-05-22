@@ -14,7 +14,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import screens.auth.AuthScreen
-import screens.test.TestScreen
+import screens.test.EditingTestScreen
 import screens.tests.TestsScreen
 
 @Composable
@@ -31,8 +31,7 @@ internal fun RootContent(
             ) {
                 when (val instance = it.instance) {
                     is RootComponent.Child.Auth -> AuthScreen(authViewModel = instance.component)
-                    is RootComponent.Child.Test -> TestScreen(
-                        userViewModel = component.userViewModel,
+                    is RootComponent.Child.EditingTest -> EditingTestScreen(
                         testViewModel = instance.component,
                     )
 

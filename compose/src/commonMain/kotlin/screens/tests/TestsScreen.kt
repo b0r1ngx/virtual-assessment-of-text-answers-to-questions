@@ -42,7 +42,6 @@ import dev.boringx.compose.generated.resources.start_at
 import dev.boringx.compose.generated.resources.tests
 import kotlinx.datetime.Clock
 import model.UserType
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import screens.tests.tabs.TestsTab
 import screens.utils.choosePlural
@@ -75,6 +74,7 @@ fun TestsScreen(
         Tests(
             selectedTab = selectedTab.value,
             tests = testsViewModel.tests,
+            onTestClick = testsViewModel.onTestClick,
             modifier = Modifier
 //                .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background.copy(alpha = .5f))
@@ -82,9 +82,7 @@ fun TestsScreen(
 
         if (userViewModel.user?.type == UserType.Teacher.ordinal) {
             Button(
-                onClick = {
-                    // TODO: navigate user to TestScreen, but with empty data
-                },
+                onClick = { testsViewModel.onTestClick(null) },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {
                 Text(text = stringResource(Res.string.create_test))
@@ -93,7 +91,6 @@ fun TestsScreen(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun TabBar(
     selectedTab: MutableState<TestsTab>,
@@ -121,11 +118,11 @@ private fun TabBar(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Tests(
     selectedTab: TestsTab,
     tests: List<Test>,
+    onTestClick: (Test) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -159,16 +156,13 @@ private fun Tests(
                         }
                     }
                 }) {
-                    TestCard(test = it, onTestClick = {
-                        // TODO: navigate to TestScreen,
-                    })
+                    TestCard(test = it, onTestClick = onTestClick)
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun TestStatus(
     status: TestStatus,
@@ -192,7 +186,6 @@ private fun TestStatus(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun TestCard(
     test: Test,

@@ -4,7 +4,7 @@ import Course
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import client.Repository
+import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class AuthViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
-    private val repository: Repository,
+    private val repository: ClientRepository,
 ) : ComponentContext by componentContext {
 
     // The scope is automatically cancelled when the component is destroyed

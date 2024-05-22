@@ -47,7 +47,6 @@ import dev.boringx.compose.generated.resources.test_creation
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
-import screens.tests.mockOSBQuestions
 import screens.utils.toLocalDateTime
 import styles.RoundedCornerBy16
 
@@ -81,8 +80,8 @@ fun EditingTestScreen(testViewModel: EditingTestViewModel) {
         )
 
         TextField(
-            value = testViewModel.testName,
-            onValueChange = { newTestName -> testViewModel.testName = newTestName },
+            value = testViewModel.name,
+            onValueChange = { newTestName -> testViewModel.name = newTestName },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp)
@@ -110,7 +109,7 @@ fun EditingTestScreen(testViewModel: EditingTestViewModel) {
             color = Color.Black,
         )
         LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
-            items(mockOSBQuestions) { question ->
+            items(testViewModel.questions.value ?: listOf()) { question ->
                 Question(question = question)
             }
         }
@@ -129,7 +128,7 @@ fun EditingTestScreen(testViewModel: EditingTestViewModel) {
 
             Button(
                 onClick = { testViewModel.saveTest() },
-                enabled = testViewModel.test.questions.isNotEmpty(),
+                enabled = testViewModel.questions.value?.isNotEmpty() ?: false,
             ) {
                 Text(text = stringResource(Res.string.save_test_button))
             }

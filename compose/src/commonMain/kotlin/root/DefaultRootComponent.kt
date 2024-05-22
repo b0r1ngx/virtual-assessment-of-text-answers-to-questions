@@ -1,29 +1,24 @@
 package root
 
-import Course
-import Question
 import SqlDriverFactory
 import Test
 import UserViewModel
-import client.Repository
+import client.ClientRepository
 import client.network.ClientApi
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import createDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
-import model.UserType
 import screens.auth.AuthViewModel
-import screens.test.TestViewModel
+import screens.test.EditingTestViewModel
 import screens.tests.TestsViewModel
-import users.User
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class DefaultRootComponent(
     sqlDriverFactory: SqlDriverFactory,
@@ -32,7 +27,7 @@ class DefaultRootComponent(
 
     private val database = createDatabase(sqlDriverFactory = sqlDriverFactory)
     private val clientApi = ClientApi()
-    private val repository = Repository(database = database, api = clientApi)
+    private val repository = ClientRepository(database = database, api = clientApi)
     override val userViewModel = UserViewModel(repository = repository)
 
     // TODO: if we doesn't know about user, navigate him to Auth
@@ -49,9 +44,12 @@ class DefaultRootComponent(
 
     private fun child(config: Config, componentContext: ComponentContext): RootComponent.Child =
         when (config) {
-            Config.Auth -> RootComponent.Child.Auth(authComponent(componentContext))
-            Config.Test -> RootComponent.Child.Test(testComponent(componentContext))
-            Config.Tests -> RootComponent.Child.Tests(testsComponent(componentContext))
+            is Config.Auth -> RootComponent.Child.Auth(authComponent(componentContext))
+            is Config.EditingTest -> RootComponent.Child.EditingTest(
+                editingTestComponent(componentContext, config)
+            )
+
+            is Config.Tests -> RootComponent.Child.Tests(testsComponent(componentContext))
         }
 
     private fun authComponent(componentContext: ComponentContext): AuthViewModel =
@@ -62,26 +60,16 @@ class DefaultRootComponent(
 //            onShowWelcome = { navigation.push(Config.Welcome) },
         )
 
-    private fun testComponent(componentContext: ComponentContext): TestViewModel =
-        TestViewModel(
+    private fun editingTestComponent(
+        componentContext: ComponentContext,
+        config: Config.EditingTest
+    ): EditingTestViewModel =
+        EditingTestViewModel(
             componentContext = componentContext,
             mainCoroutineContext = Dispatchers.Main.immediate,
-            test = Test( // mock, later delete
-                creator = User(
-                    type = UserType.Teacher.ordinal,
-                    name = "Лупин Анатолий Викторович",
-                    email = "lupin.av@edu.spbstu.ru"
-                ),
-                name = "Промежуточное тестирование",
-                course = Course(name = "Цифровая обработка сигналов"),
-                start_at = Clock.System.now().minus(2.toDuration(DurationUnit.HOURS)),
-                end_at = Clock.System.now().minus(1.toDuration(DurationUnit.HOURS)),
-                questions = listOf(
-                    Question(text = "Какое ядро имеет операционная система Microsoft Windows 10 ?"),
-                    Question(text = "Что происходит при выгрузке операционной системы из оперативной памяти компьютера ?")
-                )
-            ),
-//            onFinished = navigation::pop,
+            repository = repository,
+            test = config.test,
+            onFinished = navigation::pop,
         )
 
     private fun testsComponent(componentContext: ComponentContext): TestsViewModel =
@@ -89,6 +77,9 @@ class DefaultRootComponent(
             componentContext = componentContext,
             mainCoroutineContext = Dispatchers.Main.immediate,
             repository = repository,
+            onTestClick = { test ->
+                navigation.push(Config.EditingTest(test = test))
+            }
         )
 
     override fun onBackClicked(toIndex: Int) {
@@ -108,7 +99,7 @@ class DefaultRootComponent(
         data object Auth : Config
 
         @Serializable
-        data object Test : Config
+        data class EditingTest(val test: Test? = null) : Config
 
         @Serializable
         data object Tests : Config

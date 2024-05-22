@@ -1,9 +1,9 @@
-import client.Repository
+import client.ClientRepository
 import model.UserType
 import users.User
 
 class UserViewModel(
-    private val repository: Repository
+    private val repository: ClientRepository
 ) {
     var user: User? = User(type = UserType.Teacher.ordinal, name = "", email = "")
 //        get() {

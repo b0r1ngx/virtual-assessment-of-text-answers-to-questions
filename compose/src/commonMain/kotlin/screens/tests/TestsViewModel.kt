@@ -1,9 +1,10 @@
 package screens.tests
 
+import AppViewModel
 import Course
 import Question
 import Test
-import client.Repository
+import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,6 @@ import kotlinx.datetime.Clock
 import model.UiState
 import model.UserType
 import users.User
-import AppViewModel
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -96,7 +96,8 @@ private val mockTests = listOf(
 class TestsViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
-    private val repository: Repository,
+    private val repository: ClientRepository,
+    val onTestClick: (test: Test?) -> Unit
 ) : AppViewModel, ComponentContext by componentContext {
     private val _uiState = MutableStateFlow(UiState())
     override val uiState = _uiState.asStateFlow()
