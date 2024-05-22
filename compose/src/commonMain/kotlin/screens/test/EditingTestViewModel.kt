@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
 import kotlin.coroutines.CoroutineContext
 
-class TestViewModel(
+class EditingTestViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     val test: Test,
@@ -15,7 +15,7 @@ class TestViewModel(
     var testName by mutableStateOf("")
 
     fun saveTest() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
 }
