@@ -64,20 +64,20 @@ fun TestsScreen(
                 .background(color = MaterialTheme.colorScheme.surface)
         )
 
-        // if user is teacher, tabbar must have other tabs
+        // TODO: if user is teacher, tabbar must have other tabs
         // TeacherTabs:
         TabBar(
             selectedTab = selectedTab,
             modifier = Modifier.fillMaxWidth()
         )
 
-        // if user is teacher, filter must work by other rules
+        // TODO: if user is teacher, filter must work by other rules
         Tests(
             selectedTab = selectedTab.value,
-            tests = testsViewModel.tests,
+            tests = testsViewModel.tests + testsViewModel.tests,
             onTestClick = testsViewModel.onTestClick,
             modifier = Modifier
-//                .fillMaxSize()
+                .weight(1f)
                 .background(color = MaterialTheme.colorScheme.background.copy(alpha = .5f))
         )
 
@@ -145,7 +145,9 @@ private fun Tests(
                 }
             }
 
-            LazyColumn(verticalArrangement = Arrangement.SpaceBetween) {
+            LazyColumn(
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 // divide by test.course
                 items(items = tests.filter {
                     when (selectedTab) {
@@ -216,7 +218,13 @@ private fun TestCard(
             UserText(user = test.creator)
             Text(text = stringResource(Res.string.start_at, test.start_at.toHumanReadable()))
             Text(text = stringResource(Res.string.end_at, test.end_at.toHumanReadable()))
-            Text(text = pluralStringResource(Res.plurals.questions, test.questions.size, test.questions.size))
+            Text(
+                text = pluralStringResource(
+                    Res.plurals.questions,
+                    test.questions.size,
+                    test.questions.size
+                )
+            )
         }
     }
 }
