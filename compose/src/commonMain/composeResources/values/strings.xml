@@ -16,9 +16,11 @@
     <string name="no_available_tests">No available tests</string>
     <string name="start_at">Start at: %1$s</string>
     <string name="end_at">End at: %1$s</string>
-    <string name="questions_one">%1$d question</string>
-    <string name="questions_few">%1$d questions</string> <!-- use it just for Russian language convenient -->
-    <string name="questions_many">%1$d questions</string>
+    <plurals name="questions">
+        <item quantity="zero">no questions</item>
+        <item quantity="one">%1$d question</item>
+        <item quantity="other">%1$d questions</item>
+    </plurals>
     <string name="tests_tab_available">Available</string>
     <string name="tests_tab_passed">Passed</string>
     <string name="test_status_assessed">Assessed</string>

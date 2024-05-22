@@ -38,10 +38,8 @@ import dev.boringx.compose.generated.resources.name
 import dev.boringx.compose.generated.resources.register
 import dev.boringx.compose.generated.resources.registration
 import model.UserType
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun AuthScreen(
     authViewModel: AuthViewModel
@@ -120,7 +118,6 @@ fun AuthScreen(
 }
 
 // TODO: Same function like at TestsScreen, change func signature and place to components/
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun TabBar(
     selectedTab: MutableState<UserType>,

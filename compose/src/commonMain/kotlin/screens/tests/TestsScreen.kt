@@ -38,13 +38,14 @@ import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.create_test
 import dev.boringx.compose.generated.resources.end_at
 import dev.boringx.compose.generated.resources.no_available_tests
+import dev.boringx.compose.generated.resources.questions
 import dev.boringx.compose.generated.resources.start_at
 import dev.boringx.compose.generated.resources.tests
 import kotlinx.datetime.Clock
 import model.UserType
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import screens.tests.tabs.TestsTab
-import screens.utils.choosePlural
 import screens.utils.toHumanReadable
 import styles.RoundedCornerBy16
 
@@ -215,7 +216,7 @@ private fun TestCard(
             UserText(user = test.creator)
             Text(text = stringResource(Res.string.start_at, test.start_at.toHumanReadable()))
             Text(text = stringResource(Res.string.end_at, test.end_at.toHumanReadable()))
-            Text(text = stringResource(choosePlural(test.questions.size), test.questions.size))
+            Text(text = pluralStringResource(Res.plurals.questions, test.questions.size, test.questions.size))
         }
     }
 }
