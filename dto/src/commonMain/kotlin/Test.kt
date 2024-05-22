@@ -1,6 +1,8 @@
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
 import users.User
 
+@Serializable
 data class Test(
     val creator: User,
     val name: String,
