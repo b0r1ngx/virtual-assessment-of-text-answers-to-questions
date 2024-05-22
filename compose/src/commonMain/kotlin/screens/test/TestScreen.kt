@@ -21,7 +21,6 @@ import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -120,10 +119,8 @@ fun TestScreen(
 //        }
             TextField(
                 value = testViewModel.testName,
-                onValueChange = { newTestName ->
-                    testViewModel.testName = newTestName
-                },
-                modifier = Modifier.fillMaxWidth().padding(top = 5.dp, start = 10.dp, end = 10.dp),
+                onValueChange = { newTestName -> testViewModel.testName = newTestName },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp),
                 label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
             )
 
@@ -137,28 +134,36 @@ fun TestScreen(
             DateAndTimePickerCard(
                 title = "Дата и время завершения теста", // Date and time test finishing
                 isExpanded = isEndAtExpanded,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 15.dp)
             )
 
-            LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
+            Subtitle(text = "Вопросы", modifier = Modifier.fillMaxWidth())
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 1.dp),
+                thickness = 1.dp,
+                color = Color.Black,
+            )
+            LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
                 items(mockOSBQuestions) { question ->
                     Question(question = question)
                 }
             }
 
-            Button(
-                onClick = {
-                    // TODO: Allow to add question via dialog?
-                },
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
             ) {
-                Text(text = stringResource(Res.string.add_question_button))
-            }
+                Button(
+                    onClick = {
+                        // TODO: Allow to add question via dialog?
+                    },
+                ) {
+                    Text(text = stringResource(Res.string.add_question_button))
+                }
 
-            if (testViewModel.test.questions.isNotEmpty()) {
                 Button(
                     onClick = { testViewModel.saveTest() },
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    enabled = testViewModel.test.questions.isNotEmpty(),
                 ) {
                     Text(text = stringResource(Res.string.save_test_button))
                 }
@@ -177,26 +182,19 @@ private fun DateAndTimePickerCard(
     val onExpand = { isExpanded.value = !isExpanded.value }
     Card(modifier = modifier, shape = RoundedCornerBy16) {
         Row(
-            modifier = Modifier.fillMaxWidth().clickable(onClick = onExpand),
+            modifier = Modifier.fillMaxWidth().clickable(onClick = onExpand).padding(5.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(text = title)
-            ExpandButton(isExpanded = isExpanded.value, onClick = onExpand)
+            Icon(
+                imageVector = if (isExpanded.value) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                contentDescription = null
+            )
         }
 
         if (isExpanded.value)
-            DateAndTimePicker(instant = instant, modifier = Modifier.padding(5.dp))
-    }
-}
-
-@Composable
-private fun ExpandButton(isExpanded: Boolean, onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
-        Icon(
-            imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-            contentDescription = null
-        )
+            DateAndTimePicker(instant = instant)
     }
 }
 
@@ -208,26 +206,18 @@ private fun DateAndTimePicker(
     modifier: Modifier = Modifier
 ) {
     val dateTime = instant.toLocalDateTime()
-
     val endDateState = rememberDatePickerState(
         initialSelectedDateMillis = instant.toEpochMilliseconds(),
-        initialDisplayMode = DisplayMode.Input
+        initialDisplayMode = DisplayMode.Input,
     )
     val endTimeState = rememberTimePickerState(initialHour = dateTime.hour)
 
-    Card(modifier = modifier) {
-        Column(
-            modifier = Modifier.padding(5.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            DatePicker(
-                state = endDateState,
-                title = title,
-//                headline = { },
-//                showModeToggle = false
-            )
-            TimeInput(state = endTimeState)
-        }
+    Column(
+        modifier = modifier.padding(5.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        DatePicker(state = endDateState, title = title)
+        TimeInput(state = endTimeState)
     }
 }
 
