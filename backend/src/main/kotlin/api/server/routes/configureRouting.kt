@@ -1,8 +1,8 @@
 package api.server.routes
 
 import Repository
+import TestModel
 import User
-import dev.boringx.Test
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -50,14 +50,14 @@ fun Application.coursesRoutes(repository: Repository) {
 
 fun Application.testRoutes(repository: Repository) {
     routing {
-        route("/tests") {
+        route("/test") {
             get {
                 val tests = repository.getTests()
                 call.respond(tests)
             }
 
             put {
-                val test = call.receive<Test>()
+                val test = call.receive<TestModel>()
                 repository.createTest(test)
                 call.respond(HttpStatusCode.Created)
             }
