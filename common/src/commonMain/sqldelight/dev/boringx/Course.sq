@@ -10,3 +10,11 @@ INSERT INTO Course(name) VALUES ('Основы операционных сист
 
 selectAll:
 SELECT * FROM Course;
+
+selectAllBy:
+SELECT * FROM Course
+WHERE id = ?;
+
+selectAllIn:
+SELECT * FROM Course
+WHERE id IN ?;
