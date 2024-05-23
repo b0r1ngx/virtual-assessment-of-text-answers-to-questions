@@ -56,16 +56,18 @@ open class Repository(private val database: Database) {
     // suspending is only required by ClientRepository, because there is API call to server
     // but why databases interaction via SQLDelight are not async?
     open suspend fun createUser(user: User) {
-        database.transaction {
-            val newUserId: Long
-            with(database.userQueries) {
-                insert(user_type_id = user.type.toLong(), name = user.name, email = user.email)
-                newUserId = lastInsertRowId().executeAsOne()
-            }
-
-            user.courses.forEach { course ->
-                database.userCoursesQueries.insert(user_id = newUserId, course_id = course.id)
+        with(database) {
+            transaction {
+                val newUserId: Long
+                with(userQueries) {
+                    insert(user_type_id = user.type.toLong(), name = user.name, email = user.email)
+                    newUserId = lastInsertRowId().executeAsOne()
+                }
+                user.courses.forEach { course ->
+                    userCoursesQueries.insert(user_id = newUserId, course_id = course.id)
+                }
             }
         }
     }
+
 }
