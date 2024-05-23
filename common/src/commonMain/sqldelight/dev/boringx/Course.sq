@@ -1,6 +1,6 @@
 CREATE TABLE Course(
   id    INTEGER PRIMARY KEY,
-  name  TEXT NOT NULL
+  name  TEXT NOT NULL UNIQUE
 );
 
 INSERT INTO Course(name) VALUES ('Цифровая обработка сигналов');
