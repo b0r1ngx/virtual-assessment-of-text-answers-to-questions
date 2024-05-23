@@ -1,10 +1,14 @@
 CREATE TABLE Answer (
     text         TEXT NOT NULL,
     test_id      INTEGER NOT NULL REFERENCES Test(id),
-    question_id  INTEGER NOT NULL REFERENCES Question(id),
     student_id   INTEGER NOT NULL REFERENCES User(id),
-    PRIMARY KEY (test_id, question_id, student_id)
+    question_id  INTEGER NOT NULL REFERENCES Question(id),
+    PRIMARY KEY (test_id, student_id, question_id)
 );
+
+selectAllBy:
+SELECT * FROM Answer
+WHERE test_id = ? & student_id = ?;
 
 insert:
 INSERT INTO Answer(test_id, question_id, student_id, text)
