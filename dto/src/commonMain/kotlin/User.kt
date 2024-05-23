@@ -1,6 +1,3 @@
-package users
-
-import Course
 import kotlinx.serialization.Serializable
 
 @Serializable

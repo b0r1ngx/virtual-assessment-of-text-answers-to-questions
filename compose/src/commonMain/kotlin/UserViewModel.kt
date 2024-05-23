@@ -1,6 +1,5 @@
 import client.ClientRepository
 import model.UserType
-import users.User
 
 class UserViewModel(
     private val repository: ClientRepository

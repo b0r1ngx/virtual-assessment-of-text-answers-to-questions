@@ -12,6 +12,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import User
 
 fun Application.configureRouting(repository: Repository) {
     routing {
@@ -19,7 +20,7 @@ fun Application.configureRouting(repository: Repository) {
             call.respondText("Hello, world!")
         }
     }
-//    userRoutes(repository)
+    userRoutes(repository)
     testRoutes(repository)
 }
 
@@ -41,5 +42,13 @@ fun Application.testRoutes(repository: Repository) {
 }
 
 fun Application.userRoutes(repository: Repository) {
-    TODO("Not yet implemented")
+    routing {
+        route("/user") {
+            put {
+                val user = call.receive<User>()
+                repository.createUser(user = user)
+                call.respond(HttpStatusCode.Created)
+            }
+        }
+    }
 }

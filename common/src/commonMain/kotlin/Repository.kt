@@ -1,9 +1,9 @@
 import dev.boringx.Database
 import dev.boringx.Test
 import dev.boringx.TestQuestions
-import users.User
 
 open class Repository(private val database: Database) {
+    // TODO: Later, also make request to the API from ClientRepository
     fun getCourses(): List<Course> {
         return database.courseQueries
             .selectAll { id, name -> Course(name = name) }
@@ -53,11 +53,19 @@ open class Repository(private val database: Database) {
         }
     }
 
+    // suspending is only required by ClientRepository, because there is API call to server
+    // but why databases interaction via SQLDelight are not async?
     open suspend fun createUser(user: User) {
-        database.userQueries.insert(
-            user_type_id = user.type.toLong(),
-            name = user.name,
-            email = user.email
-        )
+        database.transaction {
+            database.userQueries.insert(
+                user_type_id = user.type.toLong(),
+                name = user.name,
+                email = user.email
+            )
+
+            database.userCoursesQueries.insert(
+
+            )
+        }
     }
 }

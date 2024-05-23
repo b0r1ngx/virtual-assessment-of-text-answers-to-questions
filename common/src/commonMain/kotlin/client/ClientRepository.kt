@@ -1,10 +1,10 @@
 package client
 
 import Repository
+import User
 import client.network.ClientApi
 import dev.boringx.Database
 import dev.boringx.Test
-import users.User
 
 class ClientRepository(
     private val database: Database,
