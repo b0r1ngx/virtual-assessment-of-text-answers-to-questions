@@ -1,6 +1,7 @@
 package client
 
 import Repository
+import TestModel
 import User
 import client.network.ClientApi
 import dev.boringx.Database
@@ -11,13 +12,13 @@ class ClientRepository(
     private val api: ClientApi,
 ) : Repository(database = database) {
 
-    override suspend fun createTest(test: Test) {
-        // map modelTest to Test DB Entity
+    override suspend fun createTest(test: TestModel) {
+        // map modelTest to TestModel DB Entity
         super.createTest(test)
         api.createTest(test)
     }
 
-    override suspend fun getTests(): List<Test> {
+    override suspend fun getTests(): List<TestModel> {
         val localTests = super.getTests()
         val remoteTests = api.getTests()
         remoteTests.forEach { test ->
@@ -25,8 +26,8 @@ class ClientRepository(
                 creator_id = test.creator_id,
                 course_id = test.course_id,
                 name = test.name,
-                start_at = test.start_at,
-                end_at = test.end_at,
+                start_at = test.start_at.toString(),
+                end_at = test.end_at.toString(),
                 created_at = test.created_at
             )
         }
