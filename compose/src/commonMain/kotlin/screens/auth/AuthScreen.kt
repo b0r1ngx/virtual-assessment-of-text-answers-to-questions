@@ -94,7 +94,7 @@ fun AuthScreen(
             style = MaterialTheme.typography.titleLarge
         )
         LazyColumn {
-            items(authViewModel.courses) { course ->
+            items(authViewModel.courses.value) { course ->
                 CourseCheckbox(
                     course = course,
                     onCourseClick = { checked ->
