@@ -1,7 +1,7 @@
 package root
 
 import SqlDriverFactory
-import Test
+import TestModel
 import UserViewModel
 import client.ClientRepository
 import client.network.ClientApi
@@ -130,12 +130,12 @@ class DefaultRootComponent(
         data object Tests : Config
 
         @Serializable
-        data class EditingTest(val test: Test? = null) : Config
+        data class EditingTest(val test: TestModel? = null) : Config
 
         @Serializable
-        data class PassingTest(val test: Test) : Config
+        data class PassingTest(val test: TestModel) : Config
 
         @Serializable
-        data class ResultTest(val test: Test) : Config
+        data class ResultTest(val test: TestModel) : Config
     }
 }

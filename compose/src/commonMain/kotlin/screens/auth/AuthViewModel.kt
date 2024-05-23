@@ -50,7 +50,7 @@ class AuthViewModel(
         scope.launch {
             repository.createUser(
                 user = User(
-                    type = userType.value.ordinal,
+                    typeId = userType.value.ordinal,
                     name = name,
                     email = email,
                     courses = pickedCourses

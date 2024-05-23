@@ -2,7 +2,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Test(
+data class TestModel(
     val creator: User,
     val name: String,
     val course: Course,

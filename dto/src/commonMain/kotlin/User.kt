@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class User(
-    val type: Int, // UserType
+    val typeId: Int, // UserType
     val name: String,
     val email: String,
     // TODO: later, delete default value? because in real app workflow, it is not possible to user has zero courses,

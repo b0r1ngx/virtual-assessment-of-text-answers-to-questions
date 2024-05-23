@@ -1,6 +1,6 @@
 package screens.tests
 
-import Test
+import TestModel
 import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -81,7 +81,7 @@ fun TestsScreen(
                 .background(color = MaterialTheme.colorScheme.background.copy(alpha = .5f))
         )
 
-        if (userViewModel.user?.type == UserType.Teacher.ordinal) {
+        if (userViewModel.user?.typeId == UserType.Teacher.ordinal) {
             Button(
                 onClick = { testsViewModel.onTestClick(null) },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -122,8 +122,8 @@ private fun TabBar(
 @Composable
 private fun Tests(
     selectedTab: TestsTab,
-    tests: List<Test>,
-    onTestClick: (Test) -> Unit,
+    tests: List<TestModel>,
+    onTestClick: (TestModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -191,8 +191,8 @@ private fun TestStatus(
 
 @Composable
 private fun TestCard(
-    test: Test,
-    onTestClick: (Test) -> Unit,
+    test: TestModel,
+    onTestClick: (TestModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     // TODO: if teacher clicks on test that is not

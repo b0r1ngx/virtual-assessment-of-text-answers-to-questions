@@ -1,6 +1,8 @@
 package client.network
 
 import SERVER_URL
+import TestModel
+import User
 import dev.boringx.Test
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,7 +15,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import User
 
 /*
  This class executes network requests and deserializes JSON responses
@@ -43,7 +44,7 @@ class ClientApi {
     suspend fun getTests(): List<Test> =
         httpClient.get("/tests").body()
 
-    suspend fun createTest(test: Test) {
+    suspend fun createTest(test: TestModel) {
         httpClient.put("/tests") {
             contentType(ContentType.Application.Json)
             setBody(test)

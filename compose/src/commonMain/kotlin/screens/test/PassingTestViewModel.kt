@@ -2,7 +2,7 @@ package screens.test
 
 import Answer
 import Question
-import Test
+import TestModel
 import androidx.compose.runtime.mutableStateOf
 import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
@@ -12,7 +12,7 @@ class PassingTestViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    test: Test,
+    test: TestModel,
     val onFinished: () -> Unit,
 ) : ComponentContext by componentContext {
     var answers =

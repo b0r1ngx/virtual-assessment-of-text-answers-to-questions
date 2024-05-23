@@ -1,6 +1,6 @@
 package screens.test
 
-import Test
+import TestModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,7 +12,7 @@ class EditingTestViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    test: Test? = null, // if null -> teacher is creating new test, if not he is editing
+    test: TestModel? = null, // if null -> teacher is creating new test, if not he is editing
     val onFinished: () -> Unit,
 ) : ComponentContext by componentContext {
 
@@ -25,7 +25,7 @@ class EditingTestViewModel(
     fun saveTest() {
         // TODO("Not yet implemented")
 //        repository.createTest(
-//            test = Test(
+//            test = TestModel(
 //                creator = ,// currentUser
 //                name = name,
 //                course = Course(name = course),

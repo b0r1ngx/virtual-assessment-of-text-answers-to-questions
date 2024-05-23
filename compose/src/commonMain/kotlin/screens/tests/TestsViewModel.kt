@@ -3,7 +3,7 @@ package screens.tests
 import AppViewModel
 import Course
 import Question
-import Test
+import TestModel
 import User
 import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
@@ -43,9 +43,9 @@ private val mockOSBQuestions = listOf(
 )
 
 private val mockTests = listOf(
-    Test(
+    TestModel(
         creator = User(
-            type = UserType.Teacher.ordinal,
+            typeId = UserType.Teacher.ordinal,
             name = "Лупин Анатолий Викторович",
             email = "lupin.av@edu.spbstu.ru"
         ),
@@ -55,9 +55,9 @@ private val mockTests = listOf(
         end_at = Clock.System.now().minus(1.toDuration(DurationUnit.HOURS)),
         questions = mockTelecomQuestions
     ),
-    Test(
+    TestModel(
         creator = User(
-            type = UserType.Teacher.ordinal,
+            typeId = UserType.Teacher.ordinal,
             name = "Богач Наталья Владимировна",
             email = "bogach.nv@edu.spbstu.ru"
         ),
@@ -67,9 +67,9 @@ private val mockTests = listOf(
         end_at = Clock.System.now().plus(1.toDuration(DurationUnit.HOURS)),
         questions = mockTelecomQuestions
     ),
-    Test(
+    TestModel(
         creator = User(
-            type = UserType.Teacher.ordinal,
+            typeId = UserType.Teacher.ordinal,
             name = "Тарасов Олег Михайлович",
             email = "tarasov.om@edu.spbstu.ru"
         ),
@@ -79,9 +79,9 @@ private val mockTests = listOf(
         end_at = Clock.System.now().plus(2.toDuration(DurationUnit.HOURS)),
         questions = mockArchitectureQuestions
     ),
-    Test(
+    TestModel(
         creator = User(
-            type = UserType.Teacher.ordinal,
+            typeId = UserType.Teacher.ordinal,
             name = "Малышев Игорь Алексеевич",
             email = "malyshev.ia@edu.spbstu.ru"
         ),
@@ -97,13 +97,13 @@ class TestsViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    val onTestClick: (test: Test?) -> Unit
+    val onTestClick: (test: TestModel?) -> Unit
 ) : AppViewModel, ComponentContext by componentContext {
     private val _uiState = MutableStateFlow(UiState())
     override val uiState = _uiState.asStateFlow()
 
-    private val _tests = mutableListOf<Test>()
-    val tests: List<Test> = mockTests // _tests
+    private val _tests = mutableListOf<TestModel>()
+    val tests: List<TestModel> = mockTests // _tests
 
     private var fetchJob: Job? = null
 
