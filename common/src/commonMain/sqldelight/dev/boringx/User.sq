@@ -10,3 +10,6 @@ CREATE TABLE User (
 insert:
 INSERT INTO User(user_type_id, name, email)
 VALUES(?, ?, ?);
+
+lastInsertRowId:
+SELECT last_insert_rowid();
