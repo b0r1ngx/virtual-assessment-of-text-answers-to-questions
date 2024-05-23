@@ -3,3 +3,11 @@ CREATE TABLE TestQuestions (
     question_id  INTEGER NOT NULL REFERENCES Question(id),
     PRIMARY KEY (test_id, question_id)
 );
+
+selectQuestionsIds:
+SELECT * FROM TestQuestions
+WHERE test_id = ?;
+
+insert:
+INSERT INTO TestQuestions(test_id, question_id)
+VALUES(test_id, question_id);
