@@ -3,3 +3,7 @@ CREATE TABLE UserCourses (
   course_id  INTEGER NOT NULL REFERENCES Course(id),
   PRIMARY KEY (user_id, course_id)
 );
+
+insert:
+INSERT INTO UserCourses(user_id, course_id)
+VALUES(user_id, course_id);
