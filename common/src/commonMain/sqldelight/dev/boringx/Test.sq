@@ -15,7 +15,7 @@ CREATE TABLE Test(
 selectAll:
 SELECT * FROM Test;
 
-selectBy:
+selectAllBy:
 SELECT * FROM Test
 WHERE course_id = ?;
 
