@@ -2,3 +2,11 @@ CREATE TABLE Question (
   id    INTEGER PRIMARY KEY,
   text  TEXT NOT NULL
 );
+
+selectAllBy:
+SELECT * FROM Question
+WHERE id = ?;
+
+insert:
+INSERT INTO Question(text)
+VALUES(?);
