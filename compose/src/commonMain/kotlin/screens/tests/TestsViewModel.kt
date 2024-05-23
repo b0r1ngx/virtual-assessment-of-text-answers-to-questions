@@ -7,9 +7,14 @@ import TestModel
 import User
 import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import model.UiState
 import model.UserType
@@ -99,16 +104,21 @@ class TestsViewModel(
     private val repository: ClientRepository,
     val onTestClick: (test: TestModel?) -> Unit
 ) : AppViewModel, ComponentContext by componentContext {
+
+    private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
+
     private val _uiState = MutableStateFlow(UiState())
     override val uiState = _uiState.asStateFlow()
 
-    private val _tests = mutableListOf<TestModel>()
-    val tests: List<TestModel> = mockTests // _tests
+    private val _tests: MutableStateFlow<List<TestModel>> = MutableStateFlow(listOf())
+    val tests: StateFlow<List<TestModel>> = _tests
 
     private var fetchJob: Job? = null
 
-    fun getTests() {
-        fetchJob?.cancel()
-        fetchJob
+    init {
+        scope.launch {
+            _tests.update { repository.getTests() } // mockTests
+        }
     }
+
 }

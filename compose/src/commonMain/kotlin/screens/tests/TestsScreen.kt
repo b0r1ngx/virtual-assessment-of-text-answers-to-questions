@@ -74,7 +74,7 @@ fun TestsScreen(
         // TODO: if user is teacher, filter must work by other rules
         Tests(
             selectedTab = selectedTab.value,
-            tests = testsViewModel.tests + testsViewModel.tests,
+            tests = testsViewModel.tests.value,
             onTestClick = testsViewModel.onTestClick,
             modifier = Modifier
                 .weight(1f)
