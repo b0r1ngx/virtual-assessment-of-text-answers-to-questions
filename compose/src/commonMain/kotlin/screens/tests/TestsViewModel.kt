@@ -4,6 +4,7 @@ import AppViewModel
 import Course
 import Question
 import Test
+import User
 import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.Job
@@ -12,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.Clock
 import model.UiState
 import model.UserType
-import User
 import kotlin.coroutines.CoroutineContext
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -50,7 +50,7 @@ private val mockTests = listOf(
             email = "lupin.av@edu.spbstu.ru"
         ),
         name = "Промежуточное тестирование",
-        course = Course(name = "Цифровая обработка сигналов"),
+        course = Course(id = 1, name = "Цифровая обработка сигналов"),
         start_at = Clock.System.now().minus(2.toDuration(DurationUnit.HOURS)),
         end_at = Clock.System.now().minus(1.toDuration(DurationUnit.HOURS)),
         questions = mockTelecomQuestions
@@ -62,7 +62,7 @@ private val mockTests = listOf(
             email = "bogach.nv@edu.spbstu.ru"
         ),
         name = "Промежуточное тестирование",
-        course = Course(name = "Телекоммуникационные технологии"),
+        course = Course(id = 2, name = "Телекоммуникационные технологии"),
         start_at = Clock.System.now(),
         end_at = Clock.System.now().plus(1.toDuration(DurationUnit.HOURS)),
         questions = mockTelecomQuestions
@@ -74,7 +74,7 @@ private val mockTests = listOf(
             email = "tarasov.om@edu.spbstu.ru"
         ),
         name = "Экзамен",
-        course = Course(name = "Архитектура ЭВМ"),
+        course = Course(id = 3, name = "Архитектура ЭВМ"),
         start_at = Clock.System.now(),
         end_at = Clock.System.now().plus(2.toDuration(DurationUnit.HOURS)),
         questions = mockArchitectureQuestions
@@ -86,7 +86,7 @@ private val mockTests = listOf(
             email = "malyshev.ia@edu.spbstu.ru"
         ),
         name = "Итоговое тестирование",
-        course = Course(name = "Основы операционных систем"),
+        course = Course(id = 4, name = "Основы операционных систем"),
         start_at = Clock.System.now(),
         end_at = Clock.System.now().plus(1.toDuration(DurationUnit.DAYS)),
         questions = mockOSBQuestions

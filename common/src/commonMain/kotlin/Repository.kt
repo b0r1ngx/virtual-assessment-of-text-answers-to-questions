@@ -6,7 +6,7 @@ open class Repository(private val database: Database) {
     // TODO: Later, also make request to the API from ClientRepository
     fun getCourses(): List<Course> {
         return database.courseQueries
-            .selectAll { id, name -> Course(name = name) }
+            .selectAll { id, name -> Course(id = id, name = name) }
             .executeAsList()
     }
 
@@ -57,15 +57,15 @@ open class Repository(private val database: Database) {
     // but why databases interaction via SQLDelight are not async?
     open suspend fun createUser(user: User) {
         database.transaction {
-            database.userQueries.insert(
-                user_type_id = user.type.toLong(),
-                name = user.name,
-                email = user.email
-            )
+            val newUserId: Long
+            with(database.userQueries) {
+                insert(user_type_id = user.type.toLong(), name = user.name, email = user.email)
+                newUserId = lastInsertRowId().executeAsOne()
+            }
 
-            database.userCoursesQueries.insert(
-
-            )
+            user.courses.forEach { course ->
+                database.userCoursesQueries.insert(user_id = newUserId, course_id = course.id)
+            }
         }
     }
 }
