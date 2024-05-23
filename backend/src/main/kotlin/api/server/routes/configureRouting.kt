@@ -1,6 +1,7 @@
 package api.server.routes
 
 import Repository
+import User
 import dev.boringx.Test
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -12,7 +13,6 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
-import User
 
 fun Application.configureRouting(repository: Repository) {
     routing {
@@ -21,7 +21,31 @@ fun Application.configureRouting(repository: Repository) {
         }
     }
     userRoutes(repository)
+    coursesRoutes(repository)
     testRoutes(repository)
+}
+
+fun Application.userRoutes(repository: Repository) {
+    routing {
+        route("/user") {
+            put {
+                val user = call.receive<User>()
+                repository.createUser(user = user)
+                call.respond(HttpStatusCode.Created)
+            }
+        }
+    }
+}
+
+fun Application.coursesRoutes(repository: Repository) {
+    routing {
+        route("/courses") {
+            get {
+                val courses = repository.getCourses()
+                call.respond(courses)
+            }
+        }
+    }
 }
 
 fun Application.testRoutes(repository: Repository) {
@@ -35,18 +59,6 @@ fun Application.testRoutes(repository: Repository) {
             put {
                 val test = call.receive<Test>()
                 repository.createTest(test)
-                call.respond(HttpStatusCode.Created)
-            }
-        }
-    }
-}
-
-fun Application.userRoutes(repository: Repository) {
-    routing {
-        route("/user") {
-            put {
-                val user = call.receive<User>()
-                repository.createUser(user = user)
                 call.respond(HttpStatusCode.Created)
             }
         }
