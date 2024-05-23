@@ -21,12 +21,12 @@ class AuthViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
+    val onRegister: () -> Unit,
 ) : ComponentContext by componentContext {
 
-    // The scope is automatically cancelled when the component is destroyed
+    // The scope is automatically cancelled when the ViewModel is destroyed
     private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
 
-    // TODO: use User DTO
     var userType = mutableStateOf(UserType.Student)
     var name by mutableStateOf("")
     var email by mutableStateOf("")
@@ -53,9 +53,10 @@ class AuthViewModel(
                     type = userType.value.ordinal,
                     name = name,
                     email = email,
-                    courses = courses.value
+                    courses = pickedCourses
                 )
             )
         }
+        onRegister()
     }
 }

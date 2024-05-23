@@ -56,9 +56,7 @@ class DefaultRootComponent(
                 passingTestComponent(componentContext, config)
             )
 
-            is Config.ResultTest -> RootComponent.Child.ResultTest(
-                resultTestComponent(config)
-            )
+            is Config.ResultTest -> RootComponent.Child.ResultTest(resultTestComponent(config))
         }
 
     private fun authComponent(
@@ -67,7 +65,7 @@ class DefaultRootComponent(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
-//            onShowWelcome = { navigation.push(Config.Welcome) },
+        onRegister = navigation::pop,
     )
 
     private fun testsComponent(
