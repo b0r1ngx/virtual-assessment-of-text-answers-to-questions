@@ -7,6 +7,10 @@ CREATE TABLE User (
   FOREIGN KEY(user_type_id) REFERENCES UserType(id)
 );
 
+selectAll:
+SELECT * FROM User
+WHERE id = ?;
+
 insert:
 INSERT INTO User(user_type_id, name, email)
 VALUES(?, ?, ?);
