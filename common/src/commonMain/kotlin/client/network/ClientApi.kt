@@ -3,7 +3,6 @@ package client.network
 import SERVER_URL
 import TestModel
 import User
-import dev.boringx.Test
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.DefaultRequest
@@ -41,11 +40,11 @@ class ClientApi {
 
     // call it when user first time open tests screen or user pull up (gesture) screen tests screen
     // TODO: Declare all endpoints at enum class in common module
-    suspend fun getTests(): List<Test> =
-        httpClient.get("/tests").body()
+    suspend fun getTests(): List<TestModel> =
+        httpClient.get("/test").body()
 
     suspend fun createTest(test: TestModel) {
-        httpClient.put("/tests") {
+        httpClient.put("/test") {
             contentType(ContentType.Application.Json)
             setBody(test)
         }
