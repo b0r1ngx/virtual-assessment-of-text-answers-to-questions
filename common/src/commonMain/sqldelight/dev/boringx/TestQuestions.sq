@@ -10,4 +10,4 @@ WHERE test_id = ?;
 
 insert:
 INSERT INTO TestQuestions(test_id, question_id)
-VALUES(test_id, question_id);
+VALUES(?, ?);

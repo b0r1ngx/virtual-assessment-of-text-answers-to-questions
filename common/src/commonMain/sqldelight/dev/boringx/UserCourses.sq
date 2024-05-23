@@ -10,4 +10,4 @@ WHERE user_id = ?;
 
 insert:
 INSERT INTO UserCourses(user_id, course_id)
-VALUES(user_id, course_id);
+VALUES(?, ?);
