@@ -1,6 +1,4 @@
 import dev.boringx.Database
-import dev.boringx.Test
-import dev.boringx.TestQuestions
 
 open class Repository(private val database: Database) {
     // TODO: Later, also make request to the API from ClientRepository
@@ -10,46 +8,82 @@ open class Repository(private val database: Database) {
             .executeAsList()
     }
 
-    open suspend fun getTests(): List<Test> {
-        // todo: use join in one query, instead tons of queries
+    // todo: use join in one query, instead tons of queries
+    //  (but how to then know what the data is out, is sqldelight handle this?
+    open suspend fun getTests(): List<TestModel> {
         val tests = database.testQueries.selectAll().executeAsList()
-        val testQuestions = mutableListOf<TestQuestions>()
+        val results: MutableList<TestModel> = mutableListOf()
         tests.forEach { test ->
-//            testQuestions.add(
-//                database.testQuestionsQueries
-//                    .selectBy(test_id = test.id)
-//                    .executeAsList()
-//            )
-        }
-        val questions = tests.forEach {
+            val user = database.userQueries
+                .selectAll(
+                    id = test.id,
+                    mapper = { _, userTypeId, name, email ->
+                        User(typeId = userTypeId.toInt(), name = name, email = email)
+                    }
+                )
+                .executeAsOne()
 
+            val course = database.courseQueries
+                .selectAllBy(
+                    id = test.course_id,
+                    mapper = { id, name -> Course(id, name) }
+                )
+                .executeAsOne()
+
+            val testQuestionsIds = database.testQuestionsQueries
+                .selectQuestionsIds(
+                    test_id = test.id,
+                    mapper = { _, questionId -> questionId }
+                )
+                .executeAsList()
+
+            val questions = database.questionQueries
+                .selectAllIn(id = testQuestionsIds, mapper = { id, text -> Question(id, text) })
+                .executeAsList()
+
+            results.add(
+                TestModel(
+                    creator = user,
+                    name = test.name,
+                    course = course,
+                    start_at = test.start_at,
+                    end_at = test.end_at,
+                    questions = questions
+                )
+            )
         }
-        return tests
+        return results
     }
 
-    open suspend fun createTest(test: Test) {
+    open suspend fun createTest(test: TestModel) {
         return database.testQueries.insert(
             creator_id = test.creator_id,
             course_id = test.course_id,
             name = test.name,
-            start_at = test.start_at,
-            end_at = test.end_at,
+            start_at = test.start_at.toString(),
+            end_at = test.end_at.toString(),
             created_at = test.created_at
         )
     }
 
     open suspend fun addAnswers(
         student: User,
-        test: Test,
+        test: TestModel,
         answers: Map<Question, Answer>
     ) {
-        answers.forEach { (question, answer) ->
+        // wrapping individual inserts in transaction is faster.
+        // source: https://stackoverflow.com/a/5009740/13432944
+        // TODO: test, w/o transaction, test insert multiple values, not individual
+        //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
+        database.transaction {
+            answers.forEach { (question, answer) ->
 //            database.answerQueries.insert(
 //                test_id = test.id,
 //                question_id = question.id,
 //                student_id = student.id,
 //                text = answer.text
 //            )
+            }
         }
     }
 
@@ -60,7 +94,11 @@ open class Repository(private val database: Database) {
             transaction {
                 val newUserId: Long
                 with(userQueries) {
-                    insert(user_type_id = user.type.toLong(), name = user.name, email = user.email)
+                    insert(
+                        user_type_id = user.typeId.toLong(),
+                        name = user.name,
+                        email = user.email
+                    )
                     newUserId = lastInsertRowId().executeAsOne()
                 }
                 user.courses.forEach { course ->
