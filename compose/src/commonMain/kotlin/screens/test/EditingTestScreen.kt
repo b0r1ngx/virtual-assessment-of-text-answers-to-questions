@@ -1,6 +1,7 @@
 package screens.test
 
 import Question
+import UserViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,7 +53,10 @@ import screens.utils.toLocalDateTime
 import styles.RoundedCornerBy16
 
 @Composable
-fun EditingTestScreen(testViewModel: EditingTestViewModel) {
+fun EditingTestScreen(
+    userViewModel: UserViewModel,
+    testViewModel: EditingTestViewModel,
+) {
     val isStartAtExpanded = remember { mutableStateOf(false) }
     val isEndAtExpanded = remember { mutableStateOf(false) }
 
@@ -140,7 +144,7 @@ fun EditingTestScreen(testViewModel: EditingTestViewModel) {
             }
 
             Button(
-                onClick = { testViewModel.saveTest() },
+                onClick = { testViewModel.saveTest(userViewModel.user) },
                 enabled = testViewModel.questions.value?.isNotEmpty() ?: false,
             ) {
                 Text(text = stringResource(Res.string.save_test_button))

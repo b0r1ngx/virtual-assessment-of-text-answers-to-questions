@@ -32,6 +32,7 @@ internal fun RootContent(
                 when (val instance = it.instance) {
                     is RootComponent.Child.Auth -> AuthScreen(authViewModel = instance.component)
                     is RootComponent.Child.EditingTest -> EditingTestScreen(
+                        userViewModel = component.userViewModel,
                         testViewModel = instance.component,
                     )
 
@@ -39,6 +40,9 @@ internal fun RootContent(
                         userViewModel = component.userViewModel,
                         testsViewModel = instance.component,
                     )
+
+                    is RootComponent.Child.PassingTest -> TODO()
+                    is RootComponent.Child.ResultTest -> TODO()
                 }
             }
         }
