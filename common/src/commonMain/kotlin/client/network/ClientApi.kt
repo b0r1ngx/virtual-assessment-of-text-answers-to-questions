@@ -1,5 +1,6 @@
 package client.network
 
+import Endpoints
 import SERVER_URL
 import TestModel
 import User
@@ -41,10 +42,10 @@ class ClientApi {
     // call it when user first time open tests screen or user pull up (gesture) screen tests screen
     // TODO: Declare all endpoints at enum class in common module
     suspend fun getTests(): List<TestModel> =
-        httpClient.get("/test").body()
+        httpClient.get(Endpoints.test.path).body()
 
     suspend fun createTest(test: TestModel) {
-        httpClient.put("/test") {
+        httpClient.put(Endpoints.test.path) {
             contentType(ContentType.Application.Json)
             setBody(test)
         }
@@ -53,7 +54,7 @@ class ClientApi {
 
     // TODO: On this endpoint, on server-side, call repository.createUser
     suspend fun registerUser(user: User) =
-        httpClient.put("/user") {
+        httpClient.put(Endpoints.user.path) {
             contentType(ContentType.Application.Json)
             setBody(user)
         }

@@ -1,5 +1,6 @@
 package api.server.routes
 
+import Endpoints
 import Repository
 import TestModel
 import User
@@ -27,7 +28,7 @@ fun Application.configureRouting(repository: Repository) {
 
 fun Application.userRoutes(repository: Repository) {
     routing {
-        route("/user") {
+        route(Endpoints.user.path) {
             put {
                 val user = call.receive<User>()
                 repository.createUser(user = user)
@@ -39,7 +40,7 @@ fun Application.userRoutes(repository: Repository) {
 
 fun Application.coursesRoutes(repository: Repository) {
     routing {
-        route("/courses") {
+        route(Endpoints.course.path) {
             get {
                 val courses = repository.getCourses()
                 call.respond(courses)
@@ -50,7 +51,7 @@ fun Application.coursesRoutes(repository: Repository) {
 
 fun Application.testRoutes(repository: Repository) {
     routing {
-        route("/test") {
+        route(Endpoints.test.path) {
             get {
                 val tests = repository.getTests()
                 call.respond(tests)
