@@ -18,6 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.Serializable
 import screens.auth.AuthViewModel
 import screens.test.EditingTestViewModel
+import screens.test.PassingTestViewModel
+import screens.test.ResultTestViewModel
 import screens.tests.TestsViewModel
 
 class DefaultRootComponent(
@@ -45,42 +47,70 @@ class DefaultRootComponent(
     private fun child(config: Config, componentContext: ComponentContext): RootComponent.Child =
         when (config) {
             is Config.Auth -> RootComponent.Child.Auth(authComponent(componentContext))
+            is Config.Tests -> RootComponent.Child.Tests(testsComponent(componentContext))
             is Config.EditingTest -> RootComponent.Child.EditingTest(
                 editingTestComponent(componentContext, config)
             )
 
-            is Config.Tests -> RootComponent.Child.Tests(testsComponent(componentContext))
+            is Config.PassingTest -> RootComponent.Child.PassingTest(
+                passingTestComponent(componentContext, config)
+            )
+
+            is Config.ResultTest -> RootComponent.Child.ResultTest(
+                resultTestComponent(config)
+            )
         }
 
-    private fun authComponent(componentContext: ComponentContext): AuthViewModel =
-        AuthViewModel(
-            componentContext = componentContext,
-            mainCoroutineContext = Dispatchers.Main.immediate,
-            repository = repository,
+    private fun authComponent(
+        componentContext: ComponentContext
+    ) = AuthViewModel(
+        componentContext = componentContext,
+        mainCoroutineContext = Dispatchers.Main.immediate,
+        repository = repository,
 //            onShowWelcome = { navigation.push(Config.Welcome) },
-        )
+    )
+
+    private fun testsComponent(
+        componentContext: ComponentContext,
+    ) = TestsViewModel(
+        componentContext = componentContext,
+        mainCoroutineContext = Dispatchers.Main.immediate,
+        repository = repository,
+        onTestClick = { test ->
+            navigation.push(Config.EditingTest(test = test))
+        }
+    )
 
     private fun editingTestComponent(
         componentContext: ComponentContext,
         config: Config.EditingTest
-    ): EditingTestViewModel =
-        EditingTestViewModel(
-            componentContext = componentContext,
-            mainCoroutineContext = Dispatchers.Main.immediate,
-            repository = repository,
-            test = config.test,
-            onFinished = navigation::pop,
-        )
+    ) = EditingTestViewModel(
+        componentContext = componentContext,
+        mainCoroutineContext = Dispatchers.Main.immediate,
+        repository = repository,
+        test = config.test,
+        onFinished = navigation::pop,
+    )
 
-    private fun testsComponent(componentContext: ComponentContext): TestsViewModel =
-        TestsViewModel(
-            componentContext = componentContext,
-            mainCoroutineContext = Dispatchers.Main.immediate,
-            repository = repository,
-            onTestClick = { test ->
-                navigation.push(Config.EditingTest(test = test))
-            }
-        )
+    private fun passingTestComponent(
+        componentContext: ComponentContext,
+        config: Config.PassingTest
+    ) = PassingTestViewModel(
+        componentContext = componentContext,
+        mainCoroutineContext = Dispatchers.Main.immediate,
+        repository = repository,
+        test = config.test,
+        onFinished = navigation::pop,
+    )
+
+    private fun resultTestComponent(
+        config: Config.ResultTest
+    ) = ResultTestViewModel(
+        mainCoroutineContext = Dispatchers.Main.immediate,
+        repository = repository,
+        test = config.test,
+        onFinished = navigation::pop,
+    )
 
     override fun onBackClicked(toIndex: Int) {
         navigation.popTo(index = toIndex)
@@ -99,9 +129,15 @@ class DefaultRootComponent(
         data object Auth : Config
 
         @Serializable
+        data object Tests : Config
+
+        @Serializable
         data class EditingTest(val test: Test? = null) : Config
 
         @Serializable
-        data object Tests : Config
+        data class PassingTest(val test: Test) : Config
+
+        @Serializable
+        data class ResultTest(val test: Test) : Config
     }
 }

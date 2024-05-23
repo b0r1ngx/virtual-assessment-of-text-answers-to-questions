@@ -13,7 +13,7 @@ class EditingTestViewModel(
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
     test: Test? = null, // if null -> teacher is creating new test, if not he is editing
-    onFinished: () -> Unit,
+    val onFinished: () -> Unit,
 ) : ComponentContext by componentContext {
 
     var name by mutableStateOf(test?.name ?: "")
@@ -32,6 +32,8 @@ class EditingTestViewModel(
 //
 //            )
 //        )
+        onFinished()
+        // show Toast / Snackbar that test is saved successfully
     }
 
 }

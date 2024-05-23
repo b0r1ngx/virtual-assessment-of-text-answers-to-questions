@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
@@ -59,19 +60,29 @@ fun EditingTestScreen(testViewModel: EditingTestViewModel) {
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     Column {
-        Title(
-            text = stringResource(Res.string.test),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.surface)
-        )
-        // create Enum TestScreenStatus
-        Subtitle(
-            text = stringResource(Res.string.test_creation),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.surface)
-        )
+        Row {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null,
+                modifier = Modifier.clickable(onClick = testViewModel.onFinished)
+            )
+
+            Column {
+                Title(
+                    text = stringResource(Res.string.test),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.surface)
+                )
+                // create Enum TestScreenStatus
+                Subtitle(
+                    text = stringResource(Res.string.test_creation),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.surface)
+                )
+            }
+        }
 
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 1.dp),
@@ -88,6 +99,8 @@ fun EditingTestScreen(testViewModel: EditingTestViewModel) {
                 .focusRequester(focusRequester),
             label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
         )
+
+        // TODO: Allow to choose course from User.courses via Picker
 
         // TODO: Later, drop default time values and until teacher provide it, don't allow to save the test.
         DateAndTimePickerCard(
