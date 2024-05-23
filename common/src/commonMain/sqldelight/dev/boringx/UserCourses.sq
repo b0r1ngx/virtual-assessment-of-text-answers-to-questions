@@ -4,6 +4,10 @@ CREATE TABLE UserCourses (
   PRIMARY KEY (user_id, course_id)
 );
 
+selectCoursesIds:
+SELECT course_id FROM UserCourses
+WHERE user_id = ?;
+
 insert:
 INSERT INTO UserCourses(user_id, course_id)
 VALUES(user_id, course_id);
