@@ -21,20 +21,24 @@ class ClientRepository(
         val localTests = super.getTests()
         val remoteTests = api.getTests()
         remoteTests.forEach { test ->
-            val firstLevelSameTests = localTests.filter {
-                test.creator == it.creator
-                        && test.course.name == it.course.name
-                        && test.name == it.name
-            }
-
-            val secondLevelSameTests = firstLevelSameTests.filter {
-                test.questions.size == it.questions.size
-                        && test.questions == it.questions
-            }
-
-            if (secondLevelSameTests.isEmpty()) super.createTest(test)
+            if (isTestAlreadyExistsLocally(test, localTests)) super.createTest(test)
         }
         return remoteTests.ifEmpty { localTests }
+    }
+
+    private fun isTestAlreadyExistsLocally(test: TestModel, at: List<TestModel>): Boolean {
+        val firstLevelSameTests = at.filter {
+            test.creator == it.creator
+                    && test.course.name == it.course.name
+                    && test.name == it.name
+        }
+
+        val secondLevelSameTests = firstLevelSameTests.filter {
+            test.questions.size == it.questions.size
+                    && test.questions == it.questions
+        }
+
+        return secondLevelSameTests.isNotEmpty()
     }
 
     override suspend fun createUser(user: User) {
