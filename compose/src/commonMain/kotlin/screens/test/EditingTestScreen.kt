@@ -48,7 +48,6 @@ import dev.boringx.compose.generated.resources.add_question_button
 import dev.boringx.compose.generated.resources.save_test_button
 import dev.boringx.compose.generated.resources.test
 import dev.boringx.compose.generated.resources.test_creation
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
 import screens.utils.toLocalDateTime
@@ -166,15 +165,14 @@ private fun DateAndTimePickerCard(
     isExpanded: MutableState<Boolean>,
     at: MutableState<Instant>,
     onExpandClosed: (at: MutableState<Instant>, dateMillis: Long, hour: Int, minute: Int) -> Unit,
-    instant: Instant = Clock.System.now(),
     modifier: Modifier = Modifier
 ) {
-    val dateTime = instant.toLocalDateTime()
+    val initialDateTime = at.value.toLocalDateTime()
+    val initialMillis = at.value.toEpochMilliseconds()
     val dateState = rememberDatePickerState(
-        initialSelectedDateMillis = instant.toEpochMilliseconds(),
-        initialDisplayMode = DisplayMode.Input,
+        initialSelectedDateMillis = initialMillis, initialDisplayMode = DisplayMode.Input,
     )
-    val timeState = rememberTimePickerState(initialHour = dateTime.hour)
+    val timeState = rememberTimePickerState(initialHour = initialDateTime.hour)
 
     val onExpand = {
         isExpanded.value = !isExpanded.value
@@ -182,7 +180,12 @@ private fun DateAndTimePickerCard(
         // selectedDateMillis can't be null, because we set initials for dateState
         //  (maybe can, not check the source implementation)
         if (!isExpanded.value)
-            onExpandClosed(at, dateState.selectedDateMillis!!, timeState.hour, timeState.hour)
+            onExpandClosed(
+                at,
+                dateState.selectedDateMillis ?: initialMillis,
+                timeState.hour,
+                timeState.hour
+            )
     }
 
     Card(modifier = modifier, shape = RoundedCornerBy16) {
@@ -211,29 +214,6 @@ private fun DateAndTimePicker(
     title: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.padding(5.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        DatePicker(state = dateState, title = title)
-        TimeInput(state = timeState)
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun _DateAndTimePicker(
-    instant: Instant = Clock.System.now(),
-    title: (@Composable () -> Unit)? = null,
-    modifier: Modifier = Modifier
-) {
-    val dateTime = instant.toLocalDateTime()
-    val dateState = rememberDatePickerState(
-        initialSelectedDateMillis = instant.toEpochMilliseconds(),
-        initialDisplayMode = DisplayMode.Input,
-    )
-    val timeState = rememberTimePickerState(initialHour = dateTime.hour)
-
     Column(
         modifier = modifier.padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
