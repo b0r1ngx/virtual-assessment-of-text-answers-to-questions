@@ -1,4 +1,7 @@
 import dev.boringx.Database
+import dev.boringx.UserQueries
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 open class Repository(private val database: Database) {
     // TODO: Later, also make request to the API from ClientRepository
@@ -43,11 +46,12 @@ open class Repository(private val database: Database) {
 
             results.add(
                 TestModel(
+                    id = test.id,
                     creator = user,
                     name = test.name,
                     course = course,
-                    start_at = test.start_at,
-                    end_at = test.end_at,
+                    start_at = Instant.parse(test.start_at),
+                    end_at = Instant.parse(test.end_at),
                     questions = questions
                 )
             )
@@ -57,12 +61,12 @@ open class Repository(private val database: Database) {
 
     open suspend fun createTest(test: TestModel) {
         return database.testQueries.insert(
-            creator_id = test.creator_id,
-            course_id = test.course_id,
+            creator_id = database.userQueries.getUser(test.creator.email).id,
+            course_id = test.course.id,
             name = test.name,
             start_at = test.start_at.toString(),
             end_at = test.end_at.toString(),
-            created_at = test.created_at
+            created_at = Clock.System.now().toString()
         )
     }
 
@@ -77,12 +81,12 @@ open class Repository(private val database: Database) {
         //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
         database.transaction {
             answers.forEach { (question, answer) ->
-//            database.answerQueries.insert(
-//                test_id = test.id,
-//                question_id = question.id,
-//                student_id = student.id,
-//                text = answer.text
-//            )
+                database.answerQueries.insert(
+                    test_id = test.id,
+                    student_id = database.userQueries.getUser(student.email).id,
+                    question_id = question.id,
+                    text = answer.text
+                )
             }
         }
     }
@@ -107,5 +111,8 @@ open class Repository(private val database: Database) {
             }
         }
     }
+
+    private fun UserQueries.getUser(email: String) =
+        selectAllBy(email).executeAsOne()
 
 }
