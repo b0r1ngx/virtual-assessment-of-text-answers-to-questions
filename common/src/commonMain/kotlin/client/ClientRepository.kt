@@ -5,7 +5,6 @@ import TestModel
 import User
 import client.network.ClientApi
 import dev.boringx.Database
-import dev.boringx.Test
 
 class ClientRepository(
     private val database: Database,
@@ -22,14 +21,18 @@ class ClientRepository(
         val localTests = super.getTests()
         val remoteTests = api.getTests()
         remoteTests.forEach { test ->
-            database.testQueries.insert(
-                creator_id = test.creator_id,
-                course_id = test.course_id,
-                name = test.name,
-                start_at = test.start_at.toString(),
-                end_at = test.end_at.toString(),
-                created_at = test.created_at
-            )
+            val firstLevelSameTests = localTests.filter {
+                test.creator == it.creator
+                        && test.course.name == it.course.name
+                        && test.name == it.name
+            }
+
+            val secondLevelSameTests = firstLevelSameTests.filter {
+                test.questions.size == it.questions.size
+                        && test.questions == it.questions
+            }
+
+            if (secondLevelSameTests.isEmpty()) super.createTest(test)
         }
         return remoteTests.ifEmpty { localTests }
     }
