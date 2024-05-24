@@ -11,5 +11,5 @@ SELECT * FROM Answer
 WHERE test_id = ? & student_id = ?;
 
 insert:
-INSERT INTO Answer(test_id, question_id, student_id, text)
+INSERT INTO Answer(test_id, student_id, question_id, text)
 VALUES(?, ?, ?, ?);
