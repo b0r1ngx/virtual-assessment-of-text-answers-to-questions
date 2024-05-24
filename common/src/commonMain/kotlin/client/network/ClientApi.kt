@@ -45,6 +45,7 @@ class ClientApi {
         return try {
             httpClient.get(Endpoints.test.path).body()
         } catch (e: Exception) {
+            println("error executing ClientApi.getTests(), show snackbar?")
             listOf()
         }
     }
@@ -56,7 +57,7 @@ class ClientApi {
                 setBody(test)
             }
         } catch (e: Exception) {
-
+            println("error executing ClientApi.createTest(), show snackbar?")
         }
     }
 
@@ -69,7 +70,7 @@ class ClientApi {
                 setBody(user)
             }
         } catch (e: Exception) {
-
+            println("error executing ClientApi.registerUser(), show snackbar?")
         }
     }
 
