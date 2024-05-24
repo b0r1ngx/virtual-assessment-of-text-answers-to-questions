@@ -41,21 +41,36 @@ class ClientApi {
 
     // call it when user first time open tests screen or user pull up (gesture) screen tests screen
     // TODO: Declare all endpoints at enum class in common module
-    suspend fun getTests(): List<TestModel> =
-        httpClient.get(Endpoints.test.path).body()
+    suspend fun getTests(): List<TestModel> {
+        return try {
+            httpClient.get(Endpoints.test.path).body()
+        } catch (e: Exception) {
+            listOf()
+        }
+    }
 
     suspend fun createTest(test: TestModel) {
-        httpClient.put(Endpoints.test.path) {
-            contentType(ContentType.Application.Json)
-            setBody(test)
+        try {
+            httpClient.put(Endpoints.test.path) {
+                contentType(ContentType.Application.Json)
+                setBody(test)
+            }
+        } catch (e: Exception) {
+
         }
     }
 
 
     // TODO: On this endpoint, on server-side, call repository.createUser
-    suspend fun registerUser(user: User) =
-        httpClient.put(Endpoints.user.path) {
-            contentType(ContentType.Application.Json)
-            setBody(user)
+    suspend fun registerUser(user: User) {
+        try {
+            httpClient.put(Endpoints.user.path) {
+                contentType(ContentType.Application.Json)
+                setBody(user)
+            }
+        } catch (e: Exception) {
+
         }
+    }
+
 }
