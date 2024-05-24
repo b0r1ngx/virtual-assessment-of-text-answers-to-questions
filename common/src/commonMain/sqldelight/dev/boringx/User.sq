@@ -2,7 +2,7 @@ CREATE TABLE User (
   id            INTEGER PRIMARY KEY,
   user_type_id  INTEGER NOT NULL,
   name          TEXT NOT NULL,
-  email         TEXT NOT NULL,
+  email         TEXT NOT NULL UNIQUE,
 
   FOREIGN KEY(user_type_id) REFERENCES UserType(id)
 );
@@ -10,6 +10,10 @@ CREATE TABLE User (
 selectAll:
 SELECT * FROM User
 WHERE id = ?;
+
+selectAllBy:
+SELECT * FROM User
+WHERE email = ?;
 
 insert:
 INSERT INTO User(user_type_id, name, email)
