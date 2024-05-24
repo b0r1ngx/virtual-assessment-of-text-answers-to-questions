@@ -3,7 +3,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TestModel(
-    val id: Long,
+    val id: Long = 0,
     val creator: User,
     val name: String,
     val course: Course,
