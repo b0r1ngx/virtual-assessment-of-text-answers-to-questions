@@ -6,6 +6,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
@@ -26,7 +28,12 @@ class EditingTestViewModel(
 
     private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
 
-    var name by mutableStateOf(test?.name ?: "")
+    var name by mutableStateOf(
+        TextFieldValue(
+            text = test?.name ?: "",
+            selection = TextRange((test?.name ?: "").length)
+        )
+    )
     var course by mutableStateOf(test?.course)
     var startAt = mutableStateOf(test?.start_at ?: Clock.System.now())
     var endAt = mutableStateOf(test?.end_at ?: Clock.System.now().plus(1.toHours()))
@@ -34,7 +41,7 @@ class EditingTestViewModel(
 
     fun validateTestCreation() {
         val now = Clock.System.now()
-        name.isNotBlank() &&
+        name.text.isNotBlank() &&
                 course != null &&
                 startAt.value >= now &&
                 endAt.value >= startAt.value &&
@@ -54,7 +61,7 @@ class EditingTestViewModel(
             repository.createTest(
                 test = TestModel(
                     creator = user,
-                    name = name,
+                    name = name.text,
                     course = course!!,
                     start_at = startAt.value!!,
                     end_at = endAt.value!!,
