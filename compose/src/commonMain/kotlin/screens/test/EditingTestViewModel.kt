@@ -2,6 +2,7 @@ package screens.test
 
 import TestModel
 import User
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,6 +11,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import screens.utils.toHours
 import kotlin.coroutines.CoroutineContext
 
 class EditingTestViewModel(
@@ -24,9 +28,24 @@ class EditingTestViewModel(
 
     var name by mutableStateOf(test?.name ?: "")
     var course by mutableStateOf(test?.course)
-    var start_at by mutableStateOf(test?.start_at)
-    var end_at by mutableStateOf(test?.end_at)
+    var startAt = mutableStateOf(test?.start_at ?: Clock.System.now())
+    var endAt = mutableStateOf(test?.end_at ?: Clock.System.now().plus(1.toHours()))
     val questions = mutableStateOf(test?.questions)
+
+    fun validateTestCreation() {
+        val now = Clock.System.now()
+        name.isNotBlank() &&
+                course != null &&
+                startAt.value >= now &&
+                endAt.value >= startAt.value &&
+                questions.value != null && questions.value?.isNotEmpty() ?: false
+    }
+
+    fun saveDateAndTime(at: MutableState<Instant>, dateMillis: Long, hour: Int, minute: Int) {
+        at.value = Instant.fromEpochMilliseconds(
+            epochMilliseconds = dateMillis + (((hour * 60) + minute) * 60) * 1000
+        )
+    }
 
     // TODO: it may be creating or editing a test, solve it at repository layer?
     //  check if test already exists, update values, instead of insert new
@@ -36,10 +55,10 @@ class EditingTestViewModel(
                 test = TestModel(
                     creator = user,
                     name = name,
-                    course = course,
-                    start_at = start_at,
-                    end_at = end_at,
-                    questions = questions
+                    course = course!!,
+                    start_at = startAt.value!!,
+                    end_at = endAt.value!!,
+                    questions = questions.value!!
                 )
             )
             // show Toast / Snackbar that test is saved successfully

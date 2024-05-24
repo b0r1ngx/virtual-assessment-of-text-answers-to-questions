@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -26,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TimeInput
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -110,12 +112,16 @@ fun EditingTestScreen(
         DateAndTimePickerCard(
             title = "Дата и время начала теста", // Date and time test start
             isExpanded = isStartAtExpanded,
+            at = testViewModel.startAt,
+            onExpandClosed = testViewModel::saveDateAndTime,
             modifier = Modifier.padding(10.dp)
         )
 
         DateAndTimePickerCard(
             title = "Дата и время завершения теста", // Date and time test finishing
             isExpanded = isEndAtExpanded,
+            at = testViewModel.endAt,
+            onExpandClosed = testViewModel::saveDateAndTime,
             modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 15.dp)
         )
 
@@ -153,14 +159,32 @@ fun EditingTestScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DateAndTimePickerCard(
     title: String,
     isExpanded: MutableState<Boolean>,
+    at: MutableState<Instant>,
+    onExpandClosed: (at: MutableState<Instant>, dateMillis: Long, hour: Int, minute: Int) -> Unit,
     instant: Instant = Clock.System.now(),
     modifier: Modifier = Modifier
 ) {
-    val onExpand = { isExpanded.value = !isExpanded.value }
+    val dateTime = instant.toLocalDateTime()
+    val dateState = rememberDatePickerState(
+        initialSelectedDateMillis = instant.toEpochMilliseconds(),
+        initialDisplayMode = DisplayMode.Input,
+    )
+    val timeState = rememberTimePickerState(initialHour = dateTime.hour)
+
+    val onExpand = {
+        isExpanded.value = !isExpanded.value
+
+        // selectedDateMillis can't be null, because we set initials for dateState
+        //  (maybe can, not check the source implementation)
+        if (!isExpanded.value)
+            onExpandClosed(at, dateState.selectedDateMillis!!, timeState.hour, timeState.hour)
+    }
+
     Card(modifier = modifier, shape = RoundedCornerBy16) {
         Row(
             modifier = Modifier.fillMaxWidth().clickable(onClick = onExpand).padding(5.dp),
@@ -175,30 +199,47 @@ private fun DateAndTimePickerCard(
         }
 
         if (isExpanded.value)
-            DateAndTimePicker(instant = instant)
+            DateAndTimePicker(dateState = dateState, timeState = timeState)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DateAndTimePicker(
+    dateState: DatePickerState,
+    timeState: TimePickerState,
+    title: (@Composable () -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(5.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        DatePicker(state = dateState, title = title)
+        TimeInput(state = timeState)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun _DateAndTimePicker(
     instant: Instant = Clock.System.now(),
     title: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     val dateTime = instant.toLocalDateTime()
-    val endDateState = rememberDatePickerState(
+    val dateState = rememberDatePickerState(
         initialSelectedDateMillis = instant.toEpochMilliseconds(),
         initialDisplayMode = DisplayMode.Input,
     )
-    val endTimeState = rememberTimePickerState(initialHour = dateTime.hour)
+    val timeState = rememberTimePickerState(initialHour = dateTime.hour)
 
     Column(
         modifier = modifier.padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        DatePicker(state = endDateState, title = title)
-        TimeInput(state = endTimeState)
+        DatePicker(state = dateState, title = title)
+        TimeInput(state = timeState)
     }
 }
 
