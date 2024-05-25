@@ -9,6 +9,7 @@ serialization = "1.6.3"
 datetime = "0.6.0"
 junit = "4.13.2"
 
+logback-classic = "1.5.6"
 ktor = "2.3.11"
 sqldelight = "2.0.2"
 dotenv = "6.4.1"
@@ -37,8 +38,10 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 

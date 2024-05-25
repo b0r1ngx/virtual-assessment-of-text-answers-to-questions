@@ -18,8 +18,11 @@ application {
 dependencies {
     implementation(project(":common"))
     implementation(project(":dto"))
+
+    implementation(libs.logback.classic)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.call.logging)
     implementation(libs.kotlinx.serialization)
     implementation(libs.dotenv)
     testImplementation(libs.kotlin.test.junit)
