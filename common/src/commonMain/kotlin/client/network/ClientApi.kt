@@ -1,7 +1,8 @@
 package client.network
 
 import Endpoints
-import SERVER_URL
+import LOCAL_SERVER_IP
+import LOCAL_SERVER_PORT
 import TestAnswers
 import TestModel
 import User
@@ -36,7 +37,7 @@ class ClientApi {
             })
         }
         install(DefaultRequest) {
-            url(SERVER_URL)
+            url(LOCAL_SERVER_IP + LOCAL_SERVER_PORT)
         }
     }
 
