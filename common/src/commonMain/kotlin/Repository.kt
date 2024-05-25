@@ -59,6 +59,7 @@ open class Repository(private val database: Database) {
         return results
     }
 
+    // todo: we must make this operation upsert
     open suspend fun createTest(test: TestModel) {
         return database.testQueries.insert(
             creator_id = database.userQueries.getUser(test.creator.email).id,
@@ -70,23 +71,21 @@ open class Repository(private val database: Database) {
         )
     }
 
-    open suspend fun addAnswers(
-        student: User,
-        test: TestModel,
-        answers: Map<Question, Answer>
-    ) {
-        // wrapping individual inserts in transaction is faster.
-        // source: https://stackoverflow.com/a/5009740/13432944
-        // TODO: test, w/o transaction, test insert multiple values, not individual
-        //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
-        database.transaction {
-            answers.forEach { (question, answer) ->
-                database.answerQueries.insert(
-                    test_id = test.id,
-                    student_id = database.userQueries.getUser(student.email).id,
-                    question_id = question.id,
-                    text = answer.text
-                )
+    // wrapping individual inserts in transaction is faster.
+    // source: https://stackoverflow.com/a/5009740/13432944
+    // TODO: test, w/o transaction, test insert multiple values, not individual
+    //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
+    fun saveAnswers(testAnswers: TestAnswers) {
+        with(testAnswers) {
+            database.transaction {
+                questionsToAnswers.forEach { (question, answer) ->
+                    database.answerQueries.insert(
+                        test_id = testId,
+                        student_id = database.userQueries.getUser(userEmail).id,
+                        question_id = question.id,
+                        text = answer.text
+                    )
+                }
             }
         }
     }
