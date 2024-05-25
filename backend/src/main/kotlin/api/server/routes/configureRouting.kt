@@ -11,6 +11,7 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.put
 import io.ktor.server.routing.route
@@ -18,65 +19,63 @@ import io.ktor.server.routing.routing
 
 fun Application.configureRouting(repository: Repository) {
     routing {
-        get("/") {
+        helloRoute()
+        testRoutes(repository)
+        answerRoutes(repository)
+        userRoutes(repository)
+        courseRoutes(repository)
+    }
+}
+
+fun Route.helloRoute() {
+    route("/") {
+        get {
             call.respondText("Hello, world!")
         }
     }
-    userRoutes(repository)
-    coursesRoutes(repository)
-    testRoutes(repository)
-    answerRoutes(repository)
 }
 
-fun Application.userRoutes(repository: Repository) {
-    routing {
-        route(Endpoints.user.path) {
-            put {
-                val user = call.receive<User>()
-                repository.createUser(user = user)
-                call.respond(HttpStatusCode.Created)
-            }
+fun Route.userRoutes(repository: Repository) {
+    route(Endpoints.user.path) {
+        put {
+            val user = call.receive<User>()
+            repository.createUser(user = user)
+            call.respond(HttpStatusCode.Created)
         }
     }
 }
 
-fun Application.coursesRoutes(repository: Repository) {
-    routing {
-        route(Endpoints.course.path) {
-            get {
-                val courses = repository.getCourses()
-                call.respond(courses)
-            }
+fun Route.courseRoutes(repository: Repository) {
+    route(Endpoints.course.path) {
+        get {
+            val courses = repository.getCourses()
+            call.respond(courses)
         }
     }
 }
 
-fun Application.testRoutes(repository: Repository) {
-    routing {
-        route(Endpoints.test.path) {
-            get {
-                val tests = repository.getTests()
-                call.respond(tests)
-            }
+fun Route.testRoutes(repository: Repository) {
+    route(Endpoints.test.path) {
+        get {
+            val tests = repository.getTests()
+            call.respond(tests)
+        }
 
-            put {
-                val test = call.receive<TestModel>()
-                repository.createTest(test)
-                call.respond(HttpStatusCode.Created)
-            }
+        put {
+            val test = call.receive<TestModel>()
+            repository.createTest(test)
+            call.respond(HttpStatusCode.Created)
         }
     }
 }
 
-fun Application.answerRoutes(repository: Repository) {
-    routing {
-        route(Endpoints.answer.path) {
-            put {
-                val testAnswers = call.receive<TestAnswers>()
-                repository.saveAnswers(testAnswers)
-                call.respond(HttpStatusCode.Created)
-            }
-            // add it to queue of the answers that must be assessed for virtual system
+fun Route.answerRoutes(repository: Repository) {
+    route(Endpoints.answer.path) {
+        put {
+            val testAnswers = call.receive<TestAnswers>()
+            repository.saveAnswers(testAnswers)
+            call.respond(HttpStatusCode.Created)
         }
+        // add it to queue of the answers that must be assessed for virtual system
     }
 }
