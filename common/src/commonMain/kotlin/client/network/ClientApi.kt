@@ -2,6 +2,7 @@ package client.network
 
 import Endpoints
 import SERVER_URL
+import TestAnswers
 import TestModel
 import User
 import io.ktor.client.HttpClient
@@ -71,6 +72,17 @@ class ClientApi {
             }
         } catch (e: Exception) {
             println("error executing ClientApi.registerUser(), show snackbar?")
+        }
+    }
+
+    suspend fun saveAnswers(testAnswers: TestAnswers) {
+        try {
+            httpClient.put(Endpoints.answer.path) {
+                contentType(ContentType.Application.Json)
+                setBody(testAnswers)
+            }
+        } catch (e: Exception) {
+            println("error executing ClientApi.saveAnswers(), show snackbar?")
         }
     }
 
