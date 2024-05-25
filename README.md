@@ -14,7 +14,7 @@ Multiple criteria vector of:
 - Coherence.
 
 ### System Design
-![image](https://github.com/b0r1ngx/virtual-assessment-of-text-answers-to-questions/assets/55315908/d10fa6d4-7071-4534-b645-594dc759eec6)
+<img width="869" alt="image" src="https://github.com/b0r1ngx/virtual-assessment-of-text-answers-to-questions/assets/55315908/156ad8ae-04b4-4fdd-8487-49d8c94cc9d8">
 
 ### Logical Structure of the Data
 <img width="911" alt="image" src="https://github.com/b0r1ngx/virtual-assessment-of-text-answers-to-questions/assets/55315908/14f798ef-6345-41fa-b6a7-3abba67753e1">
