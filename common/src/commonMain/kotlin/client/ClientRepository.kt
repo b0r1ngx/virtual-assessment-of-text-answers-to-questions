@@ -1,13 +1,14 @@
 package client
 
 import Repository
+import TestAnswers
 import TestModel
 import User
 import client.network.ClientApi
 import dev.boringx.Database
 
 class ClientRepository(
-    private val database: Database,
+    database: Database,
     private val api: ClientApi,
 ) : Repository(database = database) {
 
@@ -46,4 +47,10 @@ class ClientRepository(
         api.registerUser(user)
         // TODO: if there was no internet, mark it by someway (to later, with internet, end with registering user on server)
     }
+
+    suspend fun saveAnswers(testAnswers: TestAnswers, isTestCompleted: Boolean) {
+        super.saveAnswers(testAnswers)
+        if (isTestCompleted) api.saveAnswers(testAnswers)
+    }
+
 }
