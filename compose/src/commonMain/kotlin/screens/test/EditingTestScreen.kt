@@ -2,7 +2,6 @@ package screens.test
 
 import Question
 import UserViewModel
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
@@ -23,7 +21,6 @@ import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TimeInput
@@ -42,12 +39,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import components.Subtitle
-import components.Title
+import components.TopBar
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.add_question_button
 import dev.boringx.compose.generated.resources.save_test_button
 import dev.boringx.compose.generated.resources.test
-import dev.boringx.compose.generated.resources.test_creation
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
 import screens.utils.toLocalDateTime
@@ -65,29 +61,11 @@ fun EditingTestScreen(
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     Column {
-        Row {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null,
-                modifier = Modifier.clickable(onClick = testViewModel.onFinished)
-            )
-
-            Column {
-                Title(
-                    text = stringResource(Res.string.test),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.surface)
-                )
-                // create Enum TestScreenStatus
-                Subtitle(
-                    text = stringResource(Res.string.test_creation),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.surface)
-                )
-            }
-        }
+        TopBar(
+            title = stringResource(Res.string.test),
+            subtitle = stringResource(TestScreenStatus.Editing.res),
+            onBackButtonClick = testViewModel.onFinished,
+        )
 
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 1.dp),
