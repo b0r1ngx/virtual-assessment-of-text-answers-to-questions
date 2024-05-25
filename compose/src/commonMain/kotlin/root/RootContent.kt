@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,13 +16,14 @@ import screens.auth.AuthScreen
 import screens.test.EditingTestScreen
 import screens.test.PassingTestScreen
 import screens.tests.TestsScreen
+import theme.AppTheme
 
 @Composable
 internal fun RootContent(
     component: RootComponent,
     modifier: Modifier = Modifier,
 ) {
-    MaterialTheme {
+    AppTheme {
         Surface(modifier = modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars)) {
             Children(
                 stack = component.navigationStack,
