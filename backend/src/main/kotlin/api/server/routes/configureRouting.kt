@@ -2,6 +2,7 @@ package api.server.routes
 
 import Endpoints
 import Repository
+import TestAnswers
 import TestModel
 import User
 import io.ktor.http.HttpStatusCode
@@ -24,6 +25,7 @@ fun Application.configureRouting(repository: Repository) {
     userRoutes(repository)
     coursesRoutes(repository)
     testRoutes(repository)
+    answerRoutes(repository)
 }
 
 fun Application.userRoutes(repository: Repository) {
@@ -62,6 +64,19 @@ fun Application.testRoutes(repository: Repository) {
                 repository.createTest(test)
                 call.respond(HttpStatusCode.Created)
             }
+        }
+    }
+}
+
+fun Application.answerRoutes(repository: Repository) {
+    routing {
+        route(Endpoints.answer.path) {
+            put {
+                val testAnswers = call.receive<TestAnswers>()
+                repository.saveAnswers(testAnswers)
+                call.respond(HttpStatusCode.Created)
+            }
+            // add it to queue of the answers that must be assessed for virtual system
         }
     }
 }
