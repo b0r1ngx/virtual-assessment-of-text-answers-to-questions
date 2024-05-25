@@ -16,6 +16,7 @@ import com.arkivanov.decompose.value.Value
 import createDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.Serializable
+import model.UserType
 import screens.auth.AuthViewModel
 import screens.test.EditingTestViewModel
 import screens.test.PassingTestViewModel
@@ -74,8 +75,14 @@ class DefaultRootComponent(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
+        onCreateTestClick = { navigation.push(Config.EditingTest()) },
         onTestClick = { test ->
-            navigation.push(Config.EditingTest(test = test))
+            if (userViewModel.user.typeId == UserType.Student.ordinal)
+                // todo: if test is assessed by teacher, navigate to ResultTest
+                //  should we write this logic here?
+                navigation.push(Config.PassingTest(test = test))
+            else
+                navigation.push(Config.EditingTest(test = test))
         }
     )
 

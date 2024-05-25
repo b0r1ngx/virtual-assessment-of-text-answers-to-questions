@@ -8,7 +8,6 @@ import User
 import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -102,7 +101,8 @@ class TestsViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    val onTestClick: (test: TestModel?) -> Unit
+    val onCreateTestClick: () -> Unit,
+    val onTestClick: (test: TestModel) -> Unit
 ) : AppViewModel, ComponentContext by componentContext {
 
     private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
@@ -112,8 +112,6 @@ class TestsViewModel(
 
     private val _tests: MutableStateFlow<List<TestModel>> = MutableStateFlow(listOf())
     val tests: StateFlow<List<TestModel>> = _tests
-
-    private var fetchJob: Job? = null
 
     init {
         scope.launch {

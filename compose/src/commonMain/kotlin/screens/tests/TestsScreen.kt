@@ -81,9 +81,9 @@ fun TestsScreen(
                 .background(color = MaterialTheme.colorScheme.background.copy(alpha = .5f))
         )
 
-        if (userViewModel.user?.typeId == UserType.Teacher.ordinal) {
+        if (userViewModel.user.typeId == UserType.Teacher.ordinal) {
             Button(
-                onClick = { testsViewModel.onTestClick(null) },
+                onClick = testsViewModel.onCreateTestClick,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             ) {
                 Text(text = stringResource(Res.string.create_test))
