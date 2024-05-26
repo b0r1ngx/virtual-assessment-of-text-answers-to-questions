@@ -31,11 +31,11 @@ import org.jetbrains.compose.resources.stringResource
 fun AddQuestionDialog(
     onConfirmRequest: (text: String) -> Unit,
     onDismissRequest: () -> Unit,
-    text: String = "",
+    questionText: String = "",
     modifier: Modifier = Modifier,
 ) {
-    var input by mutableStateOf(
-        TextFieldValue(text = text, selection = TextRange(text.length))
+    var questionTextValue by mutableStateOf(
+        TextFieldValue(text = questionText, selection = TextRange(questionText.length))
     )
 
     val focusRequester = remember { FocusRequester() }
@@ -46,8 +46,8 @@ fun AddQuestionDialog(
             Text(text = "Введите текст вопроса")
 
             TextField(
-                value = input,
-                onValueChange = { newTestName -> input = newTestName },
+                value = questionTextValue,
+                onValueChange = { newQuestionText -> questionTextValue = newQuestionText },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp, vertical = 5.dp)
@@ -55,12 +55,18 @@ fun AddQuestionDialog(
                 label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End),
+            ) {
                 TextButton(onClick = onDismissRequest) {
                     Text(text = stringResource(Res.string.cancel_button))
                 }
 
-                TextButton(onClick = { onConfirmRequest(text) }) {
+                TextButton(onClick = {
+                    onConfirmRequest(questionTextValue.text)
+                    onDismissRequest()
+                }) {
                     Text(text = stringResource(Res.string.save_button))
                 }
             }
