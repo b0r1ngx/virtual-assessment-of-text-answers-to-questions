@@ -38,6 +38,7 @@
     <string name="question">Question</string>
     <string name="answer">Answer</string>
     <string name="answer_placeholder">Enter your answer here</string>
+    <string name="cancel_button">Cancel</string>
     <string name="save_button">Save</string>
     <string name="save_and_next_button">Save and go next</string>
     <string name="complete_test">Complete the test</string>

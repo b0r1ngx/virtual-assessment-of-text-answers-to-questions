@@ -41,6 +41,7 @@
     <string name="question">Вопрос</string>
     <string name="answer">Ответ</string>
     <string name="answer_placeholder">Поле для ввода ответа</string>
+    <string name="cancel_button">Отмена</string>
     <string name="save_button">Сохранить</string>
     <string name="save_and_next_button">Сохранить и перейти к следующему</string> <!-- Зафиксировать ответ и перейти к следующему вопросу -->
     <string name="complete_test">Завершить тест</string>
