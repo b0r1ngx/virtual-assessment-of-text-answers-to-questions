@@ -37,7 +37,7 @@ class EditingTestViewModel(
     var course by mutableStateOf(test?.course)
     var startAt = mutableStateOf(test?.start_at ?: Clock.System.now())
     var endAt = mutableStateOf(test?.end_at ?: Clock.System.now().plus(1.toHours()))
-    val questions = mutableStateOf(test?.questions)
+    val questions = mutableStateOf(test?.questions ?: listOf())
 
     fun validateTestCreation() {
         val now = Clock.System.now()
@@ -45,7 +45,7 @@ class EditingTestViewModel(
                 course != null &&
                 startAt.value >= now &&
                 endAt.value >= startAt.value &&
-                questions.value != null && questions.value?.isNotEmpty() ?: false
+                questions.value.isNotEmpty()
     }
 
     fun saveDateAndTime(at: MutableState<Instant>, dateMillis: Long, hour: Int, minute: Int) {
@@ -63,9 +63,9 @@ class EditingTestViewModel(
                     creator = user,
                     name = name.text,
                     course = course!!,
-                    start_at = startAt.value!!,
-                    end_at = endAt.value!!,
-                    questions = questions.value!!
+                    start_at = startAt.value,
+                    end_at = endAt.value,
+                    questions = questions.value
                 )
             )
             // show Toast / Snackbar that test is saved successfully
