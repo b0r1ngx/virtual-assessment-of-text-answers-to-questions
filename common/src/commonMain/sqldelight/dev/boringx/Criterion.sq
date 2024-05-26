@@ -8,3 +8,7 @@ INSERT INTO Criterion(name) VALUES ('Brevity');
 INSERT INTO Criterion(name) VALUES ('Style');
 INSERT INTO Criterion(name) VALUES ('Completeness');
 INSERT INTO Criterion(name) VALUES ('Coherence');
+
+selectCriterionName:
+SELECT name FROM Criterion
+WHERE id = ?;
