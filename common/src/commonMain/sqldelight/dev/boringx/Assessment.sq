@@ -1,7 +1,7 @@
 CREATE TABLE Assessment(
   id            INTEGER PRIMARY KEY,
   criterion_id  INTEGER NOT NULL,
-  mark          REAL NOT NULL,
+  mark          INTEGER NOT NULL,
   raw_response  TEXT NOT NULL,
 
   FOREIGN KEY(criterion_id) REFERENCES Criterion(id)
@@ -14,3 +14,6 @@ WHERE id = ?;
 insert:
 INSERT INTO Assessment(criterion_id, mark, raw_response)
 VALUES(?,?,?);
+
+lastInsertRowId:
+SELECT last_insert_rowid();
