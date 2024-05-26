@@ -1,0 +1,13 @@
+CREATE TABLE AnswerAssessment (
+    answer_id      INTEGER NOT NULL REFERENCES Test(id),
+    assessment_id  INTEGER NOT NULL REFERENCES Question(id),
+    PRIMARY KEY (answer_id, assessment_id)
+);
+
+selectAssessmentsIds:
+SELECT assessment_id FROM AnswerAssessment
+WHERE answer_id = ?;
+
+insert:
+INSERT INTO AnswerAssessment(answer_id, assessment_id)
+VALUES(?, ?);
