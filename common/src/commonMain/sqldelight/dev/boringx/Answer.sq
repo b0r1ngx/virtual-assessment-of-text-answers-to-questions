@@ -9,7 +9,7 @@ CREATE TABLE Answer (
 
 selectAllBy:
 SELECT * FROM Answer
-WHERE test_id = ? & student_id = ?;
+WHERE test_id = ? AND student_id = ?;
 
 insert:
 INSERT INTO Answer(test_id, student_id, question_id, text)
@@ -18,4 +18,4 @@ VALUES(?, ?, ?, ?);
 updateAvgMarkAi:
 UPDATE Answer
 SET avg_mark_ai = ?
-WHERE test_id = ? & student_id = ? & question_id = ?;
+WHERE test_id = ? AND student_id = ? AND question_id = ?;
