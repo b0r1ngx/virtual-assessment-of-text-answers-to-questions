@@ -1,5 +1,6 @@
 CREATE TABLE Answer (
     text         TEXT NOT NULL,
+    avg_mark_ai  REAL,
     test_id      INTEGER NOT NULL REFERENCES Test(id),
     student_id   INTEGER NOT NULL REFERENCES User(id),
     question_id  INTEGER NOT NULL REFERENCES Question(id),
@@ -13,3 +14,8 @@ WHERE test_id = ? & student_id = ?;
 insert:
 INSERT INTO Answer(test_id, student_id, question_id, text)
 VALUES(?, ?, ?, ?);
+
+updateAvgMarkAi:
+UPDATE Answer
+SET avg_mark_ai = ?
+WHERE test_id = ? & student_id = ? & question_id = ?;
