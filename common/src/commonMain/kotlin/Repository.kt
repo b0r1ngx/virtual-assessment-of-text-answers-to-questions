@@ -34,10 +34,7 @@ open class Repository(private val database: Database) {
                 .executeAsOne()
 
             val testQuestionsIds = database.testQuestionsQueries
-                .selectQuestionsIds(
-                    test_id = test.id,
-                    mapper = { _, questionId -> questionId }
-                )
+                .selectQuestionsIds(test_id = test.id)
                 .executeAsList()
 
             val questions = database.questionQueries
@@ -114,4 +111,9 @@ open class Repository(private val database: Database) {
     private fun UserQueries.getUser(email: String) =
         selectAllBy(email).executeAsOne()
 
+    fun saveAssessment() {
+        with(database) {
+
+        }
+    }
 }
