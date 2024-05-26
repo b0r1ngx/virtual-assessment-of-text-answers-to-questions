@@ -1,11 +1,11 @@
 package core
 
-import core.formatter.getAssessmentFromPromptResponse
-import logger.logger
 import Answer
-import model.ContextType
 import Criterion
 import Question
+import core.formatter.getAssessmentFromPromptResponse
+import logger.logger
+import model.ContextType
 import model.prompt.request.CompletionOptions
 import model.prompt.request.Message
 import model.prompt.request.PromptRequest
@@ -19,9 +19,10 @@ fun Answer.getAssessment(
     criteria: List<Criterion> = Criterion.entries,
     modelUri: String = createModelUri(),
     completionOptions: CompletionOptions = CompletionOptions.default
-): Float {
+): Pair<List<Triple<Criterion, Int, String>>, Double> {
     val responses = mutableListOf<String>()
     val assessments = mutableListOf<Int>()
+    val criteriaToMarkWithResponse = mutableListOf<Triple<Criterion, Int, String>>()
 
     val questionToAnswerPrompt = preparePrompt(question, this)
     for (criterion in criteria) {
@@ -46,16 +47,18 @@ fun Answer.getAssessment(
         getAssessmentFromPromptResponse(promptResponse).also {
             if (it != -1) {
                 assessments.add(it)
+                criteriaToMarkWithResponse.add(Triple(criterion, it, promptResponse))
             }
         }
         // TODO: Do with this something
-        Thread.sleep(1000) // using thread sleep, to not look like spammer to YaGPT services
+        Thread.sleep(100) // using thread sleep, to not look like spammer to YaGPT services
     }
 
     logger.log(Level.INFO, responses.toString())
     logger.log(Level.INFO, assessments.toString())
 
-    val totalAssessment = assessments.sum().toFloat() / assessments.size
-    logger.log(Level.INFO, totalAssessment.toString())
-    return totalAssessment
+    val averageAssessment = assessments.sum().toDouble() / assessments.size
+    logger.log(Level.INFO, averageAssessment.toString())
+
+    return criteriaToMarkWithResponse to averageAssessment
 }
