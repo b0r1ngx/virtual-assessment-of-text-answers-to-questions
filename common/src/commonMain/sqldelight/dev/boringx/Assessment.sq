@@ -2,8 +2,15 @@ CREATE TABLE Assessment(
   id            INTEGER PRIMARY KEY,
   criterion_id  INTEGER NOT NULL,
   mark          REAL NOT NULL,
-  opinion       TEXT NOT NULL,
   raw_response  TEXT NOT NULL,
 
   FOREIGN KEY(criterion_id) REFERENCES Criterion(id)
 );
+
+selectAll:
+SELECT * FROM Assessment
+WHERE id = ?;
+
+insert:
+INSERT INTO Assessment(criterion_id, mark, raw_response)
+VALUES(?,?,?);
