@@ -1,10 +1,11 @@
 CREATE TABLE Answer (
+    id           INTEGER PRIMARY KEY,
     text         TEXT NOT NULL,
     avg_mark_ai  REAL,
     test_id      INTEGER NOT NULL REFERENCES Test(id),
     student_id   INTEGER NOT NULL REFERENCES User(id),
     question_id  INTEGER NOT NULL REFERENCES Question(id),
-    PRIMARY KEY (test_id, student_id, question_id)
+    UNIQUE (test_id, student_id, question_id)
 );
 
 selectAllBy:
@@ -18,4 +19,7 @@ VALUES(?, ?, ?, ?);
 updateAvgMarkAi:
 UPDATE Answer
 SET avg_mark_ai = ?
-WHERE test_id = ? AND student_id = ? AND question_id = ?;
+WHERE id = ?;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
