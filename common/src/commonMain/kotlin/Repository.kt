@@ -1,4 +1,3 @@
-import dev.boringx.Answer
 import dev.boringx.Database
 import dev.boringx.UserQueries
 import kotlinx.datetime.Clock
@@ -74,19 +73,28 @@ open class Repository(private val database: Database) {
     // TODO: test, w/o transaction, test insert multiple values, not individual
     //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
     fun saveAnswers(testAnswers: TestAnswers): List<Answer> {
+        val answersWithIds = mutableListOf<Answer>()
+
         with(testAnswers) {
-            database.transaction {
-                questionsToAnswers.forEach { (question, answer) ->
-                    database.answerQueries.insert(
-                        test_id = testId,
-                        student_id = database.userQueries.getUser(userEmail).id,
-                        question_id = question.id,
-                        text = answer.text
-                    )
+            with(database) {
+                transaction {
+                    questionsToAnswers.forEach { (question, answer) ->
+                        answerQueries.insert(
+                            test_id = testId,
+                            student_id = userQueries.getUser(userEmail).id,
+                            question_id = question.id,
+                            text = answer.text
+                        )
+
+                        answersWithIds.add(
+                            answer.copy(id = answerQueries.lastInsertRowId().executeAsOne())
+                        )
+                    }
                 }
             }
         }
-        return listOf()
+
+        return answersWithIds
     }
 
     // suspending is only required by ClientRepository, because there is API call to server
@@ -127,17 +135,15 @@ open class Repository(private val database: Database) {
                             )
                             newAssessmentId = lastInsertRowId().executeAsOne()
                         }
-//                        answerAssessmentQueries.insert(
-//                            answer_id = assessment.answer.id,
-//                            assessment_id = newAssessmentId
-//                        )
+                        answerAssessmentQueries.insert(
+                            answer_id = assessment.answer.id,
+                            assessment_id = newAssessmentId
+                        )
                     }
 
                     answerQueries.updateAvgMarkAi(
                         avg_mark_ai = assessment.avgMarkAi,
-                        test_id = assessment.testId,
-                        student_id = userQueries.getUser(assessment.userEmail).id,
-                        question_id = assessment.questionId
+                        id = assessment.answer.id
                     )
                 }
             }

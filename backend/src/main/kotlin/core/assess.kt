@@ -11,9 +11,6 @@ fun assess(repository: Repository, testAnswers: TestAnswers) {
         val (criteriaToMarkWithResponse, avgMark) = answer.getAssessment(question)
         testAssessments.add(
             TestAssessments(
-                testId = testAnswers.testId,
-                userEmail = testAnswers.userEmail,
-                questionId = question.id,
                 answer = answer,
                 avgMarkAi = avgMark,
                 criteriaToMarkWithResponse = criteriaToMarkWithResponse
