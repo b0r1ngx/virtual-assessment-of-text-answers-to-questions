@@ -108,7 +108,7 @@ private fun QuestionWithAnswerField(
             )
 
             Button(onClick = {
-                saveAnswers(user, listOf(question to Answer(answerFieldValue.text)), false)
+                saveAnswers(user, listOf(question to Answer(text = answerFieldValue.text)), false)
             }) {
                 Text(text = stringResource(Res.string.save_button))
             }

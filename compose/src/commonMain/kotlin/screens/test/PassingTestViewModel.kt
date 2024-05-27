@@ -28,7 +28,7 @@ class PassingTestViewModel(
 
     init {
         test.questions.forEach { question ->
-            questionsToAnswers.value.add(question to Answer(""))
+            questionsToAnswers.value.add(question to Answer(text = ""))
         }
     }
 
