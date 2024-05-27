@@ -1,6 +1,6 @@
 CREATE TABLE AnswerAssessment (
-    answer_id      INTEGER NOT NULL REFERENCES Test(id),
-    assessment_id  INTEGER NOT NULL REFERENCES Question(id),
+    answer_id      INTEGER NOT NULL REFERENCES Answer(id),
+    assessment_id  INTEGER NOT NULL REFERENCES Assessment(id),
     PRIMARY KEY (answer_id, assessment_id)
 );
 
