@@ -1,5 +1,6 @@
 package screens.test
 
+import Question
 import TestModel
 import User
 import androidx.compose.runtime.MutableState
@@ -12,6 +13,9 @@ import client.ClientRepository
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -37,7 +41,9 @@ class EditingTestViewModel(
     var course by mutableStateOf(test?.course)
     var startAt = mutableStateOf(test?.start_at ?: Clock.System.now())
     var endAt = mutableStateOf(test?.end_at ?: Clock.System.now().plus(1.toHours()))
-    val questions = mutableStateOf(test?.questions ?: listOf())
+
+    private val _questions = MutableStateFlow(test?.questions ?: listOf())
+    val questions: StateFlow<List<Question>> = _questions
 
     fun validateTestCreation() {
         val now = Clock.System.now()
@@ -54,8 +60,22 @@ class EditingTestViewModel(
         )
     }
 
+    fun upsertQuestion(text: String, index: Int?) {
+        if (index == null) {
+            _questions.update { it + Question(text = text) }
+        } else {
+            _questions.update {
+                val mutable = it.toMutableList()
+                mutable[index] = Question(text = text)
+                mutable
+            }
+        }
+    }
+
     // TODO: it may be creating or editing a test, solve it at repository layer?
     //  check if test already exists, update values, instead of insert new
+
+    // TODO: For current version, lets not allow to edit test, once it created
     fun saveTest(user: User) {
         scope.launch {
             repository.createTest(
@@ -69,8 +89,8 @@ class EditingTestViewModel(
                 )
             )
             // show Toast / Snackbar that test is saved successfully
+            onFinished()
         }
-        onFinished()
     }
 
 }

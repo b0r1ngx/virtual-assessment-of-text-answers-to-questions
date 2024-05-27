@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -30,14 +30,17 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import components.AddQuestionDialog
 import components.Subtitle
 import components.TopBar
 import dev.boringx.compose.generated.resources.Res
@@ -60,6 +63,9 @@ fun EditingTestScreen(
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
+    var pickedQuestion by remember { mutableStateOf<Pair<Int?, Question?>>(null to null) }
+    var isDialogOpened by remember { mutableStateOf(false) }
+
     Column {
         TopBar(
             title = stringResource(Res.string.test),
@@ -67,12 +73,7 @@ fun EditingTestScreen(
             onBackButtonClick = testViewModel.onFinished,
         )
 
-        HorizontalDivider(
-            modifier = Modifier.padding(vertical = 1.dp),
-            thickness = 1.dp,
-            color = Color.Black,
-        )
-
+        // TODO: create strings: Type the topic and/or type of a test
         TextField(
             value = testViewModel.name,
             onValueChange = { newTestName -> testViewModel.name = newTestName },
@@ -80,22 +81,24 @@ fun EditingTestScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp)
                 .focusRequester(focusRequester),
-            label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
+            label = { Text(text = "Укажите тему и/или тип теста") }
         )
 
         // TODO: Allow to choose course from User.courses via Picker
 
         // TODO: Later, drop default time values and until teacher provide it, don't allow to save the test.
+        // TODO: create strings: Date and time test start
         DateAndTimePickerCard(
-            title = "Дата и время начала теста", // Date and time test start
+            title = "Дата и время начала теста",
             isExpanded = isStartAtExpanded,
             at = testViewModel.startAt,
             onExpandClosed = testViewModel::saveDateAndTime,
             modifier = Modifier.padding(10.dp)
         )
 
+        // TODO: create strings: Date and time test finishing
         DateAndTimePickerCard(
-            title = "Дата и время завершения теста", // Date and time test finishing
+            title = "Дата и время завершения теста",
             isExpanded = isEndAtExpanded,
             at = testViewModel.endAt,
             onExpandClosed = testViewModel::saveDateAndTime,
@@ -109,8 +112,15 @@ fun EditingTestScreen(
             color = Color.Black,
         )
         LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
-            items(testViewModel.questions.value ?: listOf()) { question ->
-                Question(question = question)
+            println("questions: ${testViewModel.questions.value}")
+            itemsIndexed(testViewModel.questions.value) { index, question ->
+                Question(
+                    question = question,
+                    modifier = Modifier.clickable {
+                        pickedQuestion = index to question
+                        isDialogOpened = true
+                    }
+                )
             }
         }
 
@@ -120,7 +130,8 @@ fun EditingTestScreen(
         ) {
             Button(
                 onClick = {
-                    // TODO: Allow to add question via dialog?
+                    pickedQuestion = null to null
+                    isDialogOpened = true
                 },
             ) {
                 Text(text = stringResource(Res.string.add_question_button))
@@ -128,10 +139,23 @@ fun EditingTestScreen(
 
             Button(
                 onClick = { testViewModel.saveTest(userViewModel.user) },
-                enabled = testViewModel.questions.value?.isNotEmpty() ?: false,
+                enabled = testViewModel.questions.value.isNotEmpty(),
             ) {
                 Text(text = stringResource(Res.string.save_test_button))
             }
+        }
+
+        if (isDialogOpened) {
+            AddQuestionDialog(
+                onConfirmRequest = { questionText ->
+                    testViewModel.upsertQuestion(
+                        text = questionText,
+                        index = pickedQuestion.first
+                    )
+                },
+                onDismissRequest = { isDialogOpened = false },
+                questionText = pickedQuestion.second?.text ?: ""
+            )
         }
     }
 }

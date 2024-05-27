@@ -64,7 +64,7 @@ fun AddQuestionDialog(
                 }
 
                 TextButton(onClick = {
-                    onConfirmRequest(questionTextValue.text)
+                    onConfirmRequest(questionTextValue.text.trim())
                     onDismissRequest()
                 }) {
                     Text(text = stringResource(Res.string.save_button))
