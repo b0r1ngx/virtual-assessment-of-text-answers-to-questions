@@ -1,3 +1,4 @@
+import dev.boringx.Answer
 import dev.boringx.Database
 import dev.boringx.UserQueries
 import kotlinx.datetime.Clock
@@ -72,7 +73,7 @@ open class Repository(private val database: Database) {
     // source: https://stackoverflow.com/a/5009740/13432944
     // TODO: test, w/o transaction, test insert multiple values, not individual
     //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
-    fun saveAnswers(testAnswers: TestAnswers) {
+    fun saveAnswers(testAnswers: TestAnswers): List<Answer> {
         with(testAnswers) {
             database.transaction {
                 questionsToAnswers.forEach { (question, answer) ->
@@ -85,6 +86,7 @@ open class Repository(private val database: Database) {
                 }
             }
         }
+        return listOf()
     }
 
     // suspending is only required by ClientRepository, because there is API call to server
@@ -111,9 +113,34 @@ open class Repository(private val database: Database) {
     private fun UserQueries.getUser(email: String) =
         selectAllBy(email).executeAsOne()
 
-    fun saveAssessment() {
+    fun saveAssessment(testAssessments: List<TestAssessments>) {
         with(database) {
+            transaction {
+                testAssessments.forEach { assessment ->
+                    assessment.criteriaToMarkWithResponse.forEach { (criterion, mark, response) ->
+                        val newAssessmentId: Long
+                        with(assessmentQueries) {
+                            insert(
+                                criterion_id = criterion.ordinal.toLong(),
+                                mark = mark.toLong(),
+                                raw_response = response
+                            )
+                            newAssessmentId = lastInsertRowId().executeAsOne()
+                        }
+//                        answerAssessmentQueries.insert(
+//                            answer_id = assessment.answer.id,
+//                            assessment_id = newAssessmentId
+//                        )
+                    }
 
+                    answerQueries.updateAvgMarkAi(
+                        avg_mark_ai = assessment.avgMarkAi,
+                        test_id = assessment.testId,
+                        student_id = userQueries.getUser(assessment.userEmail).id,
+                        question_id = assessment.questionId
+                    )
+                }
+            }
         }
     }
 }
