@@ -2,14 +2,18 @@ package client.network
 
 import Endpoints
 import LOCAL_SERVER_IP
+import LOCAL_SERVER_IP_ANDROID
 import LOCAL_SERVER_PORT
+import Platforms
 import TestAnswers
 import TestModel
 import User
+import getPlatform
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -30,6 +34,7 @@ import kotlinx.serialization.json.Json
 class ClientApi {
     // The network requests will be executed in the HTTP client's thread pool.
     private val httpClient = HttpClient {
+        install(Logging)
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -37,7 +42,12 @@ class ClientApi {
             })
         }
         install(DefaultRequest) {
-            url("http://$LOCAL_SERVER_IP:$LOCAL_SERVER_PORT")
+            val ip = when(getPlatform().platform) {
+                Platforms.android -> LOCAL_SERVER_IP_ANDROID
+                Platforms.ios -> LOCAL_SERVER_IP
+                Platforms.desktop -> LOCAL_SERVER_IP
+            }
+            url("http://$ip:$LOCAL_SERVER_PORT")
         }
     }
 
