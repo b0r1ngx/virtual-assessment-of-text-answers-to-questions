@@ -22,7 +22,7 @@ class ClientRepository(
         val localTests = super.getTests()
         val remoteTests = api.getTests()
         remoteTests.forEach { test ->
-            if (isTestAlreadyExistsLocally(test, localTests)) super.createTest(test)
+            if (!isTestAlreadyExistsLocally(test, localTests)) super.createTest(test)
         }
         return remoteTests.ifEmpty { localTests }
     }
