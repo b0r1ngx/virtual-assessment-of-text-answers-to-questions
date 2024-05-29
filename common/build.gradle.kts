@@ -38,12 +38,14 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.sqldelight.runtime)
 //            implementation(libs.koin.core)
         }
         androidMain.dependencies {
+            implementation(libs.slf4j.android)
             implementation(libs.ktor.client.android)
             implementation(libs.sqldelight.android.driver)
         }
