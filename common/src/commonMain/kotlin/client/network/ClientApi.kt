@@ -37,7 +37,7 @@ class ClientApi {
             })
         }
         install(DefaultRequest) {
-            url(LOCAL_SERVER_IP + LOCAL_SERVER_PORT)
+            url("http://$LOCAL_SERVER_IP:$LOCAL_SERVER_PORT")
         }
     }
 
