@@ -12,13 +12,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val root = DefaultRootComponent(
+        setContent {
+            RootContent(component = provideRootComponent())
+        }
+    }
+
+    private fun provideRootComponent(): DefaultRootComponent {
+        return DefaultRootComponent(
             sqlDriverFactory = SqlDriverFactory(context = this),
             componentContext = defaultComponentContext()
         )
-
-        setContent {
-            RootContent(component = root)
-        }
     }
+
 }
