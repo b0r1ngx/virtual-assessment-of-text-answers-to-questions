@@ -1,7 +1,5 @@
 package api.server
 
-import LOCAL_SERVER_IP
-import LOCAL_SERVER_PORT
 import Repository
 import SqlDriverFactory
 import api.server.routes.configureRouting
@@ -15,11 +13,12 @@ import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import kotlinx.serialization.json.Json
 
+// by some reason (after Kotlin v2?) can't use commonMain code at backend module
 fun main() {
     embeddedServer(
         factory = Netty,
-        port = LOCAL_SERVER_PORT,
-        host = LOCAL_SERVER_IP,
+        port = 8080,
+        host = "0.0.0.0",
         module = Application::module
     ).start(wait = true)
 }
@@ -28,8 +27,8 @@ fun Application.module() {
     install(CallLogging)
     install(ContentNegotiation) {
         json(Json {
-            prettyPrint = true
-            isLenient = true
+            ignoreUnknownKeys = true
+            useAlternativeNames = false
         })
     }
     val repository = Repository(createDatabase(SqlDriverFactory()))
