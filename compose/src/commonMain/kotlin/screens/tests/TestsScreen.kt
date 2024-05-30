@@ -20,6 +20,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,7 @@ fun TestsScreen(
     testsViewModel: TestsViewModel
 ) {
     val selectedTab = remember { mutableStateOf(TestsTab.Available) }
+    val tests by testsViewModel.tests.collectAsState()
 
     Column {
         Title(
@@ -74,7 +76,7 @@ fun TestsScreen(
         // TODO: if user is teacher, filter must work by other rules
         Tests(
             selectedTab = selectedTab.value,
-            tests = testsViewModel.tests.value,
+            tests = tests,
             onTestClick = testsViewModel.onTestClick,
             modifier = Modifier
                 .weight(1f)

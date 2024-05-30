@@ -110,8 +110,10 @@ class TestsViewModel(
     private val _uiState = MutableStateFlow(UiState())
     override val uiState = _uiState.asStateFlow()
 
+    // left open the problem of collecting state not depends on lifecycle,
+    // what this approach differs of using Decompose Value
     private val _tests: MutableStateFlow<List<TestModel>> = MutableStateFlow(listOf())
-    val tests: StateFlow<List<TestModel>> = _tests
+    val tests: StateFlow<List<TestModel>> = _tests.asStateFlow()
 
     init {
         scope.launch {
