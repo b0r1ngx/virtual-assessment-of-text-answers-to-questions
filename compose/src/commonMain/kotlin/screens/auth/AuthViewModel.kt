@@ -2,7 +2,7 @@ package screens.auth
 
 import ClientRepository
 import Course
-import User
+import UserModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -49,7 +49,7 @@ class AuthViewModel(
     fun registerUser() {
         scope.launch {
             repository.createUser(
-                user = User(
+                user = UserModel(
                     typeId = userType.value.ordinal,
                     name = name,
                     email = email,

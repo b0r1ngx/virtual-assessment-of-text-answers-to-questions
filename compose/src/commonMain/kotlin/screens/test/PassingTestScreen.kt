@@ -2,7 +2,7 @@ package screens.test
 
 import Answer
 import Question
-import User
+import UserModel
 import UserViewModel
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -83,9 +83,9 @@ fun PassingTestScreen(
 
 @Composable
 private fun QuestionWithAnswerField(
-    user: User,
+    user: UserModel,
     questionToAnswer: Pair<Question, Answer>,
-    saveAnswers: (user: User, answer: List<Pair<Question, Answer>>, isTestCompleted: Boolean) -> Unit,
+    saveAnswers: (user: UserModel, answer: List<Pair<Question, Answer>>, isTestCompleted: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val (question, answer) = questionToAnswer

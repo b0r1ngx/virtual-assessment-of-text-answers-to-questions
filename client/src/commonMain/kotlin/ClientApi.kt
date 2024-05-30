@@ -64,7 +64,7 @@ class ClientApi {
 
 
     // TODO: On this endpoint, on server-side, call repository.createUser
-    suspend fun registerUser(user: User) {
+    suspend fun registerUser(user: UserModel) {
         try {
             httpClient.put(Endpoints.user.path) {
                 contentType(ContentType.Application.Json)

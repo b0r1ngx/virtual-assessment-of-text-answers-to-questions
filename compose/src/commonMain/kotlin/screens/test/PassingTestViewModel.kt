@@ -5,7 +5,7 @@ import ClientRepository
 import Question
 import TestAnswers
 import TestModel
-import User
+import UserModel
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
@@ -33,13 +33,13 @@ class PassingTestViewModel(
     }
 
     fun saveAnswers(
-        user: User,
+        user: UserModel,
         answers: List<Pair<Question, Answer>>,
         isTestCompleted: Boolean,
     ) {
         // TODO: later save each answered question
         if (isTestCompleted) {
-            val testAnswers = TestAnswers(test.id, user.email, answers)
+            val testAnswers = TestAnswers(test.id, user, answers)
             scope.launch {
                 repository.saveAnswers(
                     testAnswers = testAnswers,

@@ -8,17 +8,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import User
+import UserModel
 
 @Composable
 fun UserText(
-    user: User,
+    user: UserModel,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier.clickable {
         // TODO: Navigate to UserScreen
     }) {
-        Icon(imageVector = Icons.Default.Person, contentDescription = "User Photo")
+        Icon(imageVector = Icons.Default.Person, contentDescription = "UserModel Photo")
         Text(
             text = user.name,
         )

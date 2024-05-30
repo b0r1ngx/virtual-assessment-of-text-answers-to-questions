@@ -5,7 +5,7 @@ import ClientRepository
 import Course
 import Question
 import TestModel
-import User
+import UserModel
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -48,7 +48,7 @@ private val mockOSBQuestions = listOf(
 
 private val mockTests = listOf(
     TestModel(
-        creator = User(
+        creator = UserModel(
             typeId = UserType.Teacher.ordinal,
             name = "Лупин Анатолий Викторович",
             email = "lupin.av@edu.spbstu.ru"
@@ -60,7 +60,7 @@ private val mockTests = listOf(
         questions = mockTelecomQuestions
     ),
     TestModel(
-        creator = User(
+        creator = UserModel(
             typeId = UserType.Teacher.ordinal,
             name = "Богач Наталья Владимировна",
             email = "bogach.nv@edu.spbstu.ru"
@@ -72,7 +72,7 @@ private val mockTests = listOf(
         questions = mockTelecomQuestions
     ),
     TestModel(
-        creator = User(
+        creator = UserModel(
             typeId = UserType.Teacher.ordinal,
             name = "Тарасов Олег Михайлович",
             email = "tarasov.om@edu.spbstu.ru"
@@ -84,7 +84,7 @@ private val mockTests = listOf(
         questions = mockArchitectureQuestions
     ),
     TestModel(
-        creator = User(
+        creator = UserModel(
             typeId = UserType.Teacher.ordinal,
             name = "Малышев Игорь Алексеевич",
             email = "malyshev.ia@edu.spbstu.ru"

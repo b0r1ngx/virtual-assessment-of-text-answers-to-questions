@@ -7,13 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
-import User
+import UserModel
 
 @Composable
-fun UserScreen(user: User) {
+fun UserScreen(user: UserModel) {
     Column {
         Row {
-            Icon(imageVector = Icons.Default.Person, contentDescription = "User Photo")
+            Icon(imageVector = Icons.Default.Person, contentDescription = "UserModel Photo")
             Column {
                 Text(text = user.name)
                 Text(text = user.email)

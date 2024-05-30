@@ -15,30 +15,26 @@ class ClientRepository(
         val localTests = super.getTests()
         val remoteTests = api.getTests()
         remoteTests.forEach { test ->
-            if (!isTestAlreadyExistsLocally(test, localTests)) super.createTest(test)
+            if (!isTestAlreadyExistsLocally(test, localTests)) {
+                super.createTest(test)
+            }
         }
         return remoteTests.ifEmpty { localTests }
     }
 
-    private fun isTestAlreadyExistsLocally(test: TestModel, at: List<TestModel>): Boolean {
-        val firstLevelSameTests = at.filter {
+    private fun isTestAlreadyExistsLocally(test: TestModel, localTests: List<TestModel>): Boolean =
+        localTests.any {
             test.creator == it.creator
                     && test.course.name == it.course.name
                     && test.name == it.name
-        }
-
-        val secondLevelSameTests = firstLevelSameTests.filter {
-            test.questions.size == it.questions.size
+                    && test.questions.size == it.questions.size
                     && test.questions == it.questions
         }
 
-        return secondLevelSameTests.isNotEmpty()
-    }
 
-    override suspend fun createUser(user: User) {
+    override suspend fun createUser(user: UserModel) {
         super.createUser(user)
         api.registerUser(user)
-        // TODO: if there was no internet, mark it by someway (to later, with internet, end with registering user on server)
     }
 
     suspend fun saveAnswers(testAnswers: TestAnswers, isTestCompleted: Boolean) {

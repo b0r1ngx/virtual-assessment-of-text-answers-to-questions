@@ -3,7 +3,7 @@ package screens.test
 import ClientRepository
 import Question
 import TestModel
-import User
+import UserModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -76,7 +76,7 @@ class EditingTestViewModel(
     //  check if test already exists, update values, instead of insert new
 
     // TODO: For current version, lets not allow to edit test, once it created
-    fun saveTest(user: User) {
+    fun saveTest(user: UserModel) {
         scope.launch {
             repository.createTest(
                 test = TestModel(

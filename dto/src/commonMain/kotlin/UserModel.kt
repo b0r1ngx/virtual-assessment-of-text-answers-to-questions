@@ -1,7 +1,7 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(
+data class UserModel(
     val typeId: Int, // UserType
     val name: String,
     val email: String,
