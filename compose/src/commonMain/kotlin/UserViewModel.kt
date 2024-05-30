@@ -1,4 +1,3 @@
-import client.ClientRepository
 import model.UserType
 
 class UserViewModel(

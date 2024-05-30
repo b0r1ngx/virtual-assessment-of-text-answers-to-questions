@@ -1,10 +1,10 @@
 package root
 
+import ClientApi
+import ClientRepository
 import SqlDriverFactory
 import TestModel
 import UserViewModel
-import client.ClientRepository
-import client.network.ClientApi
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation

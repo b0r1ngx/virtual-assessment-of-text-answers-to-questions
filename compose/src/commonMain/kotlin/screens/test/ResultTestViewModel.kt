@@ -1,7 +1,7 @@
 package screens.test
 
+import ClientRepository
 import TestModel
-import client.ClientRepository
 import kotlin.coroutines.CoroutineContext
 
 class ResultTestViewModel(

@@ -36,6 +36,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":common"))
             implementation(project(":dto"))
+            implementation(project(":client"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -51,7 +52,6 @@ kotlin {
             implementation(libs.kotlinx.serialization)
         }
         androidMain.dependencies {
-//            implementation(libs.koin.androidx.compose)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.compose.ui.tooling.preview)

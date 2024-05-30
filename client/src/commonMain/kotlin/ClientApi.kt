@@ -1,14 +1,3 @@
-package client.network
-
-import Endpoints
-import LOCAL_SERVER_IP
-import LOCAL_SERVER_IP_ANDROID
-import LOCAL_SERVER_PORT
-import Platforms
-import TestAnswers
-import TestModel
-import User
-import getPlatform
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.DefaultRequest
@@ -42,7 +31,7 @@ class ClientApi {
             })
         }
         install(DefaultRequest) {
-            val ip = when(getPlatform().platform) {
+            val ip = when (getPlatform().platform) {
                 Platforms.android -> LOCAL_SERVER_IP_ANDROID
                 Platforms.ios -> LOCAL_SERVER_IP
                 Platforms.desktop -> LOCAL_SERVER_IP
