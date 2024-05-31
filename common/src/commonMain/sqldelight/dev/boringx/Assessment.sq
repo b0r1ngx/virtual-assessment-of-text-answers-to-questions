@@ -8,6 +8,9 @@ CREATE TABLE Assessment(
 );
 
 selectAll:
+SELECT * FROM Assessment;
+
+selectAllBy:
 SELECT * FROM Assessment
 WHERE id = ?;
 

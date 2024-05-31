@@ -4,6 +4,9 @@ CREATE TABLE AnswerAssessment (
     PRIMARY KEY (answer_id, assessment_id)
 );
 
+selectAll:
+SELECT * FROM AnswerAssessment;
+
 selectAssessmentsIds:
 SELECT assessment_id FROM AnswerAssessment
 WHERE answer_id = ?;

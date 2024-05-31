@@ -5,3 +5,6 @@ CREATE TABLE UserType (
 
 INSERT INTO UserType(name) VALUES ('Student');
 INSERT INTO UserType(name) VALUES ('Teacher');
+
+selectAll:
+SELECT * FROM UserType;

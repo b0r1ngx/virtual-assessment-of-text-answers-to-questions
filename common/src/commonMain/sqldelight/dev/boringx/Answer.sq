@@ -8,6 +8,9 @@ CREATE TABLE Answer (
     UNIQUE (test_id, student_id, question_id)
 );
 
+selectAll:
+SELECT * FROM Answer;
+
 selectAllBy:
 SELECT * FROM Answer
 WHERE test_id = ? AND student_id = ?;

@@ -4,6 +4,9 @@ CREATE TABLE UserCourses (
   PRIMARY KEY (user_id, course_id)
 );
 
+selectAll:
+SELECT * FROM UserCourses;
+
 selectCoursesIds:
 SELECT course_id FROM UserCourses
 WHERE user_id = ?;

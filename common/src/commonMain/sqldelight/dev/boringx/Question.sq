@@ -3,15 +3,16 @@ CREATE TABLE Question (
   text  TEXT NOT NULL
 );
 
+selectAll:
+SELECT * FROM Question;
+
 selectAllBy:
 SELECT * FROM Question
 WHERE id = ?;
 
-
 selectAllIn:
 SELECT * FROM Question
 WHERE id IN ?;
-
 
 insert:
 INSERT INTO Question(text)

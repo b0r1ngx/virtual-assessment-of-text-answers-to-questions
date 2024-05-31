@@ -4,6 +4,9 @@ CREATE TABLE TestQuestions (
     PRIMARY KEY (test_id, question_id)
 );
 
+selectAll:
+SELECT * FROM TestQuestions;
+
 selectQuestionsIds:
 SELECT question_id FROM TestQuestions
 WHERE test_id = ?;

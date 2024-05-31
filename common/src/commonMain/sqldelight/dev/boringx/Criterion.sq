@@ -9,6 +9,9 @@ INSERT INTO Criterion(name) VALUES ('Style');
 INSERT INTO Criterion(name) VALUES ('Completeness');
 INSERT INTO Criterion(name) VALUES ('Coherence');
 
+selectAll:
+SELECT * FROM Criterion;
+
 selectCriterionName:
 SELECT name FROM Criterion
 WHERE id = ?;

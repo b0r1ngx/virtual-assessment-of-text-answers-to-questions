@@ -8,10 +8,13 @@ CREATE TABLE User (
 );
 
 selectAll:
+SELECT * FROM User;
+
+selectAllById:
 SELECT * FROM User
 WHERE id = ?;
 
-selectAllBy:
+selectAllByEmail:
 SELECT * FROM User
 WHERE email = ?;
 
