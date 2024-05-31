@@ -7,6 +7,7 @@ class ClientRepository(
 
     fun getUserSelf(): UserModel? {
         with(database) {
+            // on clients, first User entry equals to user that registered on this client
             val user = userQueries.selectAllById(id = 1).executeAsOneOrNull() ?: return null
 
             val userCoursesIds =
