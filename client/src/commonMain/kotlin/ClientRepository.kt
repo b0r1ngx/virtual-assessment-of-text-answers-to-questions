@@ -1,9 +1,29 @@
 import dev.boringx.Database
 
 class ClientRepository(
-    database: Database,
+    private val database: Database,
     private val api: ClientApi,
 ) : Repository(database = database) {
+
+    fun getUserSelf(): UserModel? {
+        with(database) {
+            val user = userQueries.selectAllById(id = 1).executeAsOneOrNull() ?: return null
+
+            val userCoursesIds =
+                userCoursesQueries.selectCoursesIds(user_id = user.id).executeAsList()
+
+            val userCourses = courseQueries.selectAllIn(
+                id = userCoursesIds, mapper = { id, name -> Course(id, name) }
+            ).executeAsList()
+
+            return UserModel(
+                typeId = user.user_type_id.toInt(),
+                name = user.name,
+                email = user.email,
+                courses = userCourses
+            )
+        }
+    }
 
     override suspend fun createTest(test: TestModel) {
         // map modelTest to TestModel DB Entity
