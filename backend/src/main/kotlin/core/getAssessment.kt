@@ -3,6 +3,7 @@ package core
 import Answer
 import Criterion
 import Question
+import api.yandex.sendPromptRequest
 import core.formatter.getAssessmentFromPromptResponse
 import logger.logger
 import model.ContextType
@@ -42,7 +43,7 @@ fun Answer.getAssessment(
                 )
             )
         )
-        val promptResponse = api.yandex.sendPromptRequest(prompt)
+        val promptResponse = sendPromptRequest(prompt)
         responses.add(promptResponse).also { logger.log(Level.INFO, promptResponse) }
         getAssessmentFromPromptResponse(promptResponse).also {
             if (it != -1) {
