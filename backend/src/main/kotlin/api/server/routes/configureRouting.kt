@@ -141,8 +141,7 @@ private val mockTests = listOf(
 fun Route.testRoutes(repository: Repository) {
     route(Endpoints.test.path) {
         get {
-            val tests = repository.getTests().toMutableList()
-            tests.addAll(mockTests)
+            val tests = repository.getTests()
             call.respond(tests)
         }
 
