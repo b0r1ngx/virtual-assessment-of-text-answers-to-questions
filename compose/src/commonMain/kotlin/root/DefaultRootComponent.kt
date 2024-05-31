@@ -12,6 +12,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import createDatabase
 import kotlinx.coroutines.Dispatchers
@@ -31,19 +32,26 @@ class DefaultRootComponent(
     private val database = createDatabase(sqlDriverFactory = sqlDriverFactory)
     private val clientApi = ClientApi()
     private val repository = ClientRepository(database = database, api = clientApi)
-    override val userViewModel = UserViewModel(repository = repository)
+    private val user = repository.getUserSelf()
+    private val initialConfiguration = if (user == null) Config.Auth else Config.Tests
 
-    // TODO: if we doesn't know about user, navigate him to Auth
-    //  to solve it without app lag, we can create splash screen
     private val navigation = StackNavigation<Config>()
     override val navigationStack: Value<ChildStack<*, RootComponent.Child>> =
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Tests,
+            initialConfiguration = initialConfiguration,
             handleBackButton = true,
             childFactory = ::child,
         )
+
+    override lateinit var userViewModel: UserViewModel
+
+    init {
+        if (user != null) {
+            userViewModel = UserViewModel(user = user, repository = repository)
+        }
+    }
 
     private fun child(config: Config, componentContext: ComponentContext): RootComponent.Child =
         when (config) {
@@ -66,7 +74,10 @@ class DefaultRootComponent(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
-        onRegister = navigation::pop,
+        onRegister = { userModel ->
+            userViewModel = UserViewModel(user = userModel, repository = repository)
+            navigation.replaceCurrent(Config.Tests)
+        },
     )
 
     private fun testsComponent(
@@ -78,8 +89,8 @@ class DefaultRootComponent(
         onCreateTestClick = { navigation.push(Config.EditingTest()) },
         onTestClick = { test ->
             if (userViewModel.user.typeId == UserType.Student.ordinal)
-                // todo: if test is assessed by teacher, navigate to ResultTest
-                //  should we write this logic here?
+            // todo: if test is assessed by teacher, navigate to ResultTest
+            //  should we write this logic here?
                 navigation.push(Config.PassingTest(test = test))
             else
                 navigation.push(Config.EditingTest(test = test))
@@ -119,13 +130,6 @@ class DefaultRootComponent(
 
     override fun onBackClicked(toIndex: Int) {
         navigation.popTo(index = toIndex)
-    }
-
-    init {
-        lifecycle // Access the Lifecycle
-        stateKeeper // Access the StateKeeper
-        instanceKeeper // Access the InstanceKeeper
-        backHandler // Access the BackHandler
     }
 
     @Serializable

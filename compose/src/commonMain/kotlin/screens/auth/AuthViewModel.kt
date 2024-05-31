@@ -21,7 +21,7 @@ class AuthViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    val onRegister: () -> Unit,
+    val onRegister: (user: UserModel) -> Unit,
 ) : ComponentContext by componentContext {
 
     // The scope is automatically cancelled when the ViewModel is destroyed
@@ -47,16 +47,13 @@ class AuthViewModel(
     }
 
     fun registerUser() {
-        scope.launch {
-            repository.createUser(
-                user = UserModel(
-                    typeId = userType.value.ordinal,
-                    name = name,
-                    email = email,
-                    courses = pickedCourses
-                )
-            )
-        }
-        onRegister()
+        val user = UserModel(
+            typeId = userType.value.ordinal,
+            name = name,
+            email = email,
+            courses = pickedCourses
+        )
+        scope.launch { repository.createUser(user = user) }
+        onRegister(user)
     }
 }
