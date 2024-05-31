@@ -33,7 +33,7 @@ class DefaultRootComponent(
     private val clientApi = ClientApi()
     private val repository = ClientRepository(database = database, api = clientApi)
     private val user = repository.getUserSelf()
-    private val initialConfiguration = if (user == null) Config.Auth else Config.Tests
+    private val initialConfiguration: Config = if (user == null) Config.Auth else Config.Tests
 
     private val navigation = StackNavigation<Config>()
     override val navigationStack: Value<ChildStack<*, RootComponent.Child>> =
