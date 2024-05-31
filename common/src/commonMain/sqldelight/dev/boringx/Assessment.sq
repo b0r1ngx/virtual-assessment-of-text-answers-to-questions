@@ -1,4 +1,4 @@
-CREATE TABLE Assessment(
+CREATE TABLE IF NOT EXISTS Assessment(
   id            INTEGER PRIMARY KEY,
   criterion_id  INTEGER NOT NULL,
   mark          INTEGER NOT NULL,

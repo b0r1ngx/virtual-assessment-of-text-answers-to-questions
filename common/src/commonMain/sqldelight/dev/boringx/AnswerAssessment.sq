@@ -1,4 +1,4 @@
-CREATE TABLE AnswerAssessment (
+CREATE TABLE IF NOT EXISTS AnswerAssessment (
     answer_id      INTEGER NOT NULL REFERENCES Answer(id),
     assessment_id  INTEGER NOT NULL REFERENCES Assessment(id),
     PRIMARY KEY (answer_id, assessment_id)

@@ -1,13 +1,13 @@
-CREATE TABLE Criterion(
+CREATE TABLE IF NOT EXISTS Criterion(
   id    INTEGER PRIMARY KEY,
-  name  TEXT NOT NULL
+  name  TEXT NOT NULL UNIQUE
 );
 
-INSERT INTO Criterion(name) VALUES ('Correctness');
-INSERT INTO Criterion(name) VALUES ('Brevity');
-INSERT INTO Criterion(name) VALUES ('Style');
-INSERT INTO Criterion(name) VALUES ('Completeness');
-INSERT INTO Criterion(name) VALUES ('Coherence');
+INSERT OR IGNORE INTO Criterion(name) VALUES ('Correctness');
+INSERT OR IGNORE INTO Criterion(name) VALUES ('Brevity');
+INSERT OR IGNORE INTO Criterion(name) VALUES ('Style');
+INSERT OR IGNORE INTO Criterion(name) VALUES ('Completeness');
+INSERT OR IGNORE INTO Criterion(name) VALUES ('Coherence');
 
 selectAll:
 SELECT * FROM Criterion;

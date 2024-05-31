@@ -1,4 +1,4 @@
-CREATE TABLE Question (
+CREATE TABLE IF NOT EXISTS Question (
   id    INTEGER PRIMARY KEY,
   text  TEXT NOT NULL
 );

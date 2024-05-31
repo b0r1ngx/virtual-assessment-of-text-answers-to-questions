@@ -1,4 +1,4 @@
-CREATE TABLE Answer (
+CREATE TABLE IF NOT EXISTS Answer (
     id           INTEGER PRIMARY KEY,
     text         TEXT NOT NULL,
     avg_mark_ai  REAL,

@@ -1,12 +1,12 @@
-CREATE TABLE Course(
+CREATE TABLE IF NOT EXISTS Course(
   id    INTEGER PRIMARY KEY,
   name  TEXT NOT NULL UNIQUE
 );
 
-INSERT INTO Course(name) VALUES ('Цифровая обработка сигналов');
-INSERT INTO Course(name) VALUES ('Телекоммуникационные технологии');
-INSERT INTO Course(name) VALUES ('Архитектура ЭВМ');
-INSERT INTO Course(name) VALUES ('Основы операционных систем');
+INSERT OR IGNORE INTO Course(name) VALUES ('Цифровая обработка сигналов');
+INSERT OR IGNORE INTO Course(name) VALUES ('Телекоммуникационные технологии');
+INSERT OR IGNORE INTO Course(name) VALUES ('Архитектура ЭВМ');
+INSERT OR IGNORE INTO Course(name) VALUES ('Основы операционных систем');
 
 selectAll:
 SELECT * FROM Course;

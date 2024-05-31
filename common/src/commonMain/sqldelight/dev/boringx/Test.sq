@@ -1,4 +1,4 @@
-CREATE TABLE Test(
+CREATE TABLE IF NOT EXISTS Test(
   id          INTEGER PRIMARY KEY,
   creator_id  INTEGER NOT NULL,
   course_id   INTEGER NOT NULL,

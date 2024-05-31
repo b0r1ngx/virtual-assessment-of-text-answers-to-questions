@@ -1,10 +1,10 @@
-CREATE TABLE UserType (
+CREATE TABLE IF NOT EXISTS UserType (
   id    INTEGER PRIMARY KEY,
-  name  TEXT NOT NULL
+  name  TEXT NOT NULL UNIQUE
 );
 
-INSERT INTO UserType(name) VALUES ('Student');
-INSERT INTO UserType(name) VALUES ('Teacher');
+INSERT OR IGNORE INTO UserType(name) VALUES ('Student');
+INSERT OR IGNORE INTO UserType(name) VALUES ('Teacher');
 
 selectAll:
 SELECT * FROM UserType;
