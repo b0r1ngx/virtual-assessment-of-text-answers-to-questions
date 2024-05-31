@@ -20,7 +20,7 @@ open class Repository(private val database: Database) {
         tests.forEach { test ->
             val user = database.userQueries
                 .selectAllById(
-                    id = test.id, // bug: need to change to creator_id
+                    id = test.creator_id,
                     mapper = { _, userTypeId, name, email ->
                         UserModel(typeId = userTypeId.toInt(), name = name, email = email)
                     }
