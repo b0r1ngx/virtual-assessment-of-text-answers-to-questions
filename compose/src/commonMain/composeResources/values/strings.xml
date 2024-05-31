@@ -9,7 +9,7 @@
     <string name="name">Full name</string>
     <string name="email">Email</string>
     <string name="choose_courses">Choose courses</string>
-    <string name="register_button">Register</string>
+    <string name="register">Register</string>
 
     <!-- Tests Screen-->
     <string name="tests">Tests</string>
