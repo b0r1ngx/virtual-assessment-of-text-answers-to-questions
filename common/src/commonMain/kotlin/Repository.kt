@@ -19,7 +19,7 @@ open class Repository(private val database: Database) {
         val results: MutableList<TestModel> = mutableListOf()
         tests.forEach { test ->
             val user = database.userQueries
-                .selectAll(
+                .selectAllById(
                     id = test.id, // bug: need to change to creator_id
                     mapper = { _, userTypeId, name, email ->
                         UserModel(typeId = userTypeId.toInt(), name = name, email = email)
@@ -126,11 +126,11 @@ open class Repository(private val database: Database) {
         if (foundedUser == null) createUser(user)
         else return foundedUser
 
-        return database.userQueries.selectAllBy(user.email).executeAsOne()
+        return database.userQueries.selectAllByEmail(user.email).executeAsOne()
     }
 
     private fun UserQueries.getUser(email: String) =
-        selectAllBy(email).executeAsOneOrNull()
+        selectAllByEmail(email).executeAsOneOrNull()
 
     fun saveAssessment(testAssessments: List<TestAssessments>) {
         with(database) {
@@ -158,6 +158,17 @@ open class Repository(private val database: Database) {
                     )
                 }
             }
+        }
+    }
+
+    fun checkAssessments() {
+        with(database) {
+            val answers = answerQueries.selectAll().executeAsList()
+            val assessments = assessmentQueries.selectAll().executeAsList()
+            val answersToAssessments = answerAssessmentQueries.selectAll().executeAsList()
+            println("Answers: $answers")
+            println("Assessments: $assessments")
+            println("AnswersToAssessments: $answersToAssessments")
         }
     }
 }

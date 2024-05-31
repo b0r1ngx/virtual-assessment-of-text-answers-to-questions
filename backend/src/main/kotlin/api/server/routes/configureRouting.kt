@@ -7,7 +7,7 @@ import Repository
 import TestAnswers
 import TestModel
 import UserModel
-import core.assess
+import core.assessAnswerAndSaveToDatabase
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -160,7 +160,7 @@ fun Route.answerRoutes(repository: Repository) {
             val testAnswers = call.receive<TestAnswers>()
             repository.saveAnswers(testAnswers)
             call.respond(HttpStatusCode.Created)
-            assess(repository, testAnswers)
+            assessAnswerAndSaveToDatabase(repository, testAnswers)
         }
     }
 }
