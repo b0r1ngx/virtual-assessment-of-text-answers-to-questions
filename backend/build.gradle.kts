@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":dto"))
 
+    implementation(libs.dotenv)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
@@ -26,7 +27,7 @@ dependencies {
     implementation(libs.ktor.server.call.logging)
     implementation(libs.kotlinx.serialization)
     implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.dotenv)
+
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.kotlin.test)
     // TODO Warning: Below dependency, raises warning: Provides transitive vulnerable dependency maven:commons-codec:commons-codec:1.11 Cxeb68d52e-5509 3.7 Exposure of Sensitive Information to an Unauthorized Actor vulnerability with Low severity found  Results powered by Checkmarx(c) https://devhub.checkmarx.com/cve-details/Cxeb68d52e-5509/
