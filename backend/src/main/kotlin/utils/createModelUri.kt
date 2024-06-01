@@ -7,4 +7,4 @@ fun createModelUri(
     folderId: String = dotenv[
         EnvironmentVariables.FOLDER_ID.name
     ]
-) = "gpt://$folderId/yandexgpt-lite"
+) = "gpt://$folderId/yandexgpt"
