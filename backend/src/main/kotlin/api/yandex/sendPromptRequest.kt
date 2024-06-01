@@ -1,8 +1,8 @@
 package api.yandex
 
+import dotenv
 import model.EnvironmentVariables
 import model.prompt.request.PromptRequest
-import dotenv
 import utils.encodeToString
 import java.net.URI
 import java.net.http.HttpClient
@@ -26,14 +26,15 @@ private const val CREATE_PROMPT_URL = "https://llm.api.cloud.yandex.net/foundati
 
 fun sendPromptRequest(
     prompt: PromptRequest,
-    iAmToken: String = dotenv[EnvironmentVariables.BEARER_TOKEN.name]
+    iAmToken: String = dotenv[EnvironmentVariables.BEARER_TOKEN.name],
+    client: HttpClient = HttpClient.newBuilder().build(),
+    uri: URI = URI.create(CREATE_PROMPT_URL)
 ): String {
-    val client = HttpClient.newBuilder().build()
     val request = HttpRequest.newBuilder()
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer $iAmToken")
         .POST(HttpRequest.BodyPublishers.ofString(prompt.encodeToString()))
-        .uri(URI.create(CREATE_PROMPT_URL))
+        .uri(uri)
         .build()
 
     return client.send(request).body()
