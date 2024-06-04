@@ -23,7 +23,7 @@ fun Answer.getAssessment(
 ): Pair<List<Triple<Criterion, Int, String>>, Double> {
     val responses = mutableListOf<String>()
     val assessments = mutableListOf<Int>()
-    val criteriaToMarkWithResponse = mutableListOf<Triple<Criterion, Int, String>>()
+    val criterionToMarkWithResponse = mutableListOf<Triple<Criterion, Int, String>>()
 
     val questionToAnswerPrompt = preparePrompt(question, this)
     for (criterion in criteria) {
@@ -48,7 +48,7 @@ fun Answer.getAssessment(
         getAssessmentFromPromptResponse(promptResponse).also {
             if (it != -1) {
                 assessments.add(it)
-                criteriaToMarkWithResponse.add(Triple(criterion, it, promptResponse))
+                criterionToMarkWithResponse.add(Triple(criterion, it, promptResponse))
             }
         }
         // TODO: Do with this something
@@ -61,5 +61,5 @@ fun Answer.getAssessment(
     val averageAssessment = assessments.sum().toDouble() / assessments.size
     logger.log(Level.INFO, averageAssessment.toString())
 
-    return criteriaToMarkWithResponse to averageAssessment
+    return criterionToMarkWithResponse to averageAssessment
 }

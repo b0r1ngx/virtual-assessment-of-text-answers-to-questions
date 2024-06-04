@@ -136,7 +136,7 @@ open class Repository(private val database: Database) {
         with(database) {
             transaction {
                 testAssessments.forEach { assessment ->
-                    assessment.criteriaToMarkWithResponse.forEach { (criterion, mark, response) ->
+                    assessment.criterionToMarkWithResponse.forEach { (criterion, mark, response) ->
                         val newAssessmentId: Long
                         with(assessmentQueries) {
                             insert(

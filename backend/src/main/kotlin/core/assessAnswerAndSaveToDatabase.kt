@@ -10,8 +10,8 @@ fun assessAnswerAndSaveToDatabase(repository: Repository, testAnswers: TestAnswe
     val testAssessments = mutableListOf<TestAssessments>()
 
     for ((question, answer) in testAnswers.questionsToAnswers) {
-        val (criteriaToMarkWithResponse, avgMark) = answer.getAssessment(question)
-        testAssessments.add(TestAssessments(answer, avgMark, criteriaToMarkWithResponse))
+        val (criterionToMarkWithResponse, avgMark) = answer.getAssessment(question)
+        testAssessments.add(TestAssessments(answer, avgMark, criterionToMarkWithResponse))
     }
 
     repository.saveAssessment(testAssessments = testAssessments)
