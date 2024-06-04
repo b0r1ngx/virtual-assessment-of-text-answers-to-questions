@@ -40,5 +40,5 @@ fun sendPromptRequest(
     return client.send(request).body()
 }
 
-private fun HttpClient.send(request: HttpRequest) =
-    this.send(request, HttpResponse.BodyHandlers.ofString())
+private fun HttpClient.send(request: HttpRequest): HttpResponse<String> =
+    send(request, HttpResponse.BodyHandlers.ofString())
