@@ -27,7 +27,6 @@ class ClientRepository(
     }
 
     override suspend fun createTest(test: TestModel) {
-        // map modelTest to TestModel DB Entity
         super.createTest(test)
         api.createTest(test)
     }
@@ -51,7 +50,6 @@ class ClientRepository(
                     && test.questions.size == it.questions.size
                     && test.questions == it.questions
         }
-
 
     override suspend fun createUser(user: UserModel) {
         super.createUser(user)
