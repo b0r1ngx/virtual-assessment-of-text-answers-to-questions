@@ -61,14 +61,32 @@ open class Repository(private val database: Database) {
     // currently, teacher must not have ability to edit already created tests
     open suspend fun createTest(test: TestModel) {
         val creator = getUserAndInsertIfNotExist(test.creator)
-        return database.testQueries.insert(
-            creator_id = creator.id,
-            course_id = test.course.id,
-            name = test.name,
-            start_at = test.start_at.toString(),
-            end_at = test.end_at.toString(),
-            created_at = Clock.System.now().toString()
-        )
+        with(database) {
+            transaction {
+                val newTestId: Long
+                with(testQueries) {
+                    insert(
+                        creator_id = creator.id,
+                        course_id = test.course.id,
+                        name = test.name,
+                        start_at = test.start_at.toString(),
+                        end_at = test.end_at.toString(),
+                        created_at = Clock.System.now().toString()
+                    )
+                    newTestId = lastInsertRowId().executeAsOne()
+                }
+
+                test.questions.forEach {
+                    val newQuestionId: Long
+                    with(questionQueries) {
+                        insert(text = it.text)
+                        newQuestionId = lastInsertRowId().executeAsOne()
+                    }
+
+                    testQuestionsQueries.insert(test_id = newTestId, question_id = newQuestionId)
+                }
+            }
+        }
     }
 
     // wrapping individual inserts in transaction is faster.
