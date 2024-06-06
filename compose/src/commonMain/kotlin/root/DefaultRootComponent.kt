@@ -14,8 +14,11 @@ import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import createDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import model.UserType
 import screens.auth.AuthViewModel
@@ -34,6 +37,7 @@ class DefaultRootComponent(
     private val repository = ClientRepository(database = database, api = clientApi)
     private val user = repository.getUserSelf()
     private val initialConfiguration: Config = if (user == null) Config.Auth else Config.Tests
+    private val scope = coroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
     private val navigation = StackNavigation<Config>()
     override val navigationStack: Value<ChildStack<*, RootComponent.Child>> =
@@ -69,13 +73,14 @@ class DefaultRootComponent(
         }
 
     private fun authComponent(
-        componentContext: ComponentContext
+        componentContext: ComponentContext,
     ) = AuthViewModel(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
         onRegister = { userModel ->
             userViewModel = UserViewModel(user = userModel, repository = repository)
+            scope.launch { repository.createUser(user = userModel) }
             navigation.replaceCurrent(Config.Tests)
         },
     )
@@ -99,7 +104,7 @@ class DefaultRootComponent(
 
     private fun editingTestComponent(
         componentContext: ComponentContext,
-        config: Config.EditingTest
+        config: Config.EditingTest,
     ) = EditingTestViewModel(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
@@ -110,7 +115,7 @@ class DefaultRootComponent(
 
     private fun passingTestComponent(
         componentContext: ComponentContext,
-        config: Config.PassingTest
+        config: Config.PassingTest,
     ) = PassingTestViewModel(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
@@ -120,7 +125,7 @@ class DefaultRootComponent(
     )
 
     private fun resultTestComponent(
-        config: Config.ResultTest
+        config: Config.ResultTest,
     ) = ResultTestViewModel(
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,

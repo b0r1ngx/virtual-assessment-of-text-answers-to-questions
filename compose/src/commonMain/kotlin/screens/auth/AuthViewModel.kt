@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import model.UserType
 import kotlin.coroutines.CoroutineContext
 
@@ -53,7 +52,6 @@ class AuthViewModel(
             email = email,
             courses = pickedCourses
         )
-        scope.launch { repository.createUser(user = user) }
         onRegister(user)
     }
 }
