@@ -17,3 +17,6 @@ WHERE id IN ?;
 insert:
 INSERT INTO Question(text)
 VALUES(?);
+
+lastInsertRowId:
+SELECT last_insert_rowid();

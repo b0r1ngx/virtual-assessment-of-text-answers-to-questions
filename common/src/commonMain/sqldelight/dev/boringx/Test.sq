@@ -22,3 +22,6 @@ WHERE course_id = ?;
 insert:
 INSERT INTO Test(creator_id, course_id, name, start_at, end_at, created_at)
 VALUES(?, ?, ?, ?, ?, ?);
+
+lastInsertRowId:
+SELECT last_insert_rowid();
