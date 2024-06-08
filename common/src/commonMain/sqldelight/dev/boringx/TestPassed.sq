@@ -1,0 +1,7 @@
+CREATE TABLE TestPassed (
+    id           INTEGER PRIMARY KEY,
+    avg_mark_ai  REAL,
+    test_id      INTEGER NOT NULL REFERENCES Test(id),
+    student_id   INTEGER NOT NULL REFERENCES User(id),
+    UNIQUE (test_id, student_id)
+);
