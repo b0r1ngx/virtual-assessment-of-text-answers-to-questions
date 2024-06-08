@@ -1,15 +1,12 @@
 CREATE TABLE IF NOT EXISTS Test(
   id          INTEGER PRIMARY KEY,
-  creator_id  INTEGER NOT NULL,
-  course_id   INTEGER NOT NULL,
+  creator_id  INTEGER NOT NULL REFERENCES User(id),
+  course_id   INTEGER NOT NULL REFERENCES Course(id),
   name        TEXT NOT NULL,
   start_at    TEXT NOT NULL,
   end_at      TEXT NOT NULL,
-  created_at  TEXT NOT NULL,
+  created_at  TEXT NOT NULL
 -- _at holdings DATE as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
-
-  FOREIGN KEY(creator_id) REFERENCES User(id),
-  FOREIGN KEY(course_id) REFERENCES Course(id)
 );
 
 selectAll:
