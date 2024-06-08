@@ -1,7 +1,22 @@
 CREATE TABLE TestPassed (
-    id           INTEGER PRIMARY KEY,
     avg_mark_ai  REAL,
     test_id      INTEGER NOT NULL REFERENCES Test(id),
     student_id   INTEGER NOT NULL REFERENCES User(id),
-    UNIQUE (test_id, student_id)
+    PRIMARY KEY (test_id, student_id)
 );
+
+selectAll:
+SELECT * FROM TestPassed;
+
+selectAllBy:
+SELECT * FROM TestPassed
+WHERE test_id = ? AND student_id = ?;
+
+insert:
+INSERT INTO TestPassed(test_id, student_id)
+VALUES(?, ?);
+
+updateAvgMarkAi:
+UPDATE TestPassed
+SET avg_mark_ai = ?
+WHERE test_id = ? AND student_id = ?;

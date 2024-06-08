@@ -7,3 +7,18 @@ CREATE TABLE TestAssessment (
     student_id  INTEGER NOT NULL REFERENCES User(id),
     UNIQUE (test_id, teacher_id, student_id)
 );
+
+selectAll:
+SELECT * FROM TestAssessment;
+
+selectAllByStudent:
+SELECT * FROM TestAssessment
+WHERE test_id = ? AND student_id = ?;
+
+selectAllByTeacher:
+SELECT * FROM TestAssessment
+WHERE test_id = ? AND teacher_id = ?;
+
+insert:
+INSERT INTO TestAssessment(text, mark, test_id, teacher_id, student_id)
+VALUES(?, ?, ?, ?, ?);
