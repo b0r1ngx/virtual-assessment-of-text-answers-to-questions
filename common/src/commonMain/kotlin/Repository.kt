@@ -150,9 +150,14 @@ open class Repository(private val database: Database) {
     private fun UserQueries.getUser(email: String) =
         selectAllByEmail(email).executeAsOneOrNull()
 
-    fun saveAssessment(testAssessments: List<TestAssessments>) {
+    suspend fun saveAssessment(
+        testAnswers: TestAnswers,
+        testAssessments: List<TestAssessments>
+    ) {
+        val student = getUserAndInsertIfNotExist(testAnswers.user)
         with(database) {
             transaction {
+                val aiMarks = mutableListOf<Double>()
                 testAssessments.forEach { assessment ->
                     assessment.criterionToMarkWithResponse.forEach { (criterion, mark, response) ->
                         val newAssessmentId: Long
@@ -170,11 +175,18 @@ open class Repository(private val database: Database) {
                         )
                     }
 
+                    aiMarks.add(assessment.avgMarkAi)
                     answerQueries.updateAvgMarkAi(
                         avg_mark_ai = assessment.avgMarkAi,
                         id = assessment.answer.id
                     )
                 }
+
+                testPassedQueries.updateAvgMarkAi(
+                    avg_mark_ai = aiMarks.average(),
+                    test_id = testAnswers.testId,
+                    student_id = student.id
+                )
             }
         }
     }
