@@ -58,7 +58,7 @@ fun Answer.getAssessment(
     logger.log(Level.INFO, responses.toString())
     logger.log(Level.INFO, assessments.toString())
 
-    val averageAssessment = assessments.sum().toDouble() / assessments.size
+    val averageAssessment = assessments.average()
     logger.log(Level.INFO, averageAssessment.toString())
 
     return criterionToMarkWithResponse to averageAssessment
