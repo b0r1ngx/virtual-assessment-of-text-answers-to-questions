@@ -1,0 +1,9 @@
+CREATE TABLE TestAssessment (
+    id          INTEGER PRIMARY KEY,
+    text        TEXT NOT NULL,
+    mark        REAL NOT NULL,
+    test_id     INTEGER NOT NULL REFERENCES Test(id),
+    teacher_id  INTEGER NOT NULL REFERENCES User(id),
+    student_id  INTEGER NOT NULL REFERENCES User(id),
+    UNIQUE (test_id, teacher_id, student_id)
+);
