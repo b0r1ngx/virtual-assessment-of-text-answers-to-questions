@@ -110,6 +110,10 @@ class DefaultRootComponent(
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
         test = config.test,
+        onCreateTest = { testModel ->
+            scope.launch { repository.createTest(test = testModel) }
+            navigation.pop()
+        },
         onFinished = navigation::pop,
     )
 

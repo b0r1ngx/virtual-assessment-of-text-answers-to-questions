@@ -16,7 +16,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import screens.utils.toHours
@@ -27,7 +26,8 @@ class EditingTestViewModel(
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
     val test: TestModel? = null, // if null -> teacher is creating new test, if not he is editing
-    val onFinished: () -> Unit,
+    val onCreateTest: (test: TestModel) -> Unit,
+    val onFinished: () -> Unit
 ) : ComponentContext by componentContext {
 
     private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
@@ -77,20 +77,15 @@ class EditingTestViewModel(
 
     // TODO: For current version, lets not allow to edit test, once it created
     fun saveTest(user: UserModel) {
-        scope.launch {
-            repository.createTest(
-                test = TestModel(
-                    creator = user,
-                    name = name.text,
-                    course = course!!,
-                    start_at = startAt.value,
-                    end_at = endAt.value,
-                    questions = questions.value
-                )
-            )
-            // show Toast / Snackbar that test is saved successfully
-            onFinished()
-        }
+        val test = TestModel(
+            creator = user,
+            name = name.text,
+            course = course!!,
+            start_at = startAt.value,
+            end_at = endAt.value,
+            questions = questions.value
+        )
+        onCreateTest(test)
     }
 
 }
