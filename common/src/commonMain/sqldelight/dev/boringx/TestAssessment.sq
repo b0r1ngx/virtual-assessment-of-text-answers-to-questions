@@ -1,4 +1,4 @@
-CREATE TABLE TestAssessment (
+CREATE TABLE IF NOT EXISTS TestAssessment (
     id          INTEGER PRIMARY KEY,
     text        TEXT NOT NULL,
     mark        REAL NOT NULL,

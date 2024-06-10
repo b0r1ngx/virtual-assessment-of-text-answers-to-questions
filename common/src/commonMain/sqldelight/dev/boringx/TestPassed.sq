@@ -1,4 +1,4 @@
-CREATE TABLE TestPassed (
+CREATE TABLE IF NOT EXISTS TestPassed (
     avg_mark_ai  REAL,
     test_id      INTEGER NOT NULL REFERENCES Test(id),
     student_id   INTEGER NOT NULL REFERENCES User(id),
