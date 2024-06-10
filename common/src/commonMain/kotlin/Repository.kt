@@ -111,6 +111,11 @@ open class Repository(private val database: Database) {
                         answer.copy(id = answerQueries.lastInsertRowId().executeAsOne())
                     )
                 }
+
+                testPassedQueries.insert(
+                    test_id = testAnswers.testId,
+                    student_id = student.id
+                )
             }
         }
 
