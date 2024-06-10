@@ -61,4 +61,24 @@ class ClientRepository(
         if (isTestCompleted) api.saveAnswers(testAnswers)
     }
 
+    override suspend fun getAnswers(testId: Long): List<TestAnswers> {
+        val localAnswers = super.getAnswers(testId)
+        val remoteAnswers = api.getAnswers(testId)
+        remoteAnswers.forEach {
+            if (isAnswerAlreadyExistsLocally(it, localAnswers)) {
+                super.saveAnswers(it)
+            }
+        }
+        return remoteAnswers.ifEmpty { localAnswers }
+    }
+
+    private fun isAnswerAlreadyExistsLocally(
+        answer: TestAnswers,
+        localAnswers: List<TestAnswers>,
+    ): Boolean =
+        localAnswers.any {
+            answer.user == it.user
+                    && answer.questionsToAnswers == it.questionsToAnswers
+        }
+
 }

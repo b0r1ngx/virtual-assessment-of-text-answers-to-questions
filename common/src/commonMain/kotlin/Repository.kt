@@ -122,7 +122,7 @@ open class Repository(private val database: Database) {
         return answersWithIds
     }
 
-    fun getAnswers(testId: Long): List<TestAnswers> {
+    open suspend fun getAnswers(testId: Long): List<TestAnswers> {
         val testAnswers = mutableListOf<TestAnswers>()
 
         with(database) {
