@@ -1,26 +1,27 @@
 package screens.test
 
+import Course
 import Question
 import UserViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TimeInput
@@ -84,7 +85,13 @@ fun EditingTestScreen(
             label = { Text(text = "Укажите тему и/или тип теста") }
         )
 
-        // TODO: Allow to choose course from User.courses via Picker
+        ChooseCourse(
+            courses = userViewModel.user.courses,
+            onCourseClick = { pickedCourse ->
+                testViewModel.course = pickedCourse
+            },
+            modifier = Modifier.padding(5.dp)
+        )
 
         // TODO: Later, drop default time values and until teacher provide it, don't allow to save the test.
         // TODO: create strings: Date and time test start
@@ -107,7 +114,7 @@ fun EditingTestScreen(
 
         Subtitle(text = "Вопросы", modifier = Modifier.fillMaxWidth())
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = 1.dp),
+            modifier = Modifier.padding(bottom = 5.dp),
             thickness = 1.dp,
             color = Color.Black,
         )
@@ -154,8 +161,55 @@ fun EditingTestScreen(
                     )
                 },
                 onDismissRequest = { isDialogOpened = false },
-                questionText = pickedQuestion.second?.text ?: ""
+                text = pickedQuestion.second?.text ?: ""
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ChooseCourse(
+    courses: List<Course>,
+    onCourseClick: (course: Course) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var pickedCourseText by remember { mutableStateOf("") }
+    var isExpanded by remember { mutableStateOf(false) }
+    Box {
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { isExpanded = !isExpanded },
+            modifier = modifier,
+        ) {
+            TextField(
+                value = pickedCourseText,
+                onValueChange = { inputPickedCourseText ->
+                    pickedCourseText = inputPickedCourseText
+                },
+                modifier = Modifier.menuAnchor(),
+                readOnly = true,
+                singleLine = true,
+                label = { Text("Назначить курс") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
+                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            )
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = { isExpanded = false },
+            ) {
+                courses.forEach { course ->
+                    DropdownMenuItem(
+                        text = { Text(text = course.name) },
+                        onClick = {
+                            pickedCourseText = course.name
+                            onCourseClick(course)
+                            isExpanded = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                }
+            }
         }
     }
 }
@@ -197,10 +251,7 @@ private fun DateAndTimePickerCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(text = title)
-            Icon(
-                imageVector = if (isExpanded.value) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-                contentDescription = null
-            )
+            ExposedDropdownMenuDefaults.TrailingIcon(isExpanded.value)
         }
 
         if (isExpanded.value)
