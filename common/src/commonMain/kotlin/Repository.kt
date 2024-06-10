@@ -122,6 +122,45 @@ open class Repository(private val database: Database) {
         return answersWithIds
     }
 
+    fun getAnswers(testId: Long): List<TestAnswers> {
+        val testAnswers = mutableListOf<TestAnswers>()
+
+        with(database) {
+            val testPasses = testPassedQueries.selectAllBy(test_id = testId).executeAsList()
+            val studentIdsOfTest = testPasses.map { it.student_id }
+
+            val students = userQueries.selectAllIn(id = studentIdsOfTest).executeAsList()
+
+            students.forEach {
+                val userModel =
+                    UserModel(typeId = it.user_type_id.toInt(), name = it.name, email = it.email)
+
+                val studentAnswers = answerQueries.selectAllBy(
+                    test_id = testId,
+                    student_id = it.id,
+                    mapper = { id, text, avgMarkAi, _, _, _ ->
+                        // creating mock question here, maybe question doesn't need for TestAnswers?
+                        Question(text = "") to Answer(
+                            id = id,
+                            text = text,
+                            avgMarkAi = avgMarkAi ?: -1.0
+                        )
+                    }
+                ).executeAsList()
+
+                testAnswers.add(
+                    TestAnswers(
+                        testId = testId,
+                        user = userModel,
+                        questionsToAnswers = studentAnswers
+                    )
+                )
+            }
+        }
+
+        return testAnswers
+    }
+
     // suspending is only required by ClientRepository, because there is API call to server
     // but why databases interaction via SQLDelight are not async?
     open suspend fun createUser(user: UserModel) {
