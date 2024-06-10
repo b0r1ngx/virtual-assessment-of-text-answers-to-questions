@@ -12,6 +12,10 @@ selectAllById:
 SELECT * FROM User
 WHERE id = ?;
 
+selectAllIn:
+SELECT * FROM User
+WHERE id IN ?;
+
 selectAllByEmail:
 SELECT * FROM User
 WHERE email = ?;
