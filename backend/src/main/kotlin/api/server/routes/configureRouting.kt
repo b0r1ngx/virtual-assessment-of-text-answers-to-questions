@@ -24,7 +24,6 @@ fun Application.configureRouting(repository: Repository) {
         userRoutes(repository)
         courseRoutes(repository)
         testRoutes(repository)
-        answerRoutes(repository)
     }
 }
 
@@ -59,6 +58,7 @@ fun Route.courseRoutes(repository: Repository) {
 fun Route.testRoutes(repository: Repository) {
     route(Endpoints.test.path) {
         get {
+            // TODO: filter to get tests only appropriate for user
             val tests = repository.getTests()
             call.respond(tests)
         }
@@ -68,11 +68,25 @@ fun Route.testRoutes(repository: Repository) {
             repository.createTest(test)
             call.respond(HttpStatusCode.Created)
         }
+
+        answerRoutes(repository)
     }
 }
 
 fun Route.answerRoutes(repository: Repository) {
     route(Endpoints.answer.path) {
+        get("/{testId}") {
+            val badRequest: suspend () -> Unit = {
+                call.respond(
+                    status = HttpStatusCode.BadRequest,
+                    message = "Wrong testId, must be a Long number"
+                )
+            }
+            val testId = call.parameters["testId"]?.toLongOrNull() ?: return@get badRequest.invoke()
+            val studentAnswers = repository.getAnswers(testId)
+            call.respond(studentAnswers)
+        }
+
         put {
             val testAnswers = call.receive<TestAnswers>()
             repository.saveAnswers(testAnswers)

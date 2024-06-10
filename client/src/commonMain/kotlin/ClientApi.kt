@@ -20,6 +20,8 @@ import kotlinx.serialization.json.Json
   The plugin processes the request and the response payload as JSON,
   serializing and deserializing them as needed.
  */
+private const val CLIENT_API_TAG = "ClientApi"
+
 class ClientApi {
     // The network requests will be executed in the HTTP client's thread pool.
     private val httpClient = HttpClient {
@@ -69,6 +71,7 @@ class ClientApi {
             httpClient.put(Endpoints.user.path) {
                 contentType(ContentType.Application.Json)
                 setBody(user)
+                println("$CLIENT_API_TAG, body: $user")
             }
         } catch (e: Exception) {
             println("error executing ClientApi.registerUser(), show snackbar?")
@@ -77,12 +80,21 @@ class ClientApi {
 
     suspend fun saveAnswers(testAnswers: TestAnswers) {
         try {
-            httpClient.put(Endpoints.answer.path) {
+            httpClient.put(Endpoints.test.path + Endpoints.answer.path) {
                 contentType(ContentType.Application.Json)
                 setBody(testAnswers)
             }
         } catch (e: Exception) {
             println("error executing ClientApi.saveAnswers(), show snackbar?")
+        }
+    }
+
+    suspend fun getAnswers(testId: Long): List<TestAnswers> {
+        return try {
+            httpClient.get(Endpoints.test.path + Endpoints.answer.path + "/$testId").body()
+        } catch (e: Exception) {
+            println("error executing ClientApi.getAnswers(), show snackbar?")
+            listOf()
         }
     }
 
