@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import screens.utils.fromSystemTimeZoneToUTC
 import screens.utils.toHours
 import kotlin.coroutines.CoroutineContext
 
@@ -81,8 +82,8 @@ class EditingTestViewModel(
             creator = user,
             name = name.text,
             course = course!!,
-            start_at = startAt.value,
-            end_at = endAt.value,
+            start_at = startAt.value.fromSystemTimeZoneToUTC(),
+            end_at = endAt.value.fromSystemTimeZoneToUTC(),
             questions = questions.value
         )
         onCreateTest(test)
