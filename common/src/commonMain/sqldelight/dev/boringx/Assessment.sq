@@ -1,10 +1,8 @@
 CREATE TABLE IF NOT EXISTS Assessment(
   id            INTEGER PRIMARY KEY,
-  criterion_id  INTEGER NOT NULL,
+  criterion_id  INTEGER NOT NULL REFERENCES Criterion(id),
   mark          INTEGER NOT NULL,
-  raw_response  TEXT NOT NULL,
-
-  FOREIGN KEY(criterion_id) REFERENCES Criterion(id)
+  raw_response  TEXT NOT NULL
 );
 
 selectAll:

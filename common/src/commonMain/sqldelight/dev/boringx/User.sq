@@ -1,10 +1,8 @@
 CREATE TABLE IF NOT EXISTS User (
   id            INTEGER PRIMARY KEY,
-  user_type_id  INTEGER NOT NULL,
+  user_type_id  INTEGER NOT NULL REFERENCES UserType(id),
   name          TEXT NOT NULL,
-  email         TEXT NOT NULL UNIQUE,
-
-  FOREIGN KEY(user_type_id) REFERENCES UserType(id)
+  email         TEXT NOT NULL UNIQUE
 );
 
 selectAll:

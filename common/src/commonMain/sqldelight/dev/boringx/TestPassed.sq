@@ -10,6 +10,10 @@ SELECT * FROM TestPassed;
 
 selectAllBy:
 SELECT * FROM TestPassed
+WHERE test_id = ?;
+
+selectAvgMarkAi:
+SELECT avg_mark_ai FROM TestPassed
 WHERE test_id = ? AND student_id = ?;
 
 insert:
