@@ -62,7 +62,11 @@ fun EditingTestScreen(
     val isEndAtExpanded = remember { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        if (testViewModel.test == null) {
+            focusRequester.requestFocus()
+        }
+    }
 
     var pickedQuestion by remember { mutableStateOf<Pair<Int?, Question?>>(null to null) }
     var isDialogOpened by remember { mutableStateOf(false) }
@@ -86,6 +90,7 @@ fun EditingTestScreen(
         )
 
         ChooseCourse(
+            initialCourseText = testViewModel.course?.name ?: "",
             courses = userViewModel.user.courses,
             onCourseClick = { pickedCourse ->
                 testViewModel.course = pickedCourse
@@ -170,11 +175,12 @@ fun EditingTestScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ChooseCourse(
+    initialCourseText: String,
     courses: List<Course>,
     onCourseClick: (course: Course) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var pickedCourseText by remember { mutableStateOf("") }
+    var pickedCourseText by remember { mutableStateOf(initialCourseText) }
     var isExpanded by remember { mutableStateOf(false) }
     Box {
         ExposedDropdownMenuBox(

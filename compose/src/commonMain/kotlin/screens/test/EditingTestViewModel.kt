@@ -26,7 +26,7 @@ class EditingTestViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    test: TestModel? = null, // if null -> teacher is creating new test, if not he is editing
+    val test: TestModel? = null, // if null -> teacher is creating new test, if not he is editing
     val onFinished: () -> Unit,
 ) : ComponentContext by componentContext {
 
