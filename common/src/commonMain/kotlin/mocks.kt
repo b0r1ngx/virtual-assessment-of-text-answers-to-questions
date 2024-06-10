@@ -27,11 +27,27 @@ private val mockOSBQuestions = listOf(
     Question(text = "На каких этапах жизненного цикла процесса операционной системы ему требуется сегмент стека ?"), // Только на этапах возникновения прерываний выполнения процесса
 )
 
+private val mockArchTest = TestModel(
+    id = 3,
+    creator = UserModel(
+        typeId = 1,
+        name = "Тарасов Олег Михайлович",
+        email = "tarasov.om@edu.spbstu.ru"
+    ),
+    name = "Экзамен",
+    course = Course(id = 3, name = "Архитектура ЭВМ"),
+    start_at = Clock.System.now(),
+    end_at = Clock.System.now().plus(10.toDuration(DurationUnit.MINUTES)),
+    questions = mockArchitectureQuestions
+)
+
+val mockOneTest = listOf(mockArchTest)
+
 val mockTests = listOf(
     TestModel(
         id = 1,
         creator = UserModel(
-            typeId = 2,
+            typeId = 1,
             name = "Лупин Анатолий Викторович",
             email = "lupin.av@edu.spbstu.ru"
         ),
@@ -44,7 +60,7 @@ val mockTests = listOf(
     TestModel(
         id = 2,
         creator = UserModel(
-            typeId = 2,
+            typeId = 1,
             name = "Богач Наталья Владимировна",
             email = "bogach.nv@edu.spbstu.ru"
         ),
@@ -54,22 +70,10 @@ val mockTests = listOf(
         end_at = Clock.System.now().plus(1.toDuration(DurationUnit.HOURS)),
         questions = mockTelecomQuestions
     ),
-    TestModel(
-        id = 3,
-        creator = UserModel(
-            typeId = 2,
-            name = "Тарасов Олег Михайлович",
-            email = "tarasov.om@edu.spbstu.ru"
-        ),
-        name = "Экзамен",
-        course = Course(id = 3, name = "Архитектура ЭВМ"),
-        start_at = Clock.System.now(),
-        end_at = Clock.System.now().plus(2.toDuration(DurationUnit.HOURS)),
-        questions = mockArchitectureQuestions
-    ),
+    mockArchTest,
     TestModel(
         creator = UserModel(
-            typeId = 2,
+            typeId = 1,
             name = "Малышев Игорь Алексеевич",
             email = "malyshev.ia@edu.spbstu.ru"
         ),
