@@ -53,6 +53,8 @@ import org.jetbrains.compose.resources.stringResource
 import screens.utils.toLocalDateTime
 import styles.RoundedCornerBy16
 
+// TODO: fix bug, when we create test and navigated to tests screens, its not appeared in tests
+//  i think it also not update values of edited test, after we edit test
 @Composable
 fun EditingTestScreen(
     userViewModel: UserViewModel,
