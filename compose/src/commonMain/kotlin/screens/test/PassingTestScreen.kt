@@ -4,6 +4,7 @@ import Answer
 import Question
 import UserModel
 import UserViewModel
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,6 +30,8 @@ import dev.boringx.compose.generated.resources.complete_test
 import dev.boringx.compose.generated.resources.save_button
 import dev.boringx.compose.generated.resources.test
 import org.jetbrains.compose.resources.stringResource
+import styles.GreenPastelColor
+import styles.YellowPastelColor
 
 @Composable
 fun PassingTestScreen(
@@ -58,7 +62,6 @@ fun PassingTestScreen(
             }
         }
 
-
         Button(onClick = {
             testViewModel.saveAnswers(
                 user = userViewModel.user,
@@ -69,16 +72,6 @@ fun PassingTestScreen(
             Text(stringResource(Res.string.complete_test))
         }
     }
-
-    // question.text
-
-    // TextField to input answer
-
-    // if currentQuestion == questions.last
-    //      Finish Button
-    // else
-    //      Button for navigate to next question
-    //        (disable this button, if TextField.value.isEmpty)
 }
 
 @Composable
@@ -92,24 +85,37 @@ private fun QuestionWithAnswerField(
     var answerFieldValue by mutableStateOf(
         TextFieldValue(text = answer.text, selection = TextRange(answer.text.length))
     )
-    val isExpanded = remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(false) }
+    var questionColorState by remember { mutableStateOf(YellowPastelColor) }
 
-    Card(modifier = modifier.padding(bottom = 10.dp)) {
-        Text(text = question.text, modifier = Modifier.padding(5.dp))
+    Card(
+        modifier = modifier.padding(bottom = 10.dp),
+        colors = CardDefaults.cardColors().copy(containerColor = questionColorState)
+    ) {
+        Text(
+            text = question.text,
+            modifier = Modifier.padding(5.dp).clickable { isExpanded = !isExpanded },
+        )
 
-        if (isExpanded.value) {
+        if (isExpanded) {
             TextField(
                 value = answerFieldValue,
                 onValueChange = { newAnswer -> answerFieldValue = newAnswer },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 5.dp),
-                label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp),
+                label = { Text(text = "Поле для ответа") },
             )
 
-            Button(onClick = {
-                saveAnswers(user, listOf(question to Answer(text = answerFieldValue.text)), false)
-            }) {
+            Button(
+                onClick = {
+                    saveAnswers(
+                        user,
+                        listOf(question to Answer(text = answerFieldValue.text)),
+                        false
+                    )
+                    questionColorState = GreenPastelColor
+                    isExpanded = false
+                },
+            ) {
                 Text(text = stringResource(Res.string.save_button))
             }
         }

@@ -32,12 +32,15 @@ class PassingTestViewModel(
         }
     }
 
+    // TODO: create saveAnswer function, that called, when user answer to one question
+    // TODO: delete isTestCompleted, from this function
+    //       change inside logic of it, to it be responsible for saveAnswers only after user is complete test
     fun saveAnswers(
         user: UserModel,
         answers: List<Pair<Question, Answer>>,
         isTestCompleted: Boolean,
     ) {
-        // TODO: later save each answered question
+        // TODO: later save each answered question to local DB
         if (isTestCompleted) {
             val testAnswers = TestAnswers(test.id, user, answers)
             scope.launch {
@@ -48,9 +51,11 @@ class PassingTestViewModel(
             }
             return
         }
+
         answers.forEach { questionToAnswer ->
             val questionToAnswerIndex = questionsToAnswers.value
                 .indexOfFirst { it.first.id == questionToAnswer.first.id }
+
             questionsToAnswers.value.set(
                 index = questionToAnswerIndex,
                 element = questionToAnswer
