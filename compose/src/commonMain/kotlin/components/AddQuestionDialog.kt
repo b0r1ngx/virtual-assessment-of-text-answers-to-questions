@@ -31,11 +31,11 @@ import org.jetbrains.compose.resources.stringResource
 fun AddQuestionDialog(
     onConfirmRequest: (text: String) -> Unit,
     onDismissRequest: () -> Unit,
-    questionText: String = "",
+    text: String = "",
     modifier: Modifier = Modifier,
 ) {
     var questionTextValue by mutableStateOf(
-        TextFieldValue(text = questionText, selection = TextRange(questionText.length))
+        TextFieldValue(text = text, selection = TextRange(text.length))
     )
 
     val focusRequester = remember { FocusRequester() }
