@@ -32,12 +32,13 @@ class DefaultRootComponent(
     componentContext: ComponentContext,
 ) : RootComponent, ComponentContext by componentContext {
 
-    private val database = createDatabase(sqlDriverFactory = sqlDriverFactory)
-    private val clientApi = ClientApi()
-    private val repository = ClientRepository(database = database, api = clientApi)
+    private val repository = ClientRepository(
+        database = createDatabase(sqlDriverFactory = sqlDriverFactory),
+        api = ClientApi(),
+    )
     private val user = repository.getUserSelf()
     private val initialConfiguration: Config = if (user == null) Config.Auth else Config.Tests
-    private val scope = coroutineScope(Dispatchers.Main.immediate + SupervisorJob())
+    private val coroutineScope = coroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
     private val navigation = StackNavigation<Config>()
     override val navigationStack: Value<ChildStack<*, RootComponent.Child>> =
@@ -80,7 +81,7 @@ class DefaultRootComponent(
         repository = repository,
         onRegister = { userModel ->
             userViewModel = UserViewModel(user = userModel, repository = repository)
-            scope.launch { repository.createUser(user = userModel) }
+            coroutineScope.launch { repository.createUser(user = userModel) }
             navigation.replaceCurrent(Config.Tests)
         },
     )
@@ -111,7 +112,7 @@ class DefaultRootComponent(
         repository = repository,
         test = config.test,
         onCreateTest = { testModel ->
-            scope.launch { repository.createTest(test = testModel) }
+            coroutineScope.launch { repository.createTest(test = testModel) }
             navigation.pop()
         },
         onFinished = navigation::pop,
