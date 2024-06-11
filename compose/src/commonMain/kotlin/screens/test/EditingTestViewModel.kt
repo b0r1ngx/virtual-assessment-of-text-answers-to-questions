@@ -10,8 +10,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -19,17 +17,13 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import screens.utils.fromSystemTimeZoneToUTC
 import screens.utils.toHours
-import kotlin.coroutines.CoroutineContext
 
 class EditingTestViewModel(
     componentContext: ComponentContext,
-    mainCoroutineContext: CoroutineContext,
     val test: TestModel? = null, // if null -> teacher is creating new test, if not he is editing
     val onCreateTest: (test: TestModel) -> Unit,
     val onFinished: () -> Unit
 ) : ComponentContext by componentContext {
-
-    private val scope = coroutineScope(mainCoroutineContext + SupervisorJob())
 
     var name by mutableStateOf(
         TextFieldValue(
