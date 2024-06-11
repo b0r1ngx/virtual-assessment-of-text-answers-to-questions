@@ -34,7 +34,7 @@ class TestsViewModel(
 
     init {
         scope.launch {
-            _tests.update { repository.getTests() } // mockTests
+            _tests.update { repository.getTests() }
         }
     }
 

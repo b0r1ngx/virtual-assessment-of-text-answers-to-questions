@@ -1,4 +1,4 @@
-package screens.tests
+package screens.tests.model
 
 import androidx.compose.ui.graphics.Color
 import dev.boringx.compose.generated.resources.Res

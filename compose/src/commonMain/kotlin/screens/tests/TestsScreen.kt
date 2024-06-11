@@ -46,6 +46,7 @@ import kotlinx.datetime.Clock
 import model.UserType
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
+import screens.tests.model.TestStatus
 import screens.tests.tabs.TestsTab
 import screens.utils.toHumanReadable
 import styles.RoundedCornerBy16
