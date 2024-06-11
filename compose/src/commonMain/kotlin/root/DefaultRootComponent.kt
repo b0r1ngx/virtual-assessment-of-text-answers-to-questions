@@ -109,7 +109,6 @@ class DefaultRootComponent(
     ) = EditingTestViewModel(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
-        repository = repository,
         test = config.test,
         onCreateTest = { testModel ->
             coroutineScope.launch { repository.createTest(test = testModel) }

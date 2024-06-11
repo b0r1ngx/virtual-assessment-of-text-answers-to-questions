@@ -1,6 +1,5 @@
 package screens.test
 
-import ClientRepository
 import Question
 import TestModel
 import UserModel
@@ -25,7 +24,6 @@ import kotlin.coroutines.CoroutineContext
 class EditingTestViewModel(
     componentContext: ComponentContext,
     mainCoroutineContext: CoroutineContext,
-    private val repository: ClientRepository,
     val test: TestModel? = null, // if null -> teacher is creating new test, if not he is editing
     val onCreateTest: (test: TestModel) -> Unit,
     val onFinished: () -> Unit
