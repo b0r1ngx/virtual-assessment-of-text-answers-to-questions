@@ -1,5 +1,6 @@
 package api.server.routes
 
+import Assessment
 import Endpoints
 import Repository
 import TestAnswers
@@ -92,6 +93,20 @@ private fun Route.answerRoutes(repository: Repository) {
             repository.saveAnswers(testAnswers)
             call.respond(HttpStatusCode.Created)
             assessAnswerAndSaveToDatabase(repository, testAnswers)
+        }
+    }
+}
+
+private fun Route.assessRoutes(repository: Repository) {
+    route(Endpoints.assess.path) {
+        get {
+            call.respond(HttpStatusCode.NoContent) // TODO
+        }
+
+        put {
+            val assessment = call.receive<Assessment>()
+            repository.saveFinalAssessment(assessment)
+            call.respond(HttpStatusCode.Created)
         }
     }
 }
