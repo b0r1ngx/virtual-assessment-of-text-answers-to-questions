@@ -40,7 +40,7 @@ class DefaultRootComponent(
         database = createDatabase(sqlDriverFactory = sqlDriverFactory),
         api = ClientApi(),
     )
-    private val user = repository.getUserSelf()
+    private val user = repository.getAppUser()
     private val initialConfiguration: Config = if (user == null) Config.Auth else Config.Tests
     private val coroutineScope = coroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 

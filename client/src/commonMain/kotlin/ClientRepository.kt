@@ -5,8 +5,7 @@ class ClientRepository(
     private val api: ClientApi,
 ) : Repository(database = database) {
 
-    // rename to getAppUser()
-    fun getUserSelf(): UserModel? {
+    fun getAppUser(): UserModel? {
         with(database) {
             // on clients, first User entry equals to user that registered on this client
             val user = userQueries.selectAllById(id = 1).executeAsOneOrNull() ?: return null
