@@ -34,10 +34,11 @@
 
     <!-- Test Screen-->
     <string name="test">Тест</string>
-    <string name="test_creation">Создание</string>
-    <string name="test_editing">Редактирование</string>
-    <string name="test_passing">Прохождение</string>
-    <string name="test_result">Результат</string>
+    <string name="creation">Создание</string>
+    <string name="editing">Редактирование</string>
+    <string name="passing">Прохождение</string>
+    <string name="assessment">Оценивание</string>
+    <string name="result">Результат</string>
     <string name="question">Вопрос</string>
     <string name="answer">Ответ</string>
     <string name="answer_placeholder">Поле для ввода ответа</string>

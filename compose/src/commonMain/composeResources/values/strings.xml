@@ -31,10 +31,11 @@
 
     <!-- Test Screen-->
     <string name="test">Test</string>
-    <string name="test_creation">Creation</string>
-    <string name="test_editing">Editing</string>
-    <string name="test_passing">Passing</string>
-    <string name="test_result">Result</string>
+    <string name="creation">Creation</string>
+    <string name="editing">Editing</string>
+    <string name="passing">Passing</string>
+    <string name="assessment">Assessment</string>
+    <string name="result">Result</string>
     <string name="question">Question</string>
     <string name="answer">Answer</string>
     <string name="answer_placeholder">Enter your answer here</string>
