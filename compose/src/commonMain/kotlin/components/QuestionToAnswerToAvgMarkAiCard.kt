@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import styles.RoundedCornerBy16
 
 @Composable
-fun QuestionToAnswerCard(
+fun QuestionToAnswerToAvgMarkAiCard(
     question: Question,
     answer: Answer,
     modifier: Modifier = Modifier,

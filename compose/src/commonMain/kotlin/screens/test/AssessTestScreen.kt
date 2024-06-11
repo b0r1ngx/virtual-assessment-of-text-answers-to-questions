@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import components.QuestionToAnswerCard
+import components.QuestionToAnswerToAvgMarkAiCard
 import components.TopBar
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.test
@@ -37,7 +37,7 @@ fun AssessTestScreen(
 
         LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
             items(testViewModel.testAnswers.questionsToAnswers) { (question, answer) ->
-                QuestionToAnswerCard(question, answer)
+                QuestionToAnswerToAvgMarkAiCard(question, answer)
             }
         }
 
