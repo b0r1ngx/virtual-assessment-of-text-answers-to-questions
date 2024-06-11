@@ -131,13 +131,17 @@ open class Repository(private val database: Database) {
 
             val students = userQueries.selectAllIn(id = studentIdsOfTest).executeAsList()
 
-            students.forEach {
+            students.forEachIndexed { index, user ->
                 val userModel =
-                    UserModel(typeId = it.user_type_id.toInt(), name = it.name, email = it.email)
+                    UserModel(
+                        typeId = user.user_type_id.toInt(),
+                        name = user.name,
+                        email = user.email
+                    )
 
                 val studentAnswers = answerQueries.selectAllBy(
                     test_id = testId,
-                    student_id = it.id,
+                    student_id = user.id,
                     mapper = { id, text, avgMarkAi, _, _, _ ->
                         // creating mock question here, maybe question doesn't need for TestAnswers?
                         Question(text = "") to Answer(
@@ -152,7 +156,8 @@ open class Repository(private val database: Database) {
                     TestAnswers(
                         testId = testId,
                         user = userModel,
-                        questionsToAnswers = studentAnswers
+                        questionsToAnswers = studentAnswers,
+                        avgMarkAi = testPasses.getOrNull(index)?.avg_mark_ai ?: -1.0
                     )
                 )
             }
