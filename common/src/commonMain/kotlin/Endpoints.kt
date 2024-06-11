@@ -3,4 +3,5 @@ enum class Endpoints(val path: String) {
     course("/course"),
     test("/test"),
     answer("/answer"),
+    assess("/assess")
 }
