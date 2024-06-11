@@ -19,9 +19,11 @@ import createDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import model.UserType
 import screens.auth.AuthViewModel
+import screens.test.AssessTestViewModel
 import screens.test.EditingTestViewModel
 import screens.test.PassingTestViewModel
 import screens.test.ResultTestViewModel
@@ -70,6 +72,11 @@ class DefaultRootComponent(
                 passingTestComponent(componentContext, config)
             )
 
+            is Config.AssessTest -> RootComponent.Child.AssessTest(
+                assessTestComponent(componentContext, config)
+            )
+
+
             is Config.ResultTest -> RootComponent.Child.ResultTest(resultTestComponent(config))
         }
 
@@ -94,12 +101,17 @@ class DefaultRootComponent(
         repository = repository,
         onCreateTestClick = { navigation.push(Config.EditingTest()) },
         onTestClick = { test ->
-            if (userViewModel.user.typeId == UserType.Student.ordinal)
-            // todo: if test is assessed by teacher, navigate to ResultTest
-            //  should we write this logic here?
+            if (userViewModel.user.typeId == UserType.Student.ordinal) {
+                // todo: if test is assessed by teacher, navigate to ResultTest
+                //  should we write this logic here?
                 navigation.push(Config.PassingTest(test = test))
-            else
-                navigation.push(Config.EditingTest(test = test))
+            } else {
+                if (test.start_at < Clock.System.now()) {
+                    navigation.push(Config.AssessTest(test = test))
+                } else {
+                    navigation.push(Config.EditingTest(test = test))
+                }
+            }
         }
     )
 
@@ -108,7 +120,6 @@ class DefaultRootComponent(
         config: Config.EditingTest,
     ) = EditingTestViewModel(
         componentContext = componentContext,
-        mainCoroutineContext = Dispatchers.Main.immediate,
         test = config.test,
         onCreateTest = { testModel ->
             coroutineScope.launch { repository.createTest(test = testModel) }
@@ -121,6 +132,17 @@ class DefaultRootComponent(
         componentContext: ComponentContext,
         config: Config.PassingTest,
     ) = PassingTestViewModel(
+        componentContext = componentContext,
+        mainCoroutineContext = Dispatchers.Main.immediate,
+        repository = repository,
+        test = config.test,
+        onFinished = navigation::pop,
+    )
+
+    private fun assessTestComponent(
+        componentContext: ComponentContext,
+        config: Config.AssessTest,
+    ) = AssessTestViewModel(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
@@ -154,6 +176,9 @@ class DefaultRootComponent(
 
         @Serializable
         data class PassingTest(val test: TestModel) : Config
+
+        @Serializable
+        data class AssessTest(val test: TestModel) : Config
 
         @Serializable
         data class ResultTest(val test: TestModel) : Config

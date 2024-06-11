@@ -18,6 +18,7 @@ import screens.test.PassingTestScreen
 import screens.tests.TestsScreen
 import theme.AppTheme
 
+// TODO: Use Scaffold
 @Composable
 internal fun RootContent(
     component: RootComponent,
@@ -48,6 +49,7 @@ internal fun RootContent(
                         testViewModel = instance.component,
                     )
 
+                    is RootComponent.Child.AssessTest -> TODO()
                     is RootComponent.Child.ResultTest -> TODO()
                 }
             }

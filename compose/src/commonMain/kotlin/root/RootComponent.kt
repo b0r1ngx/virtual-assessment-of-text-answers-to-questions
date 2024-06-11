@@ -4,6 +4,7 @@ import UserViewModel
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import screens.auth.AuthViewModel
+import screens.test.AssessTestViewModel
 import screens.test.EditingTestViewModel
 import screens.test.PassingTestViewModel
 import screens.test.ResultTestViewModel
@@ -20,6 +21,7 @@ interface RootComponent {
         class Tests(val component: TestsViewModel) : Child()
         class EditingTest(val component: EditingTestViewModel) : Child()
         class PassingTest(val component: PassingTestViewModel) : Child()
+        class AssessTest(val component: AssessTestViewModel) : Child()
         class ResultTest(val component: ResultTestViewModel) : Child()
     }
 }
