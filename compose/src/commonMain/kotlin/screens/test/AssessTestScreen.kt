@@ -69,7 +69,7 @@ private fun QuestionToAnswerCard(question: Question, answer: Answer) {
 }
 
 @Composable
-fun BottomBar(
+private fun BottomBar(
     user: UserModel,
     testViewModel: AssessTestViewModel
 ) {
