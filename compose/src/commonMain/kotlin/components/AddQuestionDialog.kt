@@ -43,8 +43,6 @@ fun AddQuestionDialog(
 
     Dialog(onDismissRequest = onDismissRequest) {
         Column(modifier = modifier) {
-            Text(text = "Введите текст вопроса")
-
             TextField(
                 value = questionTextValue,
                 onValueChange = { newQuestionText -> questionTextValue = newQuestionText },
@@ -52,7 +50,7 @@ fun AddQuestionDialog(
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp, vertical = 5.dp)
                     .focusRequester(focusRequester),
-                label = { Text(text = "Укажите тему и/или тип теста") } // Type the topic and/or type of a test
+                label = { Text(text = "Введите текст вопроса") }
             )
 
             Row(
