@@ -27,7 +27,7 @@ fun Application.configureRouting(repository: Repository) {
     }
 }
 
-fun Route.helloRoute() {
+private fun Route.helloRoute() {
     route("/") {
         get {
             call.respondText("Hello, world!")
@@ -35,7 +35,7 @@ fun Route.helloRoute() {
     }
 }
 
-fun Route.userRoutes(repository: Repository) {
+private fun Route.userRoutes(repository: Repository) {
     route(Endpoints.user.path) {
         put {
             val user = call.receive<UserModel>()
@@ -46,7 +46,7 @@ fun Route.userRoutes(repository: Repository) {
     }
 }
 
-fun Route.courseRoutes(repository: Repository) {
+private fun Route.courseRoutes(repository: Repository) {
     route(Endpoints.course.path) {
         get {
             val courses = repository.getCourses()
@@ -55,7 +55,7 @@ fun Route.courseRoutes(repository: Repository) {
     }
 }
 
-fun Route.testRoutes(repository: Repository) {
+private fun Route.testRoutes(repository: Repository) {
     route(Endpoints.test.path) {
         get {
             // TODO: filter to get tests only appropriate for user
@@ -73,7 +73,7 @@ fun Route.testRoutes(repository: Repository) {
     }
 }
 
-fun Route.answerRoutes(repository: Repository) {
+private fun Route.answerRoutes(repository: Repository) {
     route(Endpoints.answer.path) {
         get("/{testId}") {
             val badRequest: suspend () -> Unit = {
