@@ -13,6 +13,8 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import screens.auth.AuthScreen
+import screens.test.AnswersTestScreen
+import screens.test.AssessTestScreen
 import screens.test.EditingTestScreen
 import screens.test.PassingTestScreen
 import screens.tests.TestsScreen
@@ -49,7 +51,13 @@ internal fun RootContent(
                         testViewModel = instance.component,
                     )
 
-                    is RootComponent.Child.AssessTest -> TODO()
+                    is RootComponent.Child.AnswersTest -> AnswersTestScreen(testViewModel = instance.component)
+
+                    is RootComponent.Child.AssessTest -> AssessTestScreen(
+                        userViewModel = component.userViewModel,
+                        testViewModel = instance.component
+                    )
+
                     is RootComponent.Child.ResultTest -> TODO()
                 }
             }

@@ -1,16 +1,37 @@
 package screens.test
 
-import ClientRepository
-import TestModel
+import Assessment
+import TestAnswers
+import UserModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
-import kotlin.coroutines.CoroutineContext
 
 class AssessTestViewModel(
     componentContext: ComponentContext,
-    mainCoroutineContext: CoroutineContext,
-    private val repository: ClientRepository,
-    val test: TestModel,
+    val testAnswers: TestAnswers,
+    val onAssess: (assessment: Assessment) -> Unit,
     val onFinished: () -> Unit,
-) {
+) : ComponentContext by componentContext {
 
+    var assessment by mutableStateOf("")
+    var mark: Double by mutableStateOf(-1.0)
+
+    var isAllowedToEndAssess by mutableStateOf(false)
+
+    fun validateAssessment() {
+        isAllowedToEndAssess = assessment.isNotBlank() && mark >= 0
+    }
+
+    fun saveAssess(user: UserModel) {
+        val assessment = Assessment(
+            testId = testAnswers.testId,
+            teacher = user,
+            student = testAnswers.user,
+            text = assessment,
+            mark = mark
+        )
+        onAssess(assessment)
+    }
 }

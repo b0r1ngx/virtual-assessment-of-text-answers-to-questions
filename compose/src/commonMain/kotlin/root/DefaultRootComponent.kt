@@ -3,6 +3,7 @@ package root
 import ClientApi
 import ClientRepository
 import SqlDriverFactory
+import TestAnswers
 import TestModel
 import UserViewModel
 import com.arkivanov.decompose.ComponentContext
@@ -23,6 +24,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import model.UserType
 import screens.auth.AuthViewModel
+import screens.test.AnswersTestViewModel
 import screens.test.AssessTestViewModel
 import screens.test.EditingTestViewModel
 import screens.test.PassingTestViewModel
@@ -72,10 +74,13 @@ class DefaultRootComponent(
                 passingTestComponent(componentContext, config)
             )
 
-            is Config.AssessTest -> RootComponent.Child.AssessTest(
+            is Config.AnswersTest -> RootComponent.Child.AnswersTest(
                 assessTestComponent(componentContext, config)
             )
 
+            is Config.AssessTest -> RootComponent.Child.AssessTest(
+                assessTestComponent(componentContext, config)
+            )
 
             is Config.ResultTest -> RootComponent.Child.ResultTest(resultTestComponent(config))
         }
@@ -107,7 +112,7 @@ class DefaultRootComponent(
                 navigation.push(Config.PassingTest(test = test))
             } else {
                 if (test.start_at < Clock.System.now()) {
-                    navigation.push(Config.AssessTest(test = test))
+                    navigation.push(Config.AnswersTest(test = test))
                 } else {
                     navigation.push(Config.EditingTest(test = test))
                 }
@@ -141,12 +146,27 @@ class DefaultRootComponent(
 
     private fun assessTestComponent(
         componentContext: ComponentContext,
-        config: Config.AssessTest,
-    ) = AssessTestViewModel(
+        config: Config.AnswersTest,
+    ) = AnswersTestViewModel(
         componentContext = componentContext,
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
         test = config.test,
+        onStudentClick = { testAnswers ->
+            navigation.push(Config.AssessTest(testAnswers = testAnswers))
+        },
+        onFinished = navigation::pop,
+    )
+
+    private fun assessTestComponent(
+        componentContext: ComponentContext,
+        config: Config.AssessTest,
+    ) = AssessTestViewModel(
+        componentContext = componentContext,
+        testAnswers = config.testAnswers,
+        onAssess = { assessment ->
+            coroutineScope.launch { repository.saveFinalAssessment(assessment = assessment) }
+        },
         onFinished = navigation::pop,
     )
 
@@ -178,7 +198,10 @@ class DefaultRootComponent(
         data class PassingTest(val test: TestModel) : Config
 
         @Serializable
-        data class AssessTest(val test: TestModel) : Config
+        data class AnswersTest(val test: TestModel) : Config
+
+        @Serializable
+        data class AssessTest(val testAnswers: TestAnswers) : Config
 
         @Serializable
         data class ResultTest(val test: TestModel) : Config
