@@ -98,4 +98,15 @@ class ClientApi {
         }
     }
 
+    suspend fun saveFinalAssessment(assessment: Assessment) {
+        try {
+            httpClient.put(Endpoints.test.path + Endpoints.assess.path) {
+                contentType(ContentType.Application.Json)
+                setBody(assessment)
+            }
+        } catch (e: Exception) {
+            println("error executing ClientApi.saveFinalAssessment(), show snackbar?")
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ class ClientRepository(
     private val api: ClientApi,
 ) : Repository(database = database) {
 
+    // rename to getAppUser()
     fun getUserSelf(): UserModel? {
         with(database) {
             // on clients, first User entry equals to user that registered on this client
@@ -81,4 +82,9 @@ class ClientRepository(
                     && answer.questionsToAnswers == it.questionsToAnswers
         }
 
+
+    override suspend fun saveFinalAssessment(assessment: Assessment) {
+        super.saveFinalAssessment(assessment)
+        api.saveFinalAssessment(assessment)
+    }
 }
