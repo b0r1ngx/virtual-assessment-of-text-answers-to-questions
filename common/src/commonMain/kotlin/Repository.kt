@@ -132,12 +132,11 @@ open class Repository(private val database: Database) {
             val students = userQueries.selectAllIn(id = studentIdsOfTest).executeAsList()
 
             students.forEachIndexed { index, user ->
-                val userModel =
-                    UserModel(
-                        typeId = user.user_type_id.toInt(),
-                        name = user.name,
-                        email = user.email
-                    )
+                val userModel = UserModel(
+                    typeId = user.user_type_id.toInt(),
+                    name = user.name,
+                    email = user.email
+                )
 
                 val studentAnswers = answerQueries.selectAllBy(
                     test_id = testId,
@@ -249,5 +248,17 @@ open class Repository(private val database: Database) {
             println("Assessments: $assessments")
             println("AnswersToAssessments: $answersToAssessments")
         }
+    }
+
+    open suspend fun saveFinalAssessment(assessment: Assessment) {
+        val teacher = getUserAndInsertIfNotExist(assessment.teacher)
+        val student = getUserAndInsertIfNotExist(assessment.student)
+        database.testAssessmentQueries.insert(
+            text = assessment.text,
+            mark = assessment.mark,
+            test_id = assessment.testId,
+            teacher_id = teacher.id,
+            student_id = student.id
+        )
     }
 }
