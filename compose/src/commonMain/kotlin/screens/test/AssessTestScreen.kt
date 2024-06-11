@@ -1,7 +1,5 @@
 package screens.test
 
-import Answer
-import Question
 import UserModel
 import UserViewModel
 import androidx.compose.foundation.layout.Column
@@ -11,15 +9,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import components.QuestionToAnswerCard
 import components.TopBar
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.test
@@ -48,23 +45,6 @@ fun AssessTestScreen(
             user = userViewModel.user,
             testViewModel = testViewModel
         )
-    }
-}
-
-@Composable
-private fun QuestionToAnswerCard(question: Question, answer: Answer) {
-    Card {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Вопрос:", fontWeight = FontWeight.Bold)
-            Text(text = question.text)
-            Text(text = "Ответ:", fontWeight = FontWeight.Bold)
-            Text(text = answer.text)
-            Text(
-                text = "Предварительная оценка: ${answer.avgMarkAi}",
-                modifier = Modifier.align(Alignment.End),
-                fontWeight = FontWeight.Bold
-            )
-        }
     }
 }
 
