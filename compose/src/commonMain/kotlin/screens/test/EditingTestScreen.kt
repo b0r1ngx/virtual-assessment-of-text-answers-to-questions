@@ -126,7 +126,7 @@ fun EditingTestScreen(
             thickness = 1.dp,
             color = Color.Black,
         )
-        LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
+        LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 10.dp)) {
             println("questions: ${testViewModel.questions.value}")
             itemsIndexed(testViewModel.questions.value) { index, question ->
                 Question(
