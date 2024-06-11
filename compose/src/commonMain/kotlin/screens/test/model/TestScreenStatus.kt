@@ -1,4 +1,4 @@
-package screens.test
+package screens.test.model
 
 import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.creation
