@@ -17,6 +17,7 @@ import screens.test.AnswersTestScreen
 import screens.test.AssessTestScreen
 import screens.test.EditingTestScreen
 import screens.test.PassingTestScreen
+import screens.test.ResultTestScreen
 import screens.tests.TestsScreen
 import theme.AppTheme
 
@@ -58,7 +59,7 @@ internal fun RootContent(
                         testViewModel = instance.component
                     )
 
-                    is RootComponent.Child.ResultTest -> TODO()
+                    is RootComponent.Child.ResultTest -> ResultTestScreen(testViewModel = instance.component)
                 }
             }
         }
