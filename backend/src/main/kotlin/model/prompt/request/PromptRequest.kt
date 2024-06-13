@@ -10,8 +10,6 @@ data class PromptRequest(
 ) {
     init {
         if (messages.size < 2)
-            throw Exception("")
-
-        println("PromptRequest: $this")
+            throw Exception("PromptRequest must have more than 1 message")
     }
 }
