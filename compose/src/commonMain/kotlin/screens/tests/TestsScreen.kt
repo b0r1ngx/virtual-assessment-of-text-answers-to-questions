@@ -135,13 +135,14 @@ private fun Tests(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         if (tests.isEmpty()) {
-            Text(text = stringResource(Res.string.no_available_tests))
+            Text(
+                text = stringResource(Res.string.no_available_tests),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
         } else {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 5.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 TestStatus.entries.forEach {
                     TestStatus(status = it)
@@ -149,7 +150,7 @@ private fun Tests(
             }
 
             LazyColumn(
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 // divide by test.course
                 items(items = tests.filter {
