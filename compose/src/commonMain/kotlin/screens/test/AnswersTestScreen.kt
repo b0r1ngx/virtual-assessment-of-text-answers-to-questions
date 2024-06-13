@@ -20,6 +20,7 @@ import dev.boringx.compose.generated.resources.test
 import org.jetbrains.compose.resources.stringResource
 import styles.RoundedCornerBy16
 import styles.YellowPastelColor
+import kotlin.math.round
 
 @Composable
 fun AnswersTestScreen(
@@ -63,9 +64,15 @@ private fun StudentCard(
         ) {
             UserText(user = testAnswers.user)
             Text(
-                text = "Предварительная оценка: ${testAnswers.avgMarkAi}",
+                text = "Предварительная оценка: ${testAnswers.avgMarkAi.round(1)}",
                 modifier = Modifier.align(Alignment.End)
             )
         }
     }
+}
+
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return round(this * multiplier) / multiplier
 }
