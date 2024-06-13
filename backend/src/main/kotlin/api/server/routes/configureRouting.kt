@@ -9,6 +9,7 @@ import UserModel
 import core.assessAnswerAndSaveToDatabase
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
@@ -71,6 +72,7 @@ private fun Route.testRoutes(repository: Repository) {
         }
 
         answerRoutes(repository)
+        assessRoutes(repository)
     }
 }
 
@@ -78,10 +80,7 @@ private fun Route.answerRoutes(repository: Repository) {
     route(Endpoints.answer.path) {
         get("/{testId}") {
             val badRequest: suspend () -> Unit = {
-                call.respond(
-                    status = HttpStatusCode.BadRequest,
-                    message = "Wrong testId, must be a Long number"
-                )
+                call.badRequest(message = "Wrong testId, must be a Long number")
             }
             val testId = call.parameters["testId"]?.toLongOrNull() ?: return@get badRequest.invoke()
             val studentAnswers = repository.getAnswers(testId)
@@ -90,9 +89,12 @@ private fun Route.answerRoutes(repository: Repository) {
 
         put {
             val testAnswers = call.receive<TestAnswers>()
-            repository.saveAnswers(testAnswers)
+            val questionsToAnswersWithIds = repository.saveAnswers(testAnswers)
+
             call.respond(HttpStatusCode.Created)
-            assessAnswerAndSaveToDatabase(repository, testAnswers)
+
+            val testAnswersWithIds = testAnswers.copy(questionsToAnswers = questionsToAnswersWithIds)
+            assessAnswerAndSaveToDatabase(repository, testAnswersWithIds)
         }
     }
 }
@@ -100,7 +102,21 @@ private fun Route.answerRoutes(repository: Repository) {
 private fun Route.assessRoutes(repository: Repository) {
     route(Endpoints.assess.path) {
         get {
-            call.respond(HttpStatusCode.NoContent) // TODO
+            val badRequest: suspend () -> Unit = {
+                call.badRequest(message = "Wrong parameters, testId must be a Long number, studentEmail must be an email")
+            }
+            val testId = call.parameters["testId"]?.toLongOrNull() ?: return@get badRequest.invoke()
+            val studentEmail = call.parameters["studentEmail"] ?: return@get badRequest.invoke()
+
+            val finalAssessmentToAnswers = repository.getFinalAssessmentToAssessedAnswers(
+                testId = testId,
+                studentEmail = studentEmail
+            )
+            if (finalAssessmentToAnswers == null) {
+                call.respond(HttpStatusCode.NotFound)
+            } else {
+                call.respond(finalAssessmentToAnswers)
+            }
         }
 
         put {
@@ -109,4 +125,8 @@ private fun Route.assessRoutes(repository: Repository) {
             call.respond(HttpStatusCode.Created)
         }
     }
+}
+
+suspend fun ApplicationCall.badRequest(message: String) {
+    respond(status = HttpStatusCode.BadRequest, message = message)
 }
