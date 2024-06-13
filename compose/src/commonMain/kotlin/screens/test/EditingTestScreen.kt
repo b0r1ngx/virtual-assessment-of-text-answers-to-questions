@@ -5,7 +5,6 @@ import Question
 import UserViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -89,7 +88,7 @@ fun EditingTestScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp)
                 .focusRequester(focusRequester),
-            label = { Text(text = "Укажите тему и/или тип теста") }
+            label = { Text(text = "Укажите тему и/или тип теста") },
         )
 
         ChooseCourse(
@@ -98,7 +97,7 @@ fun EditingTestScreen(
             onCourseClick = { pickedCourse ->
                 testViewModel.course = pickedCourse
             },
-            modifier = Modifier.padding(5.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp),
         )
 
         // TODO: Later, drop default time values and until teacher provide it, don't allow to save the test.
@@ -108,7 +107,7 @@ fun EditingTestScreen(
             isExpanded = isStartAtExpanded,
             at = testViewModel.startAt,
             onExpandClosed = testViewModel::saveDateAndTime,
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(10.dp),
         )
 
         // TODO: create strings: Date and time test finishing
@@ -117,7 +116,7 @@ fun EditingTestScreen(
             isExpanded = isEndAtExpanded,
             at = testViewModel.endAt,
             onExpandClosed = testViewModel::saveDateAndTime,
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 15.dp)
+            modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 15.dp),
         )
 
         Subtitle(text = "Вопросы", modifier = Modifier.fillMaxWidth())
@@ -134,7 +133,7 @@ fun EditingTestScreen(
                     modifier = Modifier.clickable {
                         pickedQuestion = index to question
                         isDialogOpened = true
-                    }
+                    },
                 )
             }
         }
@@ -185,39 +184,36 @@ private fun ChooseCourse(
 ) {
     var pickedCourseText by remember { mutableStateOf(initialCourseText) }
     var isExpanded by remember { mutableStateOf(false) }
-    Box {
-        ExposedDropdownMenuBox(
+    ExposedDropdownMenuBox(
+        expanded = isExpanded,
+        onExpandedChange = { isExpanded = !isExpanded },
+    ) {
+        TextField(
+            value = pickedCourseText,
+            onValueChange = { inputPickedCourseText ->
+                pickedCourseText = inputPickedCourseText
+            },
+            modifier = modifier.menuAnchor(),
+            readOnly = true,
+            singleLine = true,
+            label = { Text("Назначить курс") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
+            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+        )
+        ExposedDropdownMenu(
             expanded = isExpanded,
-            onExpandedChange = { isExpanded = !isExpanded },
-            modifier = modifier,
+            onDismissRequest = { isExpanded = false },
         ) {
-            TextField(
-                value = pickedCourseText,
-                onValueChange = { inputPickedCourseText ->
-                    pickedCourseText = inputPickedCourseText
-                },
-                modifier = Modifier.menuAnchor(),
-                readOnly = true,
-                singleLine = true,
-                label = { Text("Назначить курс") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            )
-            ExposedDropdownMenu(
-                expanded = isExpanded,
-                onDismissRequest = { isExpanded = false },
-            ) {
-                courses.forEach { course ->
-                    DropdownMenuItem(
-                        text = { Text(text = course.name) },
-                        onClick = {
-                            pickedCourseText = course.name
-                            onCourseClick(course)
-                            isExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
-                }
+            courses.forEach { course ->
+                DropdownMenuItem(
+                    text = { Text(text = course.name) },
+                    onClick = {
+                        pickedCourseText = course.name
+                        onCourseClick(course)
+                        isExpanded = false
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
             }
         }
     }
