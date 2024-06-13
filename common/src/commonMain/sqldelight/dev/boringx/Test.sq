@@ -16,6 +16,10 @@ selectAllBy:
 SELECT * FROM Test
 WHERE course_id = ?;
 
+selectAllByTestId:
+SELECT * FROM Test
+WHERE id = ?;
+
 insert:
 INSERT INTO Test(creator_id, course_id, name, start_at, end_at, created_at)
 VALUES(?, ?, ?, ?, ?, ?);
