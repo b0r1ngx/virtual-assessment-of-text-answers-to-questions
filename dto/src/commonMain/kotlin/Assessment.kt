@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Assessment(
     val testId: Long,
-    val teacher: UserModel,
-    val student: UserModel,
+    val teacherEmail: String,
+    val studentEmail: String,
     val text: String,
     val mark: Double,
 )

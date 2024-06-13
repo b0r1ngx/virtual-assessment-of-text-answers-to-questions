@@ -27,8 +27,8 @@ class AssessTestViewModel(
     fun saveAssess(user: UserModel) {
         val assessment = Assessment(
             testId = testAnswers.testId,
-            teacher = user,
-            student = testAnswers.user,
+            teacherEmail = user.email,
+            studentEmail = testAnswers.user.email,
             text = assessment,
             mark = mark
         )
