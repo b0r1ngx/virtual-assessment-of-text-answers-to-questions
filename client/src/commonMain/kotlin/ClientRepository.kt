@@ -64,12 +64,16 @@ class ClientRepository(
     override suspend fun getAnswers(testId: Long): List<TestAnswers> {
         val localAnswers = super.getAnswers(testId)
         val remoteAnswers = api.getAnswers(testId)
-        remoteAnswers.forEach {
-            if (isAnswerAlreadyExistsLocally(it, localAnswers)) {
-                super.saveAnswers(it)
+
+        val fixedLocalAnswers = localAnswers.map { appendQuestionsToAnswers(it) }
+        val fixedRemoteAnswers = remoteAnswers.map { appendQuestionsToAnswers(it) }
+
+        fixedRemoteAnswers.forEach { testAnswers ->
+            if (isAnswerAlreadyExistsLocally(testAnswers, fixedLocalAnswers)) {
+                super.saveAnswers(testAnswers)
             }
         }
-        return remoteAnswers.ifEmpty { localAnswers }
+        return fixedRemoteAnswers.ifEmpty { fixedLocalAnswers }
     }
 
     private fun isAnswerAlreadyExistsLocally(
@@ -83,7 +87,30 @@ class ClientRepository(
 
 
     override suspend fun saveFinalAssessment(assessment: Assessment) {
-        super.saveFinalAssessment(assessment)
+        // TODO: crashing, with not finding a student locally (thinks that we not saving students, when get all answers of students, but must to that)!
+        //  above assumption is not true, recheck
+//        super.saveFinalAssessment(assessment)
         api.saveFinalAssessment(assessment)
     }
+
+    override suspend fun getFinalAssessmentToAssessedAnswers(
+        testId: Long,
+        studentEmail: String
+    ): Pair<Assessment, TestAnswers>? {
+        val localAssessments = super.getFinalAssessmentToAssessedAnswers(testId, studentEmail)
+        val remoteAssessments = api.getFinalAssessmentToAssessedAnswers(testId, studentEmail)
+
+        if (remoteAssessments == null) return null
+
+        val testAnswers = appendQuestionsToAnswers(remoteAssessments.second)
+
+        return remoteAssessments.first to testAnswers
+    }
+
+    private fun appendQuestionsToAnswers(testAnswers: TestAnswers): TestAnswers {
+        val testQuestions = super.getQuestion(testId = testAnswers.testId)
+        val answers = testAnswers.questionsToAnswers.map { (_, answer) -> answer }
+        return testAnswers.copy(questionsToAnswers = testQuestions.zip(answers))
+    }
+
 }

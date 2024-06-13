@@ -34,13 +34,7 @@ open class Repository(private val database: Database) {
                 )
                 .executeAsOne()
 
-            val testQuestionsIds = database.testQuestionsQueries
-                .selectQuestionsIds(test_id = test.id)
-                .executeAsList()
-
-            val questions = database.questionQueries
-                .selectAllIn(id = testQuestionsIds, mapper = { id, text -> Question(id, text) })
-                .executeAsList()
+            val questions = getQuestion(testId = test.id)
 
             results.add(
                 TestModel(
@@ -55,6 +49,20 @@ open class Repository(private val database: Database) {
             )
         }
         return results
+    }
+
+    fun getQuestion(testId: Long): List<Question> {
+        with(database) {
+            val testQuestionsIds = testQuestionsQueries
+                .selectQuestionsIds(test_id = testId)
+                .executeAsList()
+
+            val questions = questionQueries
+                .selectAllIn(id = testQuestionsIds, mapper = { id, text -> Question(id, text) })
+                .executeAsList()
+
+            return questions
+        }
     }
 
     // todo: we must make this operation upsert
@@ -93,8 +101,8 @@ open class Repository(private val database: Database) {
     // source: https://stackoverflow.com/a/5009740/13432944
     // TODO: test, w/o transaction, test insert multiple values, not individual
     //  check: https://stackoverflow.com/questions/1609637/how-to-insert-multiple-rows-in-sqlite
-    suspend fun saveAnswers(testAnswers: TestAnswers): List<Answer> {
-        val answersWithIds = mutableListOf<Answer>()
+    suspend fun saveAnswers(testAnswers: TestAnswers): List<Pair<Question, Answer>> {
+        val answersWithIds = mutableListOf<Pair<Question, Answer>>()
 
         val student = getUserAndInsertIfNotExist(testAnswers.user)
         with(database) {
@@ -108,7 +116,7 @@ open class Repository(private val database: Database) {
                     )
 
                     answersWithIds.add(
-                        answer.copy(id = answerQueries.lastInsertRowId().executeAsOne())
+                        question to answer.copy(id = answerQueries.lastInsertRowId().executeAsOne())
                     )
                 }
 
@@ -251,14 +259,79 @@ open class Repository(private val database: Database) {
     }
 
     open suspend fun saveFinalAssessment(assessment: Assessment) {
-        val teacher = getUserAndInsertIfNotExist(assessment.teacher)
-        val student = getUserAndInsertIfNotExist(assessment.student)
-        database.testAssessmentQueries.insert(
-            text = assessment.text,
-            mark = assessment.mark,
-            test_id = assessment.testId,
-            teacher_id = teacher.id,
-            student_id = student.id
-        )
+        with(database) {
+            val teacher = userQueries.selectAllByEmail(assessment.teacherEmail).executeAsOne()
+            val student = userQueries.selectAllByEmail(assessment.studentEmail).executeAsOne()
+            testAssessmentQueries.insert(
+                text = assessment.text,
+                mark = assessment.mark,
+                test_id = assessment.testId,
+                teacher_id = teacher.id,
+                student_id = student.id
+            )
+        }
+    }
+
+    open suspend fun getFinalAssessmentToAssessedAnswers(
+        testId: Long,
+        studentEmail: String,
+    ): Pair<Assessment, TestAnswers>? {
+        with(database) {
+            val student = userQueries.selectAllByEmail(studentEmail).executeAsOne()
+            val teacherId = testQueries.selectAllByTestId(id = testId).executeAsOne().creator_id
+            val teacher = userQueries.selectAllById(id = teacherId).executeAsOne()
+            val finalAssessment = testAssessmentQueries
+                .selectAllByStudent(
+                    test_id = testId,
+                    student_id = student.id,
+                    mapper = { _, text, mark, testId, _, _ ->
+                        Assessment(
+                            testId = testId,
+                            teacherEmail = teacher.email,
+                            studentEmail = studentEmail,
+                            text = text,
+                            mark = mark
+                        )
+                    }
+                )
+                .executeAsOneOrNull()
+
+            if (finalAssessment != null) {
+                val userModel = UserModel(
+                    typeId = student.user_type_id.toInt(),
+                    name = student.name,
+                    email = student.email
+                )
+
+                val studentAnswers = answerQueries.selectAllBy(
+                    test_id = testId,
+                    student_id = student.id,
+                    mapper = { id, text, avgMarkAi, _, _, _ ->
+                        // creating mock question here, maybe question doesn't need for TestAnswers?
+                        Question(text = "") to Answer(
+                            id = id,
+                            text = text,
+                            avgMarkAi = avgMarkAi ?: -1.0
+                        )
+                    }
+                ).executeAsList()
+
+                val overallAvgMarkAi = testPassedQueries.selectAvgMarkAi(
+                    test_id = testId,
+                    student_id = student.id
+                ).executeAsOne()
+
+                val testAnswers = TestAnswers(
+                    testId = testId,
+                    user = userModel,
+                    questionsToAnswers = studentAnswers,
+                    avgMarkAi = overallAvgMarkAi.avg_mark_ai ?: -1.0
+                )
+
+                return finalAssessment to testAnswers
+            }
+        }
+
+        return null
     }
 }
