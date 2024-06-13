@@ -21,10 +21,10 @@ fun QuestionToAnswerToAvgMarkAiCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier.padding(5.dp),
+        modifier = modifier.padding(bottom = 10.dp),
         shape = RoundedCornerBy16,
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().padding(5.dp)) {
             Text(text = "Вопрос:", fontWeight = FontWeight.Bold)
             Text(text = question.text)
             Text(text = "Ответ:", fontWeight = FontWeight.Bold)
