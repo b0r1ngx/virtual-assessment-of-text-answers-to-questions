@@ -4,6 +4,7 @@ import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -106,6 +107,21 @@ class ClientApi {
             }
         } catch (e: Exception) {
             println("error executing ClientApi.saveFinalAssessment(), show snackbar?")
+        }
+    }
+
+    suspend fun getFinalAssessmentToAssessedAnswers(
+        testId: Long,
+        studentEmail: String
+    ): Pair<Assessment, TestAnswers>? {
+        return try {
+            httpClient.get(Endpoints.test.path + Endpoints.assess.path) {
+                parameter("testId", testId)
+                parameter("studentEmail", studentEmail)
+            }.body()
+        } catch (e: Exception) {
+            println("error executing ClientApi.getAnswers(), show snackbar?")
+            null
         }
     }
 
