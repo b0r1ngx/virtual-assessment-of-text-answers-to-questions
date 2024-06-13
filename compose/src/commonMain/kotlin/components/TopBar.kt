@@ -23,9 +23,9 @@ fun TopBar(
     onBackButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column {
+    Column(modifier = modifier.padding(bottom = 5.dp)) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .background(color = MaterialTheme.colorScheme.surface)
                 .padding(horizontal = 10.dp),
         ) {
@@ -44,7 +44,7 @@ fun TopBar(
             }
         }
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = 1.dp),
+            modifier = Modifier.padding(top = 1.dp),
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.onBackground,
         )
