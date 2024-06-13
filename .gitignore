@@ -57,3 +57,6 @@ project.xcworkspace
 
 ### Kotlin ###
 .kotlin
+
+### Generated Files ###
+*.db
