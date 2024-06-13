@@ -24,6 +24,7 @@ import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.test
 import org.jetbrains.compose.resources.stringResource
 import screens.test.model.TestScreenStatus
+import utils.round
 
 @Composable
 fun AssessTestScreen(
