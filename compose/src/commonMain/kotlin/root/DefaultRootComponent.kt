@@ -1,5 +1,6 @@
 package root
 
+import Assessment
 import ClientApi
 import ClientRepository
 import SqlDriverFactory
@@ -107,9 +108,24 @@ class DefaultRootComponent(
         onCreateTestClick = { navigation.push(Config.EditingTest()) },
         onTestClick = { test ->
             if (userViewModel.user.typeId == UserType.Student.ordinal) {
-                // todo: if test is assessed by teacher, navigate to ResultTest
-                //  should we write this logic here?
-                navigation.push(Config.PassingTest(test = test))
+                if (test.end_at < Clock.System.now()) {
+                    coroutineScope.launch {
+                        val assessmentToAnswers = repository.getFinalAssessmentToAssessedAnswers(
+                            testId = test.id,
+                            studentEmail = userViewModel.user.email
+                        )
+                        if (assessmentToAnswers != null) {
+                            navigation.push(Config.ResultTest(finalAssessments = assessmentToAnswers))
+                        } else {
+                            // TODO: Show toast later
+                            println("Teacher not provide assessment yet")
+                        }
+                    }
+                } else {
+                    // todo: if test is assessed by teacher, navigate to ResultTest
+                    //  should we write this logic here?
+                    navigation.push(Config.PassingTest(test = test))
+                }
             } else {
                 if (test.start_at < Clock.System.now()) {
                     navigation.push(Config.AnswersTest(test = test))
@@ -133,6 +149,7 @@ class DefaultRootComponent(
         onFinished = navigation::pop,
     )
 
+    // TODO: navigate back after user press pass the test
     private fun passingTestComponent(
         componentContext: ComponentContext,
         config: Config.PassingTest,
@@ -166,6 +183,7 @@ class DefaultRootComponent(
         testAnswers = config.testAnswers,
         onAssess = { assessment ->
             coroutineScope.launch { repository.saveFinalAssessment(assessment = assessment) }
+            navigation.pop()
         },
         onFinished = navigation::pop,
     )
@@ -175,7 +193,7 @@ class DefaultRootComponent(
     ) = ResultTestViewModel(
         mainCoroutineContext = Dispatchers.Main.immediate,
         repository = repository,
-        test = config.test,
+        finalAssessments = config.finalAssessments,
         onFinished = navigation::pop,
     )
 
@@ -204,6 +222,6 @@ class DefaultRootComponent(
         data class AssessTest(val testAnswers: TestAnswers) : Config
 
         @Serializable
-        data class ResultTest(val test: TestModel) : Config
+        data class ResultTest(val finalAssessments: Pair<Assessment, TestAnswers>) : Config
     }
 }
