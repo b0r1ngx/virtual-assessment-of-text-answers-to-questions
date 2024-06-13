@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -47,29 +48,32 @@ fun PassingTestScreen(
         )
 
         // info about test with questions
+        // progressBar?
 
         // if testViewModel.testInProgress draw one things, else draw info about test
         // EditingTest.info, like at card
-        Column {
-            // progressBar?
-            LazyColumn {
-                items(testViewModel.questionsToAnswers.value) {
-                    QuestionWithAnswerField(
-                        user = userViewModel.user,
-                        questionToAnswer = it,
-                        saveAnswers = testViewModel::saveAnswers
-                    )
-                }
+        LazyColumn(modifier = Modifier.weight(1f).padding(horizontal = 10.dp)) {
+            items(testViewModel.questionsToAnswers.value) {
+                QuestionWithAnswerField(
+                    user = userViewModel.user,
+                    questionToAnswer = it,
+                    saveAnswers = testViewModel::saveAnswers,
+                    validateTestPass = testViewModel::validateTestPass
+                )
             }
         }
 
-        Button(onClick = {
-            testViewModel.saveAnswers(
-                user = userViewModel.user,
-                answers = testViewModel.questionsToAnswers.value,
-                isTestCompleted = true
-            )
-        }) {
+        Button(
+            onClick = {
+                testViewModel.saveAnswers(
+                    user = userViewModel.user,
+                    answers = testViewModel.questionsToAnswers.value,
+                    isTestCompleted = true
+                )
+            },
+            enabled = testViewModel.isAllowedToPass,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        ) {
             Text(stringResource(Res.string.complete_test))
         }
     }
@@ -81,6 +85,7 @@ private fun QuestionWithAnswerField(
     questionToAnswer: Pair<Question, Answer>,
     saveAnswers: (user: UserModel, answer: List<Pair<Question, Answer>>, isTestCompleted: Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    validateTestPass: () -> Unit,
 ) {
     val (question, answer) = questionToAnswer
     var answerFieldValue by mutableStateOf(
@@ -93,31 +98,35 @@ private fun QuestionWithAnswerField(
         modifier = modifier.padding(bottom = 10.dp),
         colors = CardDefaults.cardColors().copy(containerColor = questionColorState)
     ) {
-        Text(
-            text = question.text,
-            modifier = Modifier.padding(5.dp).clickable { isExpanded = !isExpanded },
-        )
-
-        if (isExpanded) {
-            TextField(
-                value = answerFieldValue,
-                onValueChange = { newAnswer -> answerFieldValue = newAnswer },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp),
-                label = { Text(text = "Поле для ответа") },
+        Column(modifier = Modifier.padding(5.dp)) {
+            Text(
+                text = question.text,
+                modifier = Modifier.clickable { isExpanded = !isExpanded },
             )
 
-            Button(
-                onClick = {
-                    saveAnswers(
-                        user,
-                        listOf(question to Answer(text = answerFieldValue.text)),
-                        false
-                    )
-                    questionColorState = GreenPastelColor
-                    isExpanded = false
-                },
-            ) {
-                Text(text = stringResource(Res.string.save_button))
+            if (isExpanded) {
+                TextField(
+                    value = answerFieldValue,
+                    onValueChange = { newAnswer -> answerFieldValue = newAnswer },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
+                    label = { Text(text = "Поле для ответа") },
+                )
+
+                Button(
+                    onClick = {
+                        saveAnswers(
+                            user,
+                            listOf(question to Answer(text = answerFieldValue.text)),
+                            false
+                        )
+                        questionColorState = GreenPastelColor
+                        isExpanded = false
+                        validateTestPass()
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                ) {
+                    Text(text = stringResource(Res.string.save_button))
+                }
             }
         }
     }

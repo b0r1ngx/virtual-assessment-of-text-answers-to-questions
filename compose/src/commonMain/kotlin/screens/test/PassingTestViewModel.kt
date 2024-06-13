@@ -6,7 +6,9 @@ import Question
 import TestAnswers
 import TestModel
 import UserModel
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -26,9 +28,17 @@ class PassingTestViewModel(
     val questionsToAnswers =
         mutableStateOf(mutableListOf<Pair<Question, Answer>>())
 
+    var isAllowedToPass by mutableStateOf(false)
+
     init {
         test.questions.forEach { question ->
             questionsToAnswers.value.add(question to Answer(text = ""))
+        }
+    }
+
+    fun validateTestPass() {
+        questionsToAnswers.value.forEach { (_, answer) ->
+            isAllowedToPass = answer.text.isNotEmpty()
         }
     }
 
@@ -40,6 +50,7 @@ class PassingTestViewModel(
         answers: List<Pair<Question, Answer>>,
         isTestCompleted: Boolean,
     ) {
+        // TODO: Navigate user back from test, after he saved an answers
         // TODO: later save each answered question to local DB
         if (isTestCompleted) {
             val testAnswers = TestAnswers(test.id, user, answers)
