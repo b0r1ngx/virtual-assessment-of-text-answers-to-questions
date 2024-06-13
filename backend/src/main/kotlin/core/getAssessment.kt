@@ -52,7 +52,9 @@ fun Answer.getAssessment(
             }
         }
         // TODO: Do with this something
-        Thread.sleep(100) // using thread sleep, to not look like spammer to YaGPT services
+        //  using thread sleep, to not look like spammer to YaGPT services
+        //  {"error":{"grpcCode":8,"httpCode":429,"message":"ai.textGenerationCompletionSessionsCount.count gauge quota limit exceed: allowed 1 requests","httpStatus":"Too Many Requests","details":[]}}
+        Thread.sleep(200)
     }
 
     logger.log(Level.INFO, responses.toString())
