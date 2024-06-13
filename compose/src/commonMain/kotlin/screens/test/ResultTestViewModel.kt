@@ -1,13 +1,16 @@
 package screens.test
 
+import Assessment
 import ClientRepository
-import TestModel
+import TestAnswers
 import kotlin.coroutines.CoroutineContext
 
 class ResultTestViewModel(
     mainCoroutineContext: CoroutineContext,
     private val repository: ClientRepository,
-    test: TestModel,
+    val finalAssessments: Pair<Assessment, TestAnswers>,
     val onFinished: () -> Unit,
 ) {
+
+
 }
