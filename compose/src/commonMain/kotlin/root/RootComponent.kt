@@ -1,6 +1,7 @@
 package root
 
 import UserViewModel
+import androidx.compose.material3.SnackbarHostState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import screens.auth.AuthViewModel
@@ -12,8 +13,9 @@ import screens.test.ResultTestViewModel
 import screens.tests.TestsViewModel
 
 interface RootComponent {
-    val userViewModel: UserViewModel
     val navigationStack: Value<ChildStack<*, Child>>
+    val userViewModel: UserViewModel
+    val snackbarHostState: SnackbarHostState
 
     fun onBackClicked(toIndex: Int)
 

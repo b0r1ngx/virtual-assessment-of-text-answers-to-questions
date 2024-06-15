@@ -7,6 +7,7 @@ import SqlDriverFactory
 import TestAnswers
 import TestModel
 import UserViewModel
+import androidx.compose.material3.SnackbarHostState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -56,6 +57,7 @@ class DefaultRootComponent(
         )
 
     override lateinit var userViewModel: UserViewModel
+    override val snackbarHostState = SnackbarHostState()
 
     init {
         if (user != null) {
