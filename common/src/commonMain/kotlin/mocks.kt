@@ -2,17 +2,23 @@ import kotlinx.datetime.Clock
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-private val mockTelecomQuestions = listOf(
-    Question(text = "Как происходит увеличение числа операций умножения с ростом порядка рекурсивного фильтра"),
+val mockTelecomQuestions = listOf(
+    Question(text = "Какие есть виды модуляции сигнала? Примеры."),
+    Question(text = "В чем отличие алгоритма БПФ с замещением от алгоритма без замещения?"),
+    Question(text = "В чем отличие нерекурсивного фильтра от рекурсивного?"),
+    Question(text = "Как происходит увеличение числа операций умножения с ростом порядка рекурсивного фильтра?"),
+    Question(text = "Сколько операций сложения действительных чисел в 64-точечном БПФ по основанию 2? Пояснить подробно."),
+    Question(text = "Напишите формулу для операции «бабочка» БПФ по основанию 2. Что такое битовая инверсия для БПФ?"),
     Question(text = "Что такое медианный фильтр? Какие у него свойства?"),
+    Question(text = "В каких случаях следует использовать алгоритм Винограда?"),
 )
 
-private val mockArchitectureQuestions = listOf(
+val mockArchitectureQuestions = listOf(
     Question(text = "Общие сведения об управлении потребляемой мощностью в микроконтроллере"),
     Question(text = "Основные классификационные признаки микропроцессорной системы"),
 )
 
-private val mockOSBQuestions = listOf(
+val mockOSBQuestions = listOf(
     Question(text = "Продолжите фразу. Операционная система – это …"), // виртуальная машина
     Question(text = "Продолжите фразу. Операционная система – это  …"), // реактивная система
     Question(text = "Продолжите фразу. Операционная система – это система управления …"), // ресурсами
@@ -26,22 +32,6 @@ private val mockOSBQuestions = listOf(
     Question(text = "Перечислите компоненты, которые входят в состав автоматизированной системы решения прикладных задач на компьютере ?"), // Операционная система, Пользователь, Вычислительная машина, Системная программа, Прикладная программа
     Question(text = "На каких этапах жизненного цикла процесса операционной системы ему требуется сегмент стека ?"), // Только на этапах возникновения прерываний выполнения процесса
 )
-
-private val mockArchTest = TestModel(
-    id = 3,
-    creator = UserModel(
-        typeId = 1,
-        name = "Тарасов Олег Михайлович",
-        email = "tarasov.om@edu.spbstu.ru"
-    ),
-    name = "Экзамен",
-    course = Course(id = 3, name = "Архитектура ЭВМ"),
-    start_at = Clock.System.now(),
-    end_at = Clock.System.now().plus(10.toDuration(DurationUnit.MINUTES)),
-    questions = mockArchitectureQuestions
-)
-
-val mockOneTest = listOf(mockArchTest)
 
 val mockTests = listOf(
     TestModel(
@@ -70,7 +60,19 @@ val mockTests = listOf(
         end_at = Clock.System.now().plus(1.toDuration(DurationUnit.HOURS)),
         questions = mockTelecomQuestions
     ),
-    mockArchTest,
+    TestModel(
+        id = 3,
+        creator = UserModel(
+            typeId = 1,
+            name = "Тарасов Олег Михайлович",
+            email = "tarasov.om@edu.spbstu.ru"
+        ),
+        name = "Экзамен",
+        course = Course(id = 3, name = "Архитектура ЭВМ"),
+        start_at = Clock.System.now(),
+        end_at = Clock.System.now().plus(10.toDuration(DurationUnit.MINUTES)),
+        questions = mockArchitectureQuestions
+    ),
     TestModel(
         creator = UserModel(
             typeId = 1,
@@ -84,3 +86,5 @@ val mockTests = listOf(
         questions = mockOSBQuestions
     ),
 )
+
+val mockOneTest = listOf(mockTests.random())
