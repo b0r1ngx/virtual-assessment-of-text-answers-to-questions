@@ -125,8 +125,7 @@ class DefaultRootComponent(
                     }
                 } else {
                     // todo: if currentTime < test.startTime, don't allow to navigate, show pop with info, that Test is starting later (or test is not start yet)
-                    // todo: if test is assessed by teacher, navigate to ResultTest
-                    //  should we write this logic here?
+                    // todo: if user (student) is already answer to questions on test, we must navigate him to PreviewTest? (need to create this screen), or just to ResultScreen, but without final marks
                     navigation.push(Config.PassingTest(test = test))
                 }
             } else {
