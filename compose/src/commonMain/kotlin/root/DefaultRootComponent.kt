@@ -124,6 +124,7 @@ class DefaultRootComponent(
                         }
                     }
                 } else {
+                    // todo: if currentTime < test.startTime, don't allow to navigate, show pop with info, that Test is starting later (or test is not start yet)
                     // todo: if test is assessed by teacher, navigate to ResultTest
                     //  should we write this logic here?
                     navigation.push(Config.PassingTest(test = test))

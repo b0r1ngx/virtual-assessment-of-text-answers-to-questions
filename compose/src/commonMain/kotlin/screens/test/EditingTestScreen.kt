@@ -55,6 +55,8 @@ import styles.RoundedCornerBy16
 
 // TODO: fix bug, when we create test and navigated to tests screens, its not appeared in tests
 //  i think it also not update values of edited test, after we edit test
+
+// TODO: scroll to the last added question, when user (teacher) is adding new one
 @Composable
 fun EditingTestScreen(
     userViewModel: UserViewModel,
