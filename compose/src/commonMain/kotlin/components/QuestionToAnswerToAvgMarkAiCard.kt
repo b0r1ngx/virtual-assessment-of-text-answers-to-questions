@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import styles.RoundedCornerBy16
 
+// TODO: allow to also show raw_response from ai by each criteria
 @Composable
 fun QuestionToAnswerToAvgMarkAiCard(
     question: Question,
