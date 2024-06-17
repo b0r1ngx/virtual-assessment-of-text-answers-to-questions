@@ -5,7 +5,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 open class Repository(private val database: Database) {
-    // TODO: Later, also make request to the API from ClientRepository
+
     fun getCourses(): List<Course> {
         return database.courseQueries
             .selectAll { id, name -> Course(id = id, name = name) }
