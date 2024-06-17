@@ -24,7 +24,6 @@ import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.test
 import org.jetbrains.compose.resources.stringResource
 import screens.test.model.TestScreenStatus
-import utils.round
 
 @Composable
 fun AssessTestScreen(
@@ -60,7 +59,7 @@ private fun BottomBar(
         Row(modifier = Modifier.padding(bottom = 5.dp)) {
             Text(text = "Предварительная отметка ассистента: ")
             Text(
-                text = testViewModel.testAnswers.avgMarkAi.round(1).toString(),
+                text = testViewModel.testAnswers.avgMarkAi.toString(),
                 fontWeight = FontWeight.Bold,
             )
         }

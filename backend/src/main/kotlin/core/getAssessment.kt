@@ -13,6 +13,7 @@ import model.prompt.request.PromptRequest
 import model.prompt.request.Role
 import utils.createModelUri
 import utils.preparePrompt
+import utils.round
 import java.util.logging.Level
 
 fun Answer.getAssessment(
@@ -60,7 +61,7 @@ fun Answer.getAssessment(
     logger.log(Level.INFO, responses.toString())
     logger.log(Level.INFO, assessments.toString())
 
-    val averageAssessment = assessments.average()
+    val averageAssessment = assessments.average().round()
     logger.log(Level.INFO, averageAssessment.toString())
 
     return criterionToMarkWithResponse to averageAssessment

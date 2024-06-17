@@ -19,7 +19,6 @@ import dev.boringx.compose.generated.resources.Res
 import dev.boringx.compose.generated.resources.test
 import org.jetbrains.compose.resources.stringResource
 import screens.test.model.TestScreenStatus
-import utils.round
 
 @Composable
 fun ResultTestScreen(
@@ -61,11 +60,11 @@ private fun BottomBar(
     ) {
         Row {
             Text(text = "Предварительная отметка ассистента: ")
-            Text(text = avgMarkAi.round(1).toString(), fontWeight = FontWeight.Bold)
+            Text(text = avgMarkAi.toString(), fontWeight = FontWeight.Bold)
         }
         Row {
             Text(text = "Итоговая отметка преподавателя: ")
-            Text(text = mark.round(1).toString(), fontWeight = FontWeight.Bold)
+            Text(text = mark.toString(), fontWeight = FontWeight.Bold)
         }
         Text(text = "Объяснение преподавателя: $text")
     }

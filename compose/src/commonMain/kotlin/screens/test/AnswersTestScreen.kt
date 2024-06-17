@@ -20,7 +20,6 @@ import dev.boringx.compose.generated.resources.test
 import org.jetbrains.compose.resources.stringResource
 import styles.RoundedCornerBy16
 import styles.YellowPastelColor
-import utils.round
 
 @Composable
 fun AnswersTestScreen(
@@ -64,7 +63,7 @@ private fun StudentCard(
         ) {
             UserText(user = testAnswers.user)
             Text(
-                text = "Предварительная оценка: ${testAnswers.avgMarkAi.round(1)}",
+                text = "Предварительная оценка: ${testAnswers.avgMarkAi}",
                 modifier = Modifier.align(Alignment.End)
             )
             // TODO: if possible (test is assessed), show finally user (teacher) mark
