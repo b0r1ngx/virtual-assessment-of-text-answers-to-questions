@@ -74,6 +74,7 @@ val mockTests = listOf(
         questions = mockArchitectureQuestions
     ),
     TestModel(
+        id = 4,
         creator = UserModel(
             typeId = 1,
             name = "Малышев Игорь Алексеевич",
