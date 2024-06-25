@@ -218,6 +218,7 @@ private fun TestCard(
             modifier = Modifier.padding(5.dp),
             horizontalAlignment = Alignment.Start,
         ) {
+            Text(text = test.course.name) // TODO: Later delete it from here, and use upper hook: divide by test.course
             Text(text = test.name)
             UserText(user = test.creator)
             Text(text = stringResource(Res.string.start_at, test.start_at.toHumanReadable()))
