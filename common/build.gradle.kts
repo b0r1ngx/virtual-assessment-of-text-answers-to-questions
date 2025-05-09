@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
-group = "dev.boringx"
+group = "dev.boringx."
 version = "1.0-SNAPSHOT"
 
 kotlin {

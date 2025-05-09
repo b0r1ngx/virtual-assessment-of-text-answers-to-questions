@@ -7,7 +7,7 @@ plugins {
     application
 }
 
-group = "dev.boringx"
+group = "dev.boringx."
 version = "1.0-SNAPSHOT"
 
 application {
