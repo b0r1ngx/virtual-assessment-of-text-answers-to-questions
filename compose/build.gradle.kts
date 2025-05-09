@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-group = "dev.boringx"
+group = "dev.boringx."
 version = "1.0-SNAPSHOT"
 
 kotlin {
