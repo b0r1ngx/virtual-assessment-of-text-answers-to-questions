@@ -8,17 +8,8 @@ group = "dev.boringx."
 version = "1.0-SNAPSHOT"
 
 kotlin {
-    // now for Backend, but later must be changed to native things
-    // Server goes Unix-style, so use linux target
     jvm()
-
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
-        }
-    }
+    androidTarget()
 
     listOf(
         iosX64(),

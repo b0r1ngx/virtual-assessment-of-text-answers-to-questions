@@ -10,13 +10,7 @@ group = "dev.boringx."
 version = "1.0-SNAPSHOT"
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
-        }
-    }
+    androidTarget()
 
     listOf(
         iosX64(),
